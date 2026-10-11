@@ -5,6 +5,23 @@ import { DesktopExit } from '../src/desktop-exit.mjs'
 
 const locale = () => ({ id: 'zh-CN', messages: { application: 'Synthetic app' } })
 
+test('Windows quit confirmation uses the product icon and preserves button order', async () => {
+  const icon = { synthetic: true }
+  const guard = new DesktopQuitConfirmation({ platform: 'win32', icon, locale, focus() {},
+    inspect: async () => ({ activeTasks: true, scheduledTasks: false }),
+    show: async options => {
+      assert.equal(options.type, 'none')
+      assert.equal(options.icon, icon)
+      assert.deepEqual(options.buttons, ['退出', '取消'])
+      assert.equal(options.defaultId, 0)
+      assert.equal(options.cancelId, 1)
+      assert.equal(options.noLink, true)
+      return { response: 1 }
+    },
+  })
+  assert.equal(await guard.confirm(), false)
+})
+
 test('cancelling a real quit decision preserves cleanup and permits a freshly inspected retry', async () => {
   let inspections = 0, dialogs = 0, cleaned = 0
   const answer = Promise.withResolvers()
