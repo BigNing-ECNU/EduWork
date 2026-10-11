@@ -5,9 +5,28 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import test from 'node:test'
 import { promisify } from 'node:util'
-import { createMacOSAppArchive } from '../scripts/create-macos-archive.mjs'
+import { createMacOSAppArchive, verifyMacOSAppArchive } from '../scripts/create-macos-archive.mjs'
+import { ZipWriter } from '../../scripts/lib/zip.mjs'
 
 const run = promisify(execFile)
+
+for (const [label, extra] of [
+  ['valid app entries', null],
+  ['AppleDouble directory', '__MACOSX/Synthetic.app/Contents/._Info.plist'],
+  ['AppleDouble file', 'Synthetic.app/Contents/Resources/._data.txt'],
+  ['another top-level directory', 'Other.app/Contents/Info.plist'],
+]) test(`archive verification checks ${label}`, async t => {
+  const root = await mkdtemp(join(tmpdir(), 'eduwork-archive-policy-'))
+  t.after(() => rm(root, { recursive: true, force: true }))
+  const archive = join(root, 'synthetic.zip'), writer = await ZipWriter.create(archive)
+  for (const name of ['Synthetic.app/', 'Synthetic.app/Contents/Info.plist', 'Synthetic.app/Contents/MacOS/main']) {
+    await writer.addEntry(name, Buffer.from('synthetic'))
+  }
+  if (extra) await writer.addEntry(extra, Buffer.from('metadata'))
+  await writer.close()
+  if (extra) await assert.rejects(verifyMacOSAppArchive(archive, 'Synthetic.app'), error => error.message.includes(extra))
+  else await verifyMacOSAppArchive(archive, 'Synthetic.app')
+})
 
 test('signed app ZIP excludes AppleDouble and preserves executable, symlink and signature', { skip: process.platform !== 'darwin' }, async () => {
   const root = await mkdtemp(join(tmpdir(), 'eduwork-archive-'))
@@ -29,9 +48,11 @@ test('signed app ZIP excludes AppleDouble and preserves executable, symlink and 
     const oldZip = join(root, 'metadata.zip')
     await run('ditto', ['-c', '-k', '--sequesterRsrc', '--keepParent', app, oldZip])
     assert.match((await run('unzip', ['-Z1', oldZip])).stdout, /^__MACOSX\/[^/]+\.app\//m)
+    await assert.rejects(verifyMacOSAppArchive(oldZip, 'Synthetic 中文 App.app'), /__MACOSX/)
 
     const archive = join(root, 'update.zip'), extracted = join(root, 'extracted')
     await createMacOSAppArchive(app, archive)
+    await verifyMacOSAppArchive(archive, 'Synthetic 中文 App.app')
     const entries = (await run('unzip', ['-Z1', archive])).stdout.trim().split('\n')
     // System unzip can display Unicode names in a legacy encoding. Verify the
     // one bundle root here, and its exact Unicode name after ditto extraction.

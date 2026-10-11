@@ -13,6 +13,7 @@ import {
 } from './build-util.mjs'
 import { stage } from './stage-runner.mjs'
 import { assembleMacos } from '../../dsh-electron/scripts/assemble-macos.mjs'
+import { verifyMacOSAppArchive } from '../../dsh-electron/scripts/create-macos-archive.mjs'
 import { prepareMacosReleaseInputs, installMacosReleaseInputs } from '../prepare-macos-release-inputs.mjs'
 import { prepareMacosDmg } from '../prepare-macos-dmg.mjs'
 
@@ -185,6 +186,7 @@ async function acceptMacos({ workspace, coreRoot, name, verifyPublisherBootstrap
   // the user receives, not a directory a previous run left behind.
   await rm(unpacked, { recursive: true, force: true })
   await ensureDir(unpacked)
+  await verifyMacOSAppArchive(archive, pack.applicationName)
   await run('ditto', ['-x', '-k', archive, unpacked])
   const app = join(unpacked, pack.applicationName)
   await run('codesign', ['--verify', '--deep', '--strict', app])
