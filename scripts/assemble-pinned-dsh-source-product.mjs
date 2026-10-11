@@ -10,6 +10,8 @@ import { verifyMediaTemplate } from './verify-media-template.mjs'
 import { copySourceSkills } from './copy-source-skills.mjs'
 import { loadDistributionBundleLayers, mergeDistributionConfigPatches } from './distribution-config-patches.mjs'
 import { patchSessionSearchRuntime } from './patch-session-search-runtime.mjs'
+import { patchRemotionBundlerRuntime } from './patch-remotion-bundler-runtime.mjs'
+import { omitRuntimePackages } from './omit-runtime-packages.mjs'
 import assert from 'node:assert/strict'
 
 const { values } = parseArgs({ options: Object.fromEntries(['runtime', 'source', 'dependencies', 'host', 'output'].map(key => [key, { type: 'string' }])) })
@@ -36,7 +38,7 @@ await mkdir(paths.output)
 console.log('Copying candidate Runtime into the isolated source product')
 await cp(paths.runtime, join(paths.output, 'd'), { recursive: true })
 const modules = join(paths.output, 'd/node_modules')
-const runtimePatches = [await patchSessionSearchRuntime(modules)]
+const runtimePatches = [await patchSessionSearchRuntime(modules), ...await patchRemotionBundlerRuntime(modules)]
 const exists = async path => access(path).then(() => true, () => false)
 // Supplement only packages absent from the verified Runtime. These dependencies
 // come from source-probe's lock, and this output is explicitly not a release.
@@ -87,9 +89,14 @@ const identity = { schemaVersion: 1, kind: 'eduwork-web', version: '0.0.0-dev.pi
 await writeFile(join(paths.output, 'assembly.json'), JSON.stringify(identity, null, 2) + '\n')
 await writeFile(join(paths.output, 'composition.json'), JSON.stringify(composition, null, 2) + '\n')
 await installProductHost({ product: paths.output, adapter: paths.host })
+const dependencyManifest = await json(join(paths.dependencies, 'package.json'))
+const omitted = await omitRuntimePackages(join(paths.output, 'd'), Object.keys({ ...dependencyManifest.dependencies, ...dependencyManifest.optionalDependencies }))
+console.log(`Omitted ${omitted.packages.length} unused Runtime packages (${(omitted.bytes / 2 ** 20).toFixed(1)} MiB)`)
 const runtimeManifestPath = join(paths.output, 'd/package.json')
 const runtimeManifest = await json(runtimeManifestPath)
 const installed = await json(join(paths.output, 'assembly.json'))
+installed.omittedPackages = omitted.packages
+await writeFile(join(paths.output, 'assembly.json'), JSON.stringify(installed, null, 2) + '\n')
 for (const name of [...sourcePackages, literatureLock.name, ...Object.keys(installed.desktopHost.nativePlugins)]) {
   const manifest = await json(join(modules, name, 'package.json'))
   runtimeManifest.dependencies[name] = manifest.version

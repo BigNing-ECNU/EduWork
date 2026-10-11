@@ -12,6 +12,7 @@ import {
 } from '../../scripts/lib/build-util.mjs'
 import { desktopApplicationName } from '../../scripts/lib/local-install.mjs'
 import { relocateMacosCompositor } from './relocate-macos-compositor.mjs'
+import { pruneElectronLocales } from './electron-locales.mjs'
 
 const scriptRoot = dirname(fileURLToPath(import.meta.url))
 
@@ -107,6 +108,7 @@ export async function assembleMacos({
   const app = join(output, appName)
   await mkdir(output)
   await ditto(electronApp, app).catch(() => { throw new Error('Electron.app copy failed') })
+  const electronLocales = await pruneElectronLocales(app, 'darwin')
   const resources = join(app, 'Contents/Resources')
   const appPayload = join(resources, 'app')
   await mkdir(appPayload)
@@ -286,6 +288,7 @@ export async function assembleMacos({
     applicationName: appName,
     platform: 'darwin-arm64',
     electronVersion,
+    electronLocales,
     nodeVersion: receipt.host.nodeVersion,
     minimumSystemVersion: '15.0',
     ladybugNativePatched: true,

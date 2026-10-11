@@ -56,6 +56,8 @@ node scripts/ci-eduwork-macos-release.mjs --core-root . --edition-root . --distr
 
 工作区同时绑定公版与机构版的实际源码文件哈希、receipt 哈希及 Git 提交；任一输入变化后须选择新的工作区。`dist`、`node_modules` 等生成目录使用源码审计的统一排除规则，不影响复用；旧版未记录源码身份的 checkpoint 也须更换工作区。
 
+组装产品时不带运行时用不到的包：DSH 的 Typert 生成器与测试工具、产品未启用的实验性语音输入（SenseVoice）、文献检索只抽文字时不需要的 canvas，以及 Studio 用 webpack 打包时不需要的 rspack。只被这些包依赖的包一并去掉，完整清单记在 `assembly.json` 的 `omittedPackages` 中。Remotion 读取视频工程的 tsconfig 时会用到 TypeScript，因此保留。为避免启动时加载 rspack，对 Remotion 打包器应用了一个按 SHA-256 校验的补丁，记录在 `runtimePatches` 中。两端的 Electron 只保留中文和英文资源，其他系统语言下 Chromium 自带的菜单和对话框显示英文；macOS 不带只供嵌入 Python 使用的 libpython。
+
 ## Web 构建
 
 需要单独检查 Web 时运行：

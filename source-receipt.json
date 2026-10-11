@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-10T15:40:21.2858734Z",
-  "fileSetSHA256": "6a477cff0ab24b787d57e2da0698fc10985c3d0e95377a945eee87e4658366ec",
+  "createdAt": "2026-10-11T12:57:50.618Z",
+  "fileSetSHA256": "7769b48bd13c398427231538d38d6bbce464cd246745bd471caebb49cfea1433",
   "files": [
     {
       "path": ".gitattributes",
@@ -61,7 +61,7 @@
     },
     {
       "path": ".github/workflows/validate-pinned-dsh-source.yml",
-      "sha256": "955a356d85639e031e3cd385b5bd8196c2b5731e8def5a5bdedaac05e3f05f7a"
+      "sha256": "804ee98ab1ebbd289c1d3ce70e938908c8d86dec5b54bd18cc1f949897962f26"
     },
     {
       "path": ".github/workflows/validate-portable-extractor.yml",
@@ -245,7 +245,7 @@
     },
     {
       "path": "docs/BUILD.md",
-      "sha256": "7ad1ab4f471c023852ac812c5b127f0058d4bac9137f105ae25c079dc0ae2692"
+      "sha256": "e9d3384d183f9d2d9fee831e38378684917012925e9317c3eed593e084232a5a"
     },
     {
       "path": "docs/CONFIGURATION_EN.md",
@@ -925,7 +925,7 @@
     },
     {
       "path": "dsh-electron/scripts/assemble-macos.mjs",
-      "sha256": "541ec575b055ed489ddebd0d700759e27a3f4a4bbd647c5b16e31508656d5763"
+      "sha256": "783d4388293ee6f883e3c2576c8d0ad427ee6afd8d40b3bad37cbb563e93f82f"
     },
     {
       "path": "dsh-electron/scripts/assemble-macos.ps1",
@@ -933,7 +933,7 @@
     },
     {
       "path": "dsh-electron/scripts/assemble-windows.mjs",
-      "sha256": "ba3a5b77d86403076555b4d4f8c6f78e06f2274e85ec06f8366f8fece3f69fa1"
+      "sha256": "0ee02056297ddd3baf87e593d3d11822d2eb2cfd7867fc203610c8780e4a76a8"
     },
     {
       "path": "dsh-electron/scripts/assemble-windows.ps1",
@@ -946,6 +946,10 @@
     {
       "path": "dsh-electron/scripts/build-shell.mjs",
       "sha256": "ff3f604a7f238d1cfa94109964ff7c666703554634a9e079af1ac33b01de8ffa"
+    },
+    {
+      "path": "dsh-electron/scripts/electron-locales.mjs",
+      "sha256": "091533a7b44ce43c43734756cc67b03d47460cb18c2e2000e2b1c36b9df93324"
     },
     {
       "path": "dsh-electron/scripts/native-desktop-source.mjs",
@@ -1162,6 +1166,10 @@
     {
       "path": "dsh-electron/tests/dock-theme.electron.mjs",
       "sha256": "49c5eec965fa30e607f99ab49c1ca2e77e22104da83fa595bd0d1a9f742b1858"
+    },
+    {
+      "path": "dsh-electron/tests/electron-locales.test.mjs",
+      "sha256": "4c07ad6ab13872e15be68cd56ca9b57e62828c0fc2ef78750815a13d084ea1ad"
     },
     {
       "path": "dsh-electron/tests/external-navigation.electron.mjs",
@@ -5113,7 +5121,7 @@
     },
     {
       "path": "scripts/assemble-pinned-dsh-source-product.mjs",
-      "sha256": "8b3a14a5e4d809d9e777d620b009bdffa60f91df4795f5a6ab812d5dd1d3db9f"
+      "sha256": "d8ccb59f631fde164f3ec8d0ccf115b21618251361fa755609e4e8a403525e01"
     },
     {
       "path": "scripts/audit-eduwork-distribution.mjs",
@@ -5376,6 +5384,10 @@
       "sha256": "59aa83e446d06a357990a89baa6a54118171c71c43a5ad886e72e207e4c5cb0a"
     },
     {
+      "path": "scripts/omit-runtime-packages.mjs",
+      "sha256": "a22082292ae34d7dacf46e9e5f93456390feeea77749fb02b0bce38b3f8568cc"
+    },
+    {
       "path": "scripts/pack-portable-extractor.ps1",
       "sha256": "d2e7d364fd15e1c6a53691db6132233d8e371e7c838d7353be618573562856da"
     },
@@ -5422,6 +5434,10 @@
     {
       "path": "scripts/patch-eduwork-source-reproducibility.mjs",
       "sha256": "7131a5ab4a618b6443d412f0f378d5f59d8e2fcb3055e645233ca070de66b774"
+    },
+    {
+      "path": "scripts/patch-remotion-bundler-runtime.mjs",
+      "sha256": "faf9cbb7f20640f49d84f53aae5a775ddb9c7b0132841105c1d6f3e4d49f56dd"
     },
     {
       "path": "scripts/patch-session-search-runtime.mjs",
@@ -5489,7 +5505,7 @@
     },
     {
       "path": "scripts/prepare-macos-release-inputs.mjs",
-      "sha256": "58026c5b2174038b4e6c5a6cf2737503141f84d3bd5892cfd8d258fd5deddaf2"
+      "sha256": "383a30ddaa6fb57eaa3a02500e82bbd3a0504cef6a1af0baba22b6217d01236e"
     },
     {
       "path": "scripts/prepare-macos-release-inputs.ps1",
@@ -5602,6 +5618,10 @@
     {
       "path": "scripts/test/portable-product-links.test.mjs",
       "sha256": "054d8f6db01fd48e69e107d2dd0afd368c496fd63212dcc6a1247197294b0017"
+    },
+    {
+      "path": "scripts/test/runtime-omissions.test.mjs",
+      "sha256": "ad095f401071793bfa4991bfac52605a1e1d3379fbb709911cbd874f48561d3c"
     },
     {
       "path": "scripts/test/session-search-runtime.test.mjs",
@@ -5761,7 +5781,7 @@
     },
     {
       "path": "tests/macos-native-inputs.test.mjs",
-      "sha256": "f0ab142e730601bee3f50ca1daa49ffcb12fbbc34dfed21aebab099f8cd12bf4"
+      "sha256": "be308975b31e7c6b50a81f05d6ed017205e79aac6d0c7f345f9341101dc57cd0"
     },
     {
       "path": "tests/native-compile-cache.test.mjs",
