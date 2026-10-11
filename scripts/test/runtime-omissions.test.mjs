@@ -34,7 +34,10 @@ test('omitted packages leave with what only they reach; declared and retained us
   await install(runtime, 'node_modules/vite', { name: 'vite', bin: { vite: 'index.js' } })
   await mkdir(join(runtime, 'node_modules/.bin'))
   for (const [name, target] of [['vitest', 'vitest'], ['typert', '@deepseek-ai/dsh-typert-generator'], ['vite', 'vite']]) {
-    await symlink(`../${target}/index.js`, join(runtime, 'node_modules/.bin', name))
+    // npm links commands on POSIX and writes shell shims on Windows.
+    const bin = join(runtime, 'node_modules/.bin', name)
+    if (process.platform === 'win32') await writeFile(bin, `#!/bin/sh\nexec node "$(dirname "$0")/../${target}/index.js" "$@"\n`)
+    else await symlink(`../${target}/index.js`, bin)
     await writeFile(join(runtime, 'node_modules/.bin', `${name}.cmd`), `@"%~dp0\\..\\${target}\\index.js" %*`)
   }
   await install(runtime, 'node_modules/typescript', { name: 'typescript' })

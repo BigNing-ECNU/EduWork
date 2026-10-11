@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-11T14:16:42.295Z",
-  "fileSetSHA256": "4c854c47aac0131acefca0c921f728a24fa408493c0e48946531c96b0f11f2a0",
+  "createdAt": "2026-10-11T15:15:53.571Z",
+  "fileSetSHA256": "21db249bba27923198730f68700bd484c46433d26709b9381af3baabcb6a42ed",
   "files": [
     {
       "path": ".gitattributes",
@@ -5621,7 +5621,7 @@
     },
     {
       "path": "scripts/test/runtime-omissions.test.mjs",
-      "sha256": "ad095f401071793bfa4991bfac52605a1e1d3379fbb709911cbd874f48561d3c"
+      "sha256": "b75c0b04e6da7ea926014efca37287d0ff64933a3d69dffef9614dbb55ff3eb0"
     },
     {
       "path": "scripts/test/session-search-runtime.test.mjs",
