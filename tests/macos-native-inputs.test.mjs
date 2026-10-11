@@ -32,8 +32,6 @@ async function syntheticInputs(root, catalog, { manifestModel = MODEL } = {}) {
   await mkdir(join(inputs, 'python/bin'), { recursive: true })
   await writeFile(join(inputs, 'python/bin/python3'), '#!/bin/sh\n')
   await writeFile(join(inputs, 'office-python'), '#!/bin/sh\n')
-  await mkdir(join(inputs, 'browser/chrome-mac-arm64'), { recursive: true })
-  await writeFile(join(inputs, 'browser/chrome-mac-arm64/Chromium'), 'binary')
   await mkdir(join(inputs, 'speech'), { recursive: true })
   await writeFile(join(inputs, 'speech/whisper-cli'), 'binary')
   await writeFile(join(inputs, 'speech/model.bin'), 'model')
@@ -45,9 +43,6 @@ async function syntheticInputs(root, catalog, { manifestModel = MODEL } = {}) {
     node,
     openssl: join(root, 'runtime/openssl'),
     platform: 'darwin-arm64',
-    browserVersion: '152.0.7977.8',
-    browserExecutable: 'Chromium',
-    browserExecutableSHA256: 'a'.repeat(64),
     whisperVersion: '1.8.3',
     speechModel: manifestModel,
     nativeLockSHA256: 'b'.repeat(64),
@@ -81,11 +76,12 @@ test('install copies the prepared native tree and writes the resource manifest',
 
     assert.equal(await readFile(join(product, 'r/a/model.bin'), 'utf8'), 'model')
     assert.equal(await readFile(join(product, 'r/a/whisper-cli'), 'utf8'), 'binary')
-    assert.equal(await readFile(join(product, 'r/b/Chromium'), 'utf8'), 'binary')
     assert.equal(await readFile(join(product, 'r/licenses/LICENSE-OpenSSL'), 'utf8'), 'license')
     const manifest = JSON.parse(await readFile(join(product, 'desktop-resources.json'), 'utf8'))
     assert.equal(manifest.platform, 'darwin-arm64')
-    assert.equal(manifest.environment.DSH_MEDIA_BROWSER, 'r/b/Chromium')
+    // The desktop executable is the product's Chromium.
+    assert.deepEqual(Object.keys(manifest.environment).sort(), ['DSH_MEDIA_NODE_ENV', 'DSH_OFFICE_PYTHON'])
+    assert.equal(manifest.browser, undefined)
     assert.equal(manifest.pluginConfig['eduwork-artifact-services'].transcription.local.modelPath, 'r/a/model.bin')
   } finally { await rm(root, { recursive: true, force: true }) }
 })
