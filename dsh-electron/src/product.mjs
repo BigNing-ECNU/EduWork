@@ -30,6 +30,7 @@ import { installFromDmg } from './installer-cleanup.mjs'
 import { startupFailurePage } from './startup-failure.mjs'
 import { startupPage } from './startup-page.mjs'
 import { ensureRuntimeAccess } from './runtime-access.mjs'
+import { repairWorkspaceAccess, workspaceAccessScript } from './workspace-access.mjs'
 
 export function configureWindowNavigation(window) {
   attachExternalNavigation(window.webContents, url => shell.openExternal(url), () => {
@@ -212,6 +213,9 @@ async function prepareDesktop() {
     publish: value => notificationAdapter.publish(value), dismiss: () => notificationAdapter.dismiss(), changed: () => refreshTray() })
   const bridge = await startNativeBridge({ vault, pickDirectory: pickDesktopDirectory, openExternal: url => shell.openExternal(url),
     attention: body => taskNotifications.handle(body),
+    workspaceAccess: process.platform === 'win32' ? path => repairWorkspaceAccess(path, { productName: settings.productName, script: workspaceAccessScript(join(paths.product, 'd')),
+      out: join(paths.logs, 'workspace-access'), log: desktopHostLog,
+      showMessageBox: options => mainWindow && !mainWindow.isDestroyed() ? dialog.showMessageBox(mainWindow, options) : dialog.showMessageBox(options) }) : undefined,
     workbench: async action => portableUpdates && action !== 'diagnostics' ? portableUpdates.action(action) : workbenchAction({ action, config: paths.config, version: settings.productVersion, shell: 'electron', logs: paths.logs, root: paths.root, product: paths.product, home: paths.home,
       updateStatus: action === 'diagnostics' && portableUpdates ? await portableUpdates.action('status').catch(error=>({error:error.message})) : undefined }),
     openConfiguration: target => openConfigurationFile(paths.config, target, path => shell.openPath(path),
