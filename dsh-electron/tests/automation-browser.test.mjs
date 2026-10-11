@@ -35,6 +35,8 @@ test('pages see Chrome\'s reduced user agent', () => {
 
 const electron = process.env.EDUWORK_TEST_ELECTRON, shell = process.env.EDUWORK_TEST_NATIVE_SHELL, runtime = process.env.EDUWORK_TEST_RUNTIME
 const skip = !(electron && shell && runtime)
+// A browser that stops answering must fail the job, not hold its runner.
+const live = { skip, timeout: 120_000 }
 const playwright = () => createRequire(join(runtime, 'package.json'))('playwright-core').chromium
 const pages = {
   '/': '<title>Home</title><p>body text</p><iframe src="/frame"></iframe><button id="popup" onclick="window.open(\'/popup\')">sign in</button>',
@@ -72,7 +74,7 @@ const desktop = () => packaged ??= (async () => {
   return mac ? join(copy, 'Contents/MacOS', basename(electron)) : join(copy, basename(electron))
 })()
 
-test('Playwright drives the built shell over its debugging pipe', { skip }, async t => {
+test('Playwright drives the built shell over its debugging pipe', live, async t => {
   const origin = await site(t)
   const browser = await playwright().launch({ executablePath: await desktop(), headless: true })
   t.after(() => browser.close())
@@ -96,7 +98,7 @@ test('Playwright drives the built shell over its debugging pipe', { skip }, asyn
   assert.notEqual(second.context(), page.context())
 })
 
-test('a persistent profile keeps its sign-in across launches', { skip }, async t => {
+test('a persistent profile keeps its sign-in across launches', live, async t => {
   const origin = await site(t), directory = await profile(), executablePath = await desktop()
   const launch = () => playwright().launchPersistentContext(directory, { executablePath, headless: true })
   let context = await launch()
@@ -109,7 +111,7 @@ test('a persistent profile keeps its sign-in across launches', { skip }, async t
   assert.equal(await page.locator('body').innerText(), 'login=kept')
 })
 
-test('Remotion reaches one client through a token-protected loopback endpoint', { skip }, async t => {
+test('Remotion reaches one client through a token-protected loopback endpoint', live, async t => {
   const child = spawn(await desktop(), ['--enable-automation', '--remote-debugging-port=0', '--headless=new', `--user-data-dir=${await profile()}`], { stdio: ['ignore', 'ignore', 'pipe'], windowsHide: true })
   const exited = once(child, 'exit')
   t.after(() => { child.kill(); return exited })

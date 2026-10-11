@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-11T16:33:22.728Z",
-  "fileSetSHA256": "7d2f82a37ab4824fd4cf11fbdd38fc3386efa807d4ef2e1b21e69be20944ec07",
+  "createdAt": "2026-10-11T17:31:24.924Z",
+  "fileSetSHA256": "49a2a123f8639526ae35f1b64ef5e67250b3e206fcadce3827305cef1e6dffad",
   "files": [
     {
       "path": ".gitattributes",
@@ -997,7 +997,7 @@
     },
     {
       "path": "dsh-electron/src/automation-browser.mjs",
-      "sha256": "6a07f8a2558538bde7928fdca05a4d24466e89ee964743cb0025b66b8f393efb"
+      "sha256": "7fb558fe90c5b01ebccf402b08b138fdd895af06d8b48f333bd456b8c985bbfe"
     },
     {
       "path": "dsh-electron/src/configuration-files.mjs",
@@ -1125,7 +1125,7 @@
     },
     {
       "path": "dsh-electron/tests/automation-browser.test.mjs",
-      "sha256": "759281a22da9954ecffbf256a901c9402d3f910c01f06bf5cb7df4debb6d4723"
+      "sha256": "b925c7c336b3243668161a752de71aeaef075f8fea8cab9f1cdeff4e76ba55a3"
     },
     {
       "path": "dsh-electron/tests/configuration-files.test.mjs",

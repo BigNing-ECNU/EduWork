@@ -32,6 +32,9 @@ export function runAutomationBrowser(mode) {
   const headless = commandLine.hasSwitch('headless')
   const userData = commandLine.getSwitchValue('user-data-dir')
   for (const name of ['remote-debugging-pipe', 'remote-debugging-port', 'headless']) commandLine.removeSwitch(name)
+  // Windows never yields a hidden window's existing surface, so Remotion would
+  // wait forever for its first frame. Playwright passes this feature itself.
+  commandLine.appendSwitch('enable-features', [commandLine.getSwitchValue('enable-features'), 'CDPScreenshotNewSurface'].filter(Boolean).join(','))
   // Never fall back to the desktop profile: it holds the user's own session.
   if (!userData) { process.stderr.write('Automation browser requires --user-data-dir\n'); app.exit(1); return }
   app.setPath('userData', userData)
