@@ -170,9 +170,15 @@ export async function assembleMacos({
   await run(node, ['-e', ladybugSmoke, ladybugPackage])
     .catch(() => { throw new Error('Bundled LadybugDB native smoke test failed') })
   await mkdir(join(resources, 'runtime'))
-  await copyFileTo(node, join(resources, 'runtime/node'))
+  const bundledNode = join(resources, 'runtime/node')
+  await copyFileTo(node, bundledNode)
   await copyFileTo(nodeLicense, join(resources, 'runtime/LICENSE-Node'))
-  await chmod(join(resources, 'runtime/node'), 0o755)
+  await chmod(bundledNode, 0o755)
+  // Native addons resolve Node-API through exported symbols; -x drops only the
+  // local debugging symbols. Stripping voids the official signature.
+  await run('strip', ['-x', bundledNode]).catch(() => { throw new Error('Bundled Node symbol stripping failed') })
+  await run('codesign', ['--force', '--sign', '-', '--timestamp=none', bundledNode])
+    .catch(() => { throw new Error('Bundled Node ad-hoc signing failed') })
 
   let ownership = 'user'
   const policyPath = join(product, 'resources/desktop/configuration-policy.json')
