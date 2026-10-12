@@ -243,6 +243,7 @@ func (manager *Manager) Download(ctx context.Context) (Snapshot, error) {
 		ExecutableName:      manager.config.ExecutableName,
 		Artifact:            status.Artifact,
 		AllowShellMigration: manager.edition.AllowShellMigration,
+		CurrentVersion:      manager.config.Version,
 		Progress: func(progress updater.DownloadStatus) {
 			manager.mu.Lock()
 			manager.download = progress

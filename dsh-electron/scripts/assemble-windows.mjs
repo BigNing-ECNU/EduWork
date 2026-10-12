@@ -121,7 +121,7 @@ export async function assembleWindows({
 
   const updaterPath = join(output, 'resources/update/EduWork-Updater.exe')
   await ensureDir(dirname(updaterPath))
-  await run('go', ['build', '-trimpath', '-ldflags', '-s -w -H windowsgui', '-o', updaterPath, './cmd/eduwork-updater'], { cwd: join(scriptRoot, '../../dsh-desktop') })
+  await run('go', ['build', '-buildvcs=false', '-trimpath', '-ldflags', '-s -w -H windowsgui', '-o', updaterPath, './cmd/eduwork-updater'], { cwd: join(scriptRoot, '../../dsh-desktop') })
     .catch(() => { throw new Error('Portable update helper build failed') })
   await setUpdaterManifest({ executable: updaterPath })
   await rename(join(output, 'electron.exe'), join(output, 'EduWork-Electron.exe'))
