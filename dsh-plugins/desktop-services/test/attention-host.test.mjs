@@ -51,3 +51,28 @@ test('real Cordis settings, session events and authenticated desktop bridge pres
   assert.equal((await call({ action: 'view', sessionId: '' }, {})).status, 403)
   assert.equal((await call({ action: 'execute', command: 'bad' }, { authorization: 'Bearer ' + token })).status, 400)
 })
+
+test('real session headers attribute subagent turns to the conversation that delegated them', { skip: !runtime }, async t => {
+  const req = createRequire(join(runtime, 'package.json')), load = name => import(pathToFileURL(req.resolve(name)))
+  const [{ Context, Service }, { default: Sessions }] = await Promise.all([load('@deepseek-ai/cordis'), load('@deepseek-ai/dsh-session')])
+  const { DesktopAttention, notificationDefaults, observeDesktopAttention } = await import('../lib/attention.js')
+  const ctx = new Context()
+  t.after(() => ctx.fiber.dispose())
+  new Sessions(ctx)
+  const live = new Map(), agents = new Service(ctx, 'agents')
+  agents.roots = () => [live.get('root')]; agents.get = id => live.get(id)
+  const attention = new DesktopAttention({ bridge: async () => ({ seen: [] }), preferences: () => notificationDefaults })
+  observeDesktopAttention(ctx, attention)
+  const open = (id, meta) => { const session = ctx.sessions.create(id, meta && { meta }); live.set(id, { id, session }); return session }
+  const root = open('root'), child = open('child', { parentSession: 'root', origin: 'subagent', delegationDepth: 1 })
+  const grandchild = open('grandchild', { parentSession: child.id, origin: 'subagent', delegationDepth: 2 })
+  // A fork shares the lineage field without the subagent origin.
+  const fork = open('fork', { parentSession: 'root' })
+  root.append('turn/start', { turn: 0 }); grandchild.append('turn/start', { turn: 0 }); fork.append('turn/start', { turn: 0 })
+  root.append('turn/end', { turn: 0, reason: { kind: 'completed' } })
+  assert.deepEqual(attention.running(), ['root']); assert.equal(attention.items.size, 0)
+  grandchild.append('turn/end', { turn: 0, reason: { kind: 'completed' } })
+  assert.deepEqual(attention.running(), [])
+  root.append('turn/start', { turn: 1 }); root.append('turn/end', { turn: 1, reason: { kind: 'completed' } })
+  assert.equal([...attention.items.values()][0].kind, 'completed')
+})

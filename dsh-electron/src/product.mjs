@@ -1,10 +1,13 @@
 import { app, BrowserWindow, safeStorage, shell, Tray, Menu, nativeImage, dialog, Notification, clipboard } from 'electron'
 import { TaskNotifications, nativeNotificationAdapter } from './task-notifications.mjs'
+import { createDesktopPet } from './desktop-pet.mjs'
 import { applyDesktopBrand } from './desktop-brand.mjs'
 import { readFileSync, mkdirSync, writeFileSync, renameSync } from 'node:fs'
 import { readFile, writeFile, access, mkdir, stat } from 'node:fs/promises'
 import { join, isAbsolute, dirname } from 'node:path'
 import { execFile } from 'node:child_process'
+import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
 import { EncryptedVault, startNativeBridge } from './native-vault.mjs'
 import { DesktopDirectoryPicker } from './directory-picker.mjs'
 import { prepareProductProfile } from './product-profile.mjs'
@@ -47,6 +50,7 @@ let portableUpdates
 let contentUpdates, managedContent = {}
 let publisher
 let taskNotifications, notificationAdapter
+let desktopPet, petMenu = () => []
 let refreshTray = () => {}
 const lifecycle = new DesktopLifecycle()
 let confirmQuit = async () => true
@@ -56,6 +60,7 @@ const desktopExit = new DesktopExit({
     await directoryPicker.close()
     void contentUpdates?.close()
     await lifecycle.close()
+    desktopPet?.close()
     taskNotifications?.close()
     tray?.destroy(); tray = undefined
   },
@@ -93,7 +98,7 @@ export function configureEduworkPaths() {
   process.env.DSH_HOME = paths.home
   process.env.DSH_DESKTOP_DIAGNOSTIC_FILE = join(paths.logs, 'startup-error.log')
   // Startup/error recovery must take precedence over a partially loaded workbench.
-  attachAppActivation({ app, windows: () => [progressWindow, mainWindow, ...BrowserWindow.getAllWindows()] })
+  attachAppActivation({ app, windows: () => [progressWindow, mainWindow, ...BrowserWindow.getAllWindows().filter(window => !desktopPet?.owns(window))] })
   // Own the process tree from the beginning of startup, including when the
   // user closes the progress window before the Host becomes ready.
   app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit() })
@@ -209,9 +214,22 @@ async function prepareDesktop() {
     activate: key => taskNotifications.activate(key), failed: () => { taskNotifications.delivery = 'unavailable' } })
   taskNotifications = new TaskNotifications({ foreground: () => Boolean(mainWindow && !mainWindow.isDestroyed() && mainWindow.isVisible() && mainWindow.isFocused()),
     show: () => { if (mainWindow && !mainWindow.isDestroyed()) { if (mainWindow.isMinimized()) mainWindow.restore(); mainWindow.show(); mainWindow.focus() } },
-    publish: value => notificationAdapter.publish(value), dismiss: () => notificationAdapter.dismiss(), changed: () => refreshTray() })
+    publish: value => notificationAdapter.publish(value), dismiss: () => notificationAdapter.dismiss(),
+    changed: () => { refreshTray(); desktopPet.update(taskNotifications) } })
+  // The pet page comes from the product's pet plugin; it never loads from a user plugin directory.
+  let activation
+  desktopPet = createDesktopPet({ packageRoot: join(paths.product, 'd/node_modules/@eduwork/dsh-desktop-pet'),
+    preload: fileURLToPath(new URL('./preload-pet.cjs', import.meta.url)), stateFile: join(paths.userData, 'desktop-pet.json'),
+    locale: app.getLocale().toLowerCase().startsWith('zh') ? 'zh-CN' : 'en',
+    // electron#53889: clicking a panel activates the app on macOS 27 with Electron 44.
+    preventActivation: process.platform === 'darwin' ? window => {
+      activation ??= createRequire(import.meta.url)(join(app.getAppPath(), 'native/prevent-activation.node'))
+      if (!activation.preventActivation(window.getNativeWindowHandle())) desktopHostLog('[desktop-pet] macOS activation guard unavailable\n')
+    } : undefined,
+    open: key => taskNotifications.activate(key), contextMenu: () => petMenu(), changed: () => refreshTray(),
+    log: message => desktopHostLog(`[desktop-pet] ${message}\n`) })
   const bridge = await startNativeBridge({ vault, pickDirectory: pickDesktopDirectory, openExternal: url => shell.openExternal(url),
-    attention: body => taskNotifications.handle(body),
+    attention: body => taskNotifications.handle(body), pet: body => desktopPet.handle(body),
     workbench: async action => portableUpdates && action !== 'diagnostics' ? portableUpdates.action(action) : workbenchAction({ action, config: paths.config, version: settings.productVersion, shell: 'electron', logs: paths.logs, root: paths.root, product: paths.product, home: paths.home,
       updateStatus: action === 'diagnostics' && portableUpdates ? await portableUpdates.action('status').catch(error=>({error:error.message})) : undefined }),
     openConfiguration: target => openConfigurationFile(paths.config, target, path => shell.openPath(path),
@@ -231,6 +249,7 @@ export async function desktopReady() {
   migrationLaunch = null
   if (progressWindow && !progressWindow.isDestroyed()) progressWindow.destroy()
   progressWindow = undefined
+  desktopPet?.start()
   void portableUpdates?.action('check-updates-background').catch(()=>{})
 }
 
@@ -276,6 +295,26 @@ export async function attachDesktopWindow(window) {
     if (!window.webContents.getURL().startsWith('dsh-app://app/')) return
     void window.webContents.executeJavaScript(`(window.__eduworkTrayActions ??= []).push(${JSON.stringify(value)}); window.dispatchEvent(new Event('eduwork:tray-action'));`).catch(() => {})
   }
+  // Fixed pet actions for the pet plugin's client in the application page: it
+  // opens its settings page or saves the enabled setting, which the Host owns.
+  const petAction = value => {
+    if (window.isDestroyed() || !window.webContents.getURL().startsWith('dsh-app://app/')) return
+    void window.webContents.executeJavaScript(`(window.__eduworkPetActions ??= []).push(${JSON.stringify(value)}); window.dispatchEvent(new Event('eduwork:pet-action'));`).catch(() => {})
+  }
+  window.on('closed', () => desktopPet?.close())
+  const pending = () => taskNotifications?.menu() ?? []
+  // Hiding the pet turns its setting off, so Settings always shows the same state.
+  const petItem = () => !desktopPet?.available ? [] : desktopPet.shown ? [{ label: '隐藏桌宠', click: () => petAction('hide') }]
+    : [{ label: '显示桌宠', click: () => desktopPet.enabled ? desktopPet.retry() : petAction('show') }]
+  const pendingItem = items => ({ label: items.length ? `待查看 ${items.length} 项` : '没有待处理事项', enabled: items.length > 0, ...(items.length ? { submenu: items } : {}) })
+  petMenu = () => [
+    { label: '打开 ' + settings.productName, click: show },
+    { label: '新建会话', click: () => action('new-session') },
+    pendingItem(pending()),
+    { type: 'separator' },
+    ...petItem(),
+    { label: '桌宠设置', click: () => { show(); petAction('settings') } },
+  ]
   try {
     // The 32px monochrome asset is 16pt at Retina scale; macOS supplies the menu bar color.
     const icon = process.platform === 'darwin'
@@ -287,14 +326,15 @@ export async function attachDesktopWindow(window) {
     tray = new Tray(icon)
     refreshTray = () => {
       if (!tray) return
-      const pending = taskNotifications?.menu() ?? []
-      tray.setToolTip(settings.productName + (pending.length ? ` · ${pending.length} 项待查看` : ''))
-      if (process.platform === 'darwin') tray.setTitle(pending.length ? String(pending.length) : '')
+      const items = pending()
+      tray.setToolTip(settings.productName + (items.length ? ` · ${items.length} 项待查看` : ''))
+      if (process.platform === 'darwin') tray.setTitle(items.length ? String(items.length) : '')
       tray.setContextMenu(Menu.buildFromTemplate([
       { label: '打开 ' + settings.productName, click: show },
       { label: '新建会话', click: () => action('new-session') },
-      { label: pending.length ? `待查看 ${pending.length} 项` : '没有待处理事项', enabled: pending.length > 0, ...(pending.length ? { submenu: pending } : {}) },
+      pendingItem(items),
       { type: 'separator' },
+      ...petItem(),
       { label: '检查更新', click: () => { show(); void checkProductUpdates() } },
       { label: '设置', click: () => action('settings') },
       { type: 'separator' },

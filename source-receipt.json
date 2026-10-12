@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-10T15:40:21.2858734Z",
-  "fileSetSHA256": "6a477cff0ab24b787d57e2da0698fc10985c3d0e95377a945eee87e4658366ec",
+  "createdAt": "2026-10-13T07:52:29.054Z",
+  "fileSetSHA256": "fe956c9f314286956481114999263ba4821c2546160f22e369e23b3c059339c4",
   "files": [
     {
       "path": ".gitattributes",
@@ -49,7 +49,7 @@
     },
     {
       "path": ".github/workflows/validate-local-web.yml",
-      "sha256": "23d15769a41d3b03d9cc0634670f34ba959383b0c3121aa3cb15d6c6dc2dc383"
+      "sha256": "2a1401807d70780a0111ec01ce47f3a7693eb08d6b8862353d014ca63b24e8c2"
     },
     {
       "path": ".github/workflows/validate-macos-speech.yml",
@@ -61,7 +61,7 @@
     },
     {
       "path": ".github/workflows/validate-pinned-dsh-source.yml",
-      "sha256": "955a356d85639e031e3cd385b5bd8196c2b5731e8def5a5bdedaac05e3f05f7a"
+      "sha256": "838eda2998c7f02f5b9299cf98186382ccb65933c0f0000923ade2d0ae9798ad"
     },
     {
       "path": ".github/workflows/validate-portable-extractor.yml",
@@ -181,19 +181,19 @@
     },
     {
       "path": "config/desktop/eduwork.jsonc",
-      "sha256": "4370dfbab69357033953f0b7637bd1713f8119e2c1e1384fa105a75ef5ae98ee"
+      "sha256": "028bdeb4b6c05f3703f11d4bbc0ba65f23ee34ee8d9014eb99b838533fa4e10c"
     },
     {
       "path": "config/desktop/examples/litellm.jsonc",
-      "sha256": "02b9e2e07af5db15c4ee43216cad6f351bf5b47b61614ab086c50288ef8365ee"
+      "sha256": "c74d259304d0fc21a0fcf926801925dfa46fbc6b5ded9de2b303127c78875e9f"
     },
     {
       "path": "config/desktop/examples/media.jsonc",
-      "sha256": "eb25c31dfe9b12370a646c72b9dfebb9920645b90a199cc349709d519fe0de1d"
+      "sha256": "a8184532d7e4853f30277aafd133d84049b9ffbd895d791c5827de84ce72f338"
     },
     {
       "path": "config/desktop/examples/organization.jsonc",
-      "sha256": "0e6e67db3c96d7a29a446acca90b6e6f00135c67eb829f6635c3f057498cd5f0"
+      "sha256": "7f0b945fe65287960d6e894fa5b434ecba2d56a1e0c6e9de3c5d26a63c57c8e5"
     },
     {
       "path": "config/desktop/examples/README_EN.md",
@@ -205,7 +205,7 @@
     },
     {
       "path": "config/desktop/examples/updates.jsonc",
-      "sha256": "ed6a1411b6a8e2b2cbd364fbbaec69c62509736036650b1cee79991c56ad914d"
+      "sha256": "4641e0096eff39b87aff7ec44008ae97bdbd7ca72383d31fa770b8b3eb652e40"
     },
     {
       "path": "config/desktop/mac-updates.json",
@@ -273,11 +273,19 @@
     },
     {
       "path": "docs/DESKTOP_NOTIFICATIONS_EN.md",
-      "sha256": "bb311dfe53b52cd626cf696c4082abec734c225ce9f247871c9ecd2c0efa2656"
+      "sha256": "ff9c4870a031cd4f2530bfa9079620900b492c11cb0477f54f902366aa77a2ee"
     },
     {
       "path": "docs/DESKTOP_NOTIFICATIONS.md",
-      "sha256": "c23ff797e0e92630417bbc2b7ce3f2af4039a01c6d3c658b07372d39686104ac"
+      "sha256": "a1c6ef5b3a25933ddf48502d91b58a16a402b686c35145d12f0f3e99b29436ff"
+    },
+    {
+      "path": "docs/DESKTOP_PET_EN.md",
+      "sha256": "2264d2a085b08fedc8ebc2bb291e739237cf20dc30704b8ef28a05277ad8fc78"
+    },
+    {
+      "path": "docs/DESKTOP_PET.md",
+      "sha256": "22191d9155de5268370bdbf18542244b536f24a41a02b5582fcab62ec8671b71"
     },
     {
       "path": "docs/dev/desktop-source-and-install.md",
@@ -912,6 +920,10 @@
       "sha256": "3d9fb6b844c1c9e9d38ca7d26d7023256c6a55c37571a23eae15661e066b3602"
     },
     {
+      "path": "dsh-electron/native/prevent-activation.mm",
+      "sha256": "7cd271fbc799b4d8c8234035676194b2065df8f3043d7b2f92598e362994a83b"
+    },
+    {
       "path": "dsh-electron/native/sparkle-addon.mm",
       "sha256": "7b9d7c0cf0cdccd54ef4a667f8363cb3279b179057901f44f8e8af3bb6a610ce"
     },
@@ -925,11 +937,11 @@
     },
     {
       "path": "dsh-electron/scripts/assemble-macos.mjs",
-      "sha256": "541ec575b055ed489ddebd0d700759e27a3f4a4bbd647c5b16e31508656d5763"
+      "sha256": "95a3f5a2ad8c11e3238e98fc08c7cbcf2167e96a4fcd945de376698c79ce486a"
     },
     {
       "path": "dsh-electron/scripts/assemble-macos.ps1",
-      "sha256": "5b15f4a143283771461490fa19ed83c59fa858dbe2e594d3fdfba213e9dd211f"
+      "sha256": "d2dc9c14a08a07b66915888da4f294dcf349ddeb7186d6090b2dc8b5754c2984"
     },
     {
       "path": "dsh-electron/scripts/assemble-windows.mjs",
@@ -945,7 +957,7 @@
     },
     {
       "path": "dsh-electron/scripts/build-shell.mjs",
-      "sha256": "ff3f604a7f238d1cfa94109964ff7c666703554634a9e079af1ac33b01de8ffa"
+      "sha256": "871afbb9b08d98d08788fd7dec5c8c57e8d9bc8512c31407559b418554896a7d"
     },
     {
       "path": "dsh-electron/scripts/native-desktop-source.mjs",
@@ -1016,6 +1028,14 @@
       "sha256": "c0a02db101fd024f3fc173d1812baec38c8f70a101da2c5bb198b09a0b3efb81"
     },
     {
+      "path": "dsh-electron/src/desktop-pet-core.mjs",
+      "sha256": "aa20c24bcf0b50e393debe58ec1524908c618a00a515aebf65cce809c03271df"
+    },
+    {
+      "path": "dsh-electron/src/desktop-pet.mjs",
+      "sha256": "4aa885e2c30ce55aa76b440b11bc6a14e16f3c03142f89609901f29688ee4a7f"
+    },
+    {
       "path": "dsh-electron/src/desktop-restart.mjs",
       "sha256": "9ac4a40c566e03aedfce91f6e125022701c78d1c33b06f174694953332a1ac1a"
     },
@@ -1065,11 +1085,11 @@
     },
     {
       "path": "dsh-electron/src/native-desktop.mjs",
-      "sha256": "211877c286b7f271fe0f674fd07ee139118d1016c2b83d65e0504e7273dbf64b"
+      "sha256": "6ee16e05f1ca3ac6ec593112568299f2f4c34efa094c1c08c5cc3a5a2b88f224"
     },
     {
       "path": "dsh-electron/src/native-vault.mjs",
-      "sha256": "d4f13c1a8a043c66fc8ae7523f35ad214b6efc73eaf61b7419121b8138190ac2"
+      "sha256": "f6801b56fd66e4308576ff6a765e47faee45d1603fbe93ee1285abc40ec34b4d"
     },
     {
       "path": "dsh-electron/src/native-web-host.mjs",
@@ -1080,8 +1100,12 @@
       "sha256": "667902f98614f8f1304161c9b134c57a7e6a2378fcd71840e72bd7f8c6d746e3"
     },
     {
+      "path": "dsh-electron/src/preload-pet.cjs",
+      "sha256": "244abfa760d71b71907aa819f87cece2fc594e5bdde42173b3de9a8400e6ccac"
+    },
+    {
       "path": "dsh-electron/src/product.mjs",
-      "sha256": "82cfd708d33a6d45b20992b7c3479fe2fddd240711acd0125264fb3de92e1bbb"
+      "sha256": "6b4233e5f490d121ced1ad4f51231bae1e882a9d3b34a3a9ddc8fba2f37142c1"
     },
     {
       "path": "dsh-electron/src/runtime-access.mjs",
@@ -1097,7 +1121,7 @@
     },
     {
       "path": "dsh-electron/src/task-notifications.mjs",
-      "sha256": "6c5e2d9aea6013d052e283e8e097e66326d43a4751aee192aca0d7ad15a1833e"
+      "sha256": "af4a5f3ca1aec1c87dcbb874b80a771bdb458a2d7939647b6a05b53274859dbb"
     },
     {
       "path": "dsh-electron/src/update-channel-migration.mjs",
@@ -1134,6 +1158,14 @@
     {
       "path": "dsh-electron/tests/desktop-paths.test.mjs",
       "sha256": "1f589f5752039b31871d75e710a9d7334b8944cedc64ae924bc452a94e5789fa"
+    },
+    {
+      "path": "dsh-electron/tests/desktop-pet-core.test.mjs",
+      "sha256": "08110cdcea13ba35aaec569e1d3401bd8d276ff51f6ce7e9281d16b63d69adc5"
+    },
+    {
+      "path": "dsh-electron/tests/desktop-pet.electron.mjs",
+      "sha256": "cf9c133410b1a4aef669743735066c1809879b2e4aa109fe0145b5b1c8629080"
     },
     {
       "path": "dsh-electron/tests/desktop-restart.test.mjs",
@@ -1237,11 +1269,11 @@
     },
     {
       "path": "dsh-electron/tests/task-notifications.electron.mjs",
-      "sha256": "c4d623e1a646e641fb3a538aa4c8aadb38110357145456b071ae7b49ab38f6ef"
+      "sha256": "b654f96c94663062884d75a56a50d0bfa2aa86e7899c3ff749ef2f925d480dbf"
     },
     {
       "path": "dsh-electron/tests/task-notifications.test.mjs",
-      "sha256": "76d563c83285092e3e076320f26752425f728a2d066f64daf8f5849a444689e6"
+      "sha256": "cc9ffacb8fa67c4d2906c9bccd22440aa7b717ec7d260eb023d7e31ac7fd9514"
     },
     {
       "path": "dsh-electron/tests/tray-icon.electron.mjs",
@@ -1305,7 +1337,7 @@
     },
     {
       "path": "dsh-host/configuration-reference.mjs",
-      "sha256": "9dc69e1b03b9d7ea30570455c71c630a3efaa38a526f1fdf96ebe5aead206bca"
+      "sha256": "116dece396a5cf4521d49e811788af9009ed9f8f79ed0a1c8694bcbd116a249a"
     },
     {
       "path": "dsh-host/content-update-protocol.mjs",
@@ -1377,7 +1409,7 @@
     },
     {
       "path": "dsh-host/product-profile.mjs",
-      "sha256": "52e42086f3ed0e0810c8b1bcb5d4e7617057a1316831cd77454465b0f5c93432"
+      "sha256": "1df7f346f3104185697251eea92e62b3a5bfb7ea18887e1cb57c4965d1e16553"
     },
     {
       "path": "dsh-host/publisher-bootstrap.mjs",
@@ -1477,7 +1509,7 @@
     },
     {
       "path": "dsh-host/test/product-profile.test.mjs",
-      "sha256": "1460559a623914002c979741bb75927c29fa462e228a67feffe549ac1182fd0c"
+      "sha256": "828fe92fd838cd197d820946c291a4bf21d3deda510f0d3a0ad44b5b3688846d"
     },
     {
       "path": "dsh-host/test/publisher-bootstrap.test.mjs",
@@ -1493,7 +1525,7 @@
     },
     {
       "path": "dsh-host/test/user-config.test.mjs",
-      "sha256": "857e821f5976dd5ae7451cbce744d72af278397fd7788c1151fcec8b34f86b3e"
+      "sha256": "57187904db689ed670a898de6e5d898612ef8c678fdbc9d12aee3e4664fbc873"
     },
     {
       "path": "dsh-host/test/wails-migration.test.mjs",
@@ -1509,7 +1541,7 @@
     },
     {
       "path": "dsh-host/user-config.mjs",
-      "sha256": "5408c6c3bf4cf28329aa745b75cdec6bae7a5330e1caeb31a2dae342c28375e3"
+      "sha256": "0f7e6654e813dfabca06b9ac51ef614d6ba02172fb43c9c88883c39d5bcbc58c"
     },
     {
       "path": "dsh-host/vendor/jsonc-parser/LICENSE.md",
@@ -2212,8 +2244,272 @@
       "sha256": "603239d2e1cd3407d5142be7cc5116d8d5c77116fac0674b702a8f2ec6c0db53"
     },
     {
+      "path": "dsh-plugins/desktop-pet/lib/index.js",
+      "sha256": "2349b0d10a7358649f2b504c613c4e370ffe615ff1a646fc0b37e46c02f24c65"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/lib/page/pet.css",
+      "sha256": "32c45b428420a7fd0c4582ba95f3f04557a30bf8c19d3c2a79c22bf4477e7f35"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/lib/page/pet.html",
+      "sha256": "923babefba8546425262554febf07996f253d5d7afab418e0db26d2e45e7bebc"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/lib/page/pet.js",
+      "sha256": "b14622a209edc9a08817d48dcde8c844efb5a5a009428dd2bc23578ff60a6b8a"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/lib/pet-state.js",
+      "sha256": "15a3d6cf30e5e25e77360a38386e8bc747bb00086d4cc7e21e80f51caa1cf42f"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/lib/skin-files.js",
+      "sha256": "9afe7d0d19ef81563eea5f6a6a9d12885da19ae01dcb797cf1692e4445ada3d3"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/lib/skin.js",
+      "sha256": "80f1186eab8064dda408b35036782a01f0f8420cbd35e2686fd8a949d1c2051c"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/lib/typert-schemas.js",
+      "sha256": "c44b982e3ded21bc83e15416a0c7c854e23619d1ee77e7be0f07a12c099e1c99"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/lib/typert.host.js",
+      "sha256": "81bf88c51af1f21d266b4002b986c549cbc6b802012533c16e4ea5b891ecae14"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/lib/typert.remote-client.js",
+      "sha256": "33f775018573f107106fcf0d32a979983be95b5b20c991329034f7919c5fde97"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/LICENSE",
+      "sha256": "dc719b536b8f7a51cd0ffaf928d37146894a3996119cb07d4fb7b67e551882dc"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/package.json",
+      "sha256": "c620ecaa3321f9a728fb7d99a7ac7e68b375a97ef8a165e47ff0c57260532961"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/README_EN.md",
+      "sha256": "4f957daf303404f5fe8d68ccc88704ec6d1297e31926161b2dac2cf81e452749"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/README.md",
+      "sha256": "c5d3910d05346d80340ececc34a9c6a658177a3b60c43eb9b38805e99bc05016"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/scripts/build-page-skins.mjs",
+      "sha256": "5f45e8d6dd94a3e87e686c3ce9ba835ee4060f7ccc627cde641e2ec9eabc8e90"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/attention-1.svg",
+      "sha256": "5bc26dc024b9b4aeab20f8e3d6bdcdc9545f18b3451dbfcd08c0e36cc7a8d469"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/attention-2.svg",
+      "sha256": "93a2b87bdfae045f71da35e232393ee1e9adb78ee0ad1309a7e355f2d719b71c"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/blink.svg",
+      "sha256": "f322908f77f52232cc720bad7ba8ce5bb0e167026941138000111514c1369fa3"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/drag.svg",
+      "sha256": "be988b62e519fb0cdb57d11a37689b33723ab00529ffe92328dc3405afa6a54d"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/failed-1.svg",
+      "sha256": "6d0ac352ab5bf66b231e08847fd6365e1df12e7a70dec1ae75aac42f9a672f85"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/failed-2.svg",
+      "sha256": "eeba58cbd058ffa9321955425f91bb271f1b2b416abe51028c2e90f7c977c4b7"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/flap-1.svg",
+      "sha256": "1f033fedaeedf5adad814c5a1ca3a1fc3b3f2ea2c52f5300f396ee7df6386ec8"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/flap-2.svg",
+      "sha256": "7397607c1ebba929adba7494ce15f32fc59b7bf64d6983c356c02818c3220791"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/greet-2.svg",
+      "sha256": "a1a85b0daa6588973ab44d71a15a1a59077f56ca4e495f9ac215b2ed3e2525ca"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/greet.svg",
+      "sha256": "126520581e780756b11138b3e3440beed94928768f00ccfaf1d3d2c0fad062fa"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/happy-1.svg",
+      "sha256": "851ae6517896f54899164a576f017d612e6b2575202321dfee2f669ba81f744d"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/happy-2.svg",
+      "sha256": "23cf631fa20515f2d5db16ddd78b3a5fc0da1c8cc3fd3898f079a4f2ebe90032"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/idle.svg",
+      "sha256": "fb5915e36161c70e49b79a3ce062dec4a43fe03b7440ecde11026c1ea659529f"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/peek.svg",
+      "sha256": "60a79bff980f878a1a0ceafe20241ea17aeb22146a8023d7b6c27a5fd3624d89"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/react-1.svg",
+      "sha256": "45b73abf06a5e3662cd9e678b1f876dcb5513b437ab3011c4ea547fa7346cc10"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/react-2.svg",
+      "sha256": "39936001dee51aa2accf459d35a632faebfab72793a42c7c57aa03c7a53e3f41"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/react-3.svg",
+      "sha256": "421d82c9f2f6cdc1e80ecce3278fe991ad13b6b086739c6a94d55e201b4772fe"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/skin.json",
+      "sha256": "936a49ddf59cef618d1f9ca47525d99140057ec1446f069e208fe02da9c6f24f"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/sleep.svg",
+      "sha256": "eb50b13775b5064fccfee43340b6f071b77864ae9cfcb41920ad8b126df6c81f"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/think.svg",
+      "sha256": "7e1ed761f61e7f92289a158c81bb45044ad447e7e7a9590f157189c3d54a23d4"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/work-1.svg",
+      "sha256": "3dbeb1fbdc26c83c7d4c8d9f9c89e8d3e5f4a475abecdaca20ea887f2323fd1b"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/work-2.svg",
+      "sha256": "5d302bb494c77b73d390c6dddabfa5de312014e7b0fb304f2cb8c7e74962c518"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/work-3.svg",
+      "sha256": "a576ac98b9b0fa42580551f3dbed8a255610a4fef8bb2519b66ecc0028ebe537"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/attention-1.svg",
+      "sha256": "aeb72ba6610ea3c371200a9396420bfb7e7c5f770d42510d7916098aceea53f8"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/attention-2.svg",
+      "sha256": "2e44c9fcde6595747795e26ff85dc56271858afed120f89b1011c03dd8f223ec"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/blink.svg",
+      "sha256": "6bc130150725037f6359a07688a799c998cf06e6f95a625bdf44893cc9d403fb"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/drag.svg",
+      "sha256": "46a6b8d54c1a840df92331532cf2451106a6a3e488b5a1ba345b28f2086cf838"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/failed-1.svg",
+      "sha256": "71362b69314ec7ee2912072b6ca4ffc759e20d3c1d1aa77762ba64291e9faed6"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/failed-2.svg",
+      "sha256": "921e5b5626711e65c8c006b8155511cd89502c8a6ea8ff5652097b872f5db4fc"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/flap-1.svg",
+      "sha256": "9707cc17617b0098559c0786dde3b66a082c325b3bd1752a8e2fec977f14c1a9"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/flap-2.svg",
+      "sha256": "9717b56c088faa396eb69b346ec2509e41a7896cb875e8c830148f485986d90c"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/greet-2.svg",
+      "sha256": "73c40fa34ae5ad82a24410b97de14b0be0351b530213bcdc685b8111fbc310c0"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/greet.svg",
+      "sha256": "4a7232a2e92c4341d5f57c7c43e277f3f5ee4bc39120e9e881d28c0cb470260b"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/happy-1.svg",
+      "sha256": "72c8d98d07f2a3a3082971a10f4aebf4d9354705624351102164c5ce122bf9c6"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/happy-2.svg",
+      "sha256": "27567b85e06560f064f6226d101f51233aef7160bcd0116f86f9901639cc95fc"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/idle.svg",
+      "sha256": "28479abbf089856fd919226a03adc03fb52a34699ec66dc4f68f3dd1dabf5e77"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/peek.svg",
+      "sha256": "c06a89f5edf77c1564fb9ed27b0ee87e7738a717c2f0bdf16089daeeca15dfde"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/react-1.svg",
+      "sha256": "c92350b9a3fd220625ad4d8a0046c867ae49fc24d851f8b6e5c1831db2571dd8"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/react-2.svg",
+      "sha256": "6db8d2e5ddca3be4bccbc308050c78e10d2d5b1bc963eb0cc504296fe923c06b"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/react-3.svg",
+      "sha256": "722614c541995cf909e4f8354b9b4b02a5b0300fec3ad5e008e4aa8826501b04"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/skin.json",
+      "sha256": "d25484fe82bb6a4089e14b28116c4b49a8ef71b681c1050d82f037313d366f12"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/sleep.svg",
+      "sha256": "ebc6161feb5e45b5622038bbf93c51d9e79c7e878046d0ef70fc50175804d12d"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/think.svg",
+      "sha256": "b0521fc0ea8da7500ae2fcf78b5451a0c3d84b2dd80bad3b0b878cde69ab8afe"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/work-1.svg",
+      "sha256": "735ab348fffd06d65df1bd90d8b19617b5dbd4b477efd706ca8e397acedf8777"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/work-2.svg",
+      "sha256": "6513ec23902d6c09060d0b36670647df09bb6473a66993a8e098b7c760cb45f0"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/eduwork-page/work-3.svg",
+      "sha256": "c39f9f025f8ff6ce701a97ac694911dd3eed4aa1ad86f776d46d2f1054756e23"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/LICENSE",
+      "sha256": "163eb0866c7f358fe87b6fa37401dda952f06df1aa95abcaae07430dde8a674b"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/src/client.js",
+      "sha256": "bd225b5b1912b843382a2b117644a7d9c486ac2e76dd528e863bf77c28a2e927"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/test/host.test.mjs",
+      "sha256": "0e9d2ee031d35b9a1313b0071682a4b278eba9a0710df8fd4c0fbf1157fa52c6"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/test/pet-state.test.mjs",
+      "sha256": "137334a21ba93966bf36d9ccc923024a9b56559dbcb6e1e82514ef738d312e13"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/test/skin.test.mjs",
+      "sha256": "9803dec08988c33bc15d39459d832861190b4c19f076aa50e818c41ebd0730f8"
+    },
+    {
       "path": "dsh-plugins/desktop-services/lib/attention.js",
-      "sha256": "99f6022d578095d07374238a70fda21ba70936d9813bc88ebacce9622c4d2ac7"
+      "sha256": "24c5600700268afab0b899524d7f3af4a8042fb2b1297f375b2b13be7259da6a"
     },
     {
       "path": "dsh-plugins/desktop-services/lib/directory-picker.js",
@@ -2225,7 +2521,7 @@
     },
     {
       "path": "dsh-plugins/desktop-services/lib/index.js",
-      "sha256": "bbfd686c5b2c426d6b94ca392fe5d9dd7a86c34f08bd8e937b474761b179565f"
+      "sha256": "6737849652dfa6a19f3864199c26f81902f985dec812ebc12eaebd62b8647e08"
     },
     {
       "path": "dsh-plugins/desktop-services/package.json",
@@ -2233,7 +2529,7 @@
     },
     {
       "path": "dsh-plugins/desktop-services/test/attention-host.test.mjs",
-      "sha256": "505cff8469dba832c3272f28c39653b48d91dc4c6be1a160af3a5568469e4baa"
+      "sha256": "787c11316349938292fc17e3aa9cd255009e6752e40f2e5c201c6864af02de67"
     },
     {
       "path": "dsh-plugins/media-openai/lib/actions.js",
@@ -5077,11 +5373,11 @@
     },
     {
       "path": "README_EN.md",
-      "sha256": "c3c9529ad1463e16ca1ee105877541411e44f4de55250fe9987f800142a14fac"
+      "sha256": "f994e452e0685f593f924b288b9bee7f8d6149ba97e9f954b127d2eb941a5fac"
     },
     {
       "path": "README.md",
-      "sha256": "55be4f56fe48762c75208853b73547c9457df655bce7a48450c3551770d42d2b"
+      "sha256": "78e7f3e62bb05e81aa1e49f62a6218e6fc954d1f78bd2c5e0a10b6768795f006"
     },
     {
       "path": "RELEASE-CHECKLIST_EN.md",
@@ -5113,7 +5409,7 @@
     },
     {
       "path": "scripts/assemble-pinned-dsh-source-product.mjs",
-      "sha256": "8b3a14a5e4d809d9e777d620b009bdffa60f91df4795f5a6ab812d5dd1d3db9f"
+      "sha256": "40b5720a591ca2dfa1b01a3a24e57ae0af18a2fce13774bb2c480fcab9ae3662"
     },
     {
       "path": "scripts/audit-eduwork-distribution.mjs",
@@ -5129,7 +5425,7 @@
     },
     {
       "path": "scripts/build-pinned-dsh-plugin-clients.mjs",
-      "sha256": "141faf7a7d925b75116bfc2751e15f5fbad2bdd377146a6e69b64fccf2f82988"
+      "sha256": "71e95bcc8ef00ac722ab74bac2b1079642f497c046c031887f28239867f8399e"
     },
     {
       "path": "scripts/build-pipeline-diagram.mjs",

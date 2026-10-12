@@ -155,6 +155,8 @@ export async function prepareProductProfile({ product, home, shell, pluginConfig
       { id: 'eduwork-desktop-boundary', name: '@chatecnu-work/dsh-desktop-boundary' },
       { id: 'eduwork-desktop-services', name: '@eduwork/desktop-services', config: { notifications: user?.notifications ?? {} } },
     ] },
+    // The pet window belongs to the Electron shell; this plugin keeps its settings.
+    ...native ? [{ insert: [{ id: 'eduwork-desktop-pet', name: '@eduwork/dsh-desktop-pet', config: user?.pet ?? {} }] }] : [],
   ]
   if (native) {
     const yaml = await import(pathToFileURL(createRequire(join(product, 'd/package.json')).resolve('yaml')).href)
