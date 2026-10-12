@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-11T07:48:54.908Z",
-  "fileSetSHA256": "873288f7d86f8f2407debe5465fc1c15f7399038c8e83cab4206e9fa02b48d45",
+  "createdAt": "2026-10-12T02:57:08.551Z",
+  "fileSetSHA256": "87efe32bb463535d138828117b5728f792cf7d23ee51fb454a50b7a4d614070f",
   "files": [
     {
       "path": ".gitattributes",
@@ -5313,7 +5313,7 @@
     },
     {
       "path": "scripts/lib/windows-stages.mjs",
-      "sha256": "6bf03466926fabf05428ae858adcbf5fc0e12b1f82ffc54e611949a9d8674583"
+      "sha256": "bd73eb4d1e2ce0302cb9a4b3d01b1ec81b3fa8098827b302a97fd28cc0b888ad"
     },
     {
       "path": "scripts/lib/zip.mjs",
@@ -5729,7 +5729,7 @@
     },
     {
       "path": "tests/eduwork-windows-release.test.mjs",
-      "sha256": "babfc9dd028ba7faf0fbd960b68bc7db7a333fa920e13d37f5f7dfef0d268f30"
+      "sha256": "124abca8445526ec2b1a9a47b2363bb89fef182ca75bb44010df5c560d21e679"
     },
     {
       "path": "tests/fixtures/audit-stack-probe.mjs",
