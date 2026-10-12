@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url'
 import { spawn } from 'node:child_process'
 import { createServer } from 'node:https'
 import { createHash, generateKeyPairSync, sign } from 'node:crypto'
+import { createMacDeltas } from '../../scripts/macos-update-delta.mjs'
 
 assert.equal(process.platform, 'darwin', 'Native Sparkle checks require macOS')
 const root=resolve(process.argv[2]), repository=fileURLToPath(new URL('..',import.meta.url))
@@ -51,13 +52,14 @@ int main(){@autoreleasepool {NSArray *versions=@[@"0.3.5",@"0.3.6dev20260920.1",
   await run('openssl',['x509','-req','-in',csr,'-CA',ca,'-CAkey',caKey,'-CAcreateserial','-out',cert,'-days','1','-sha256','-extfile',leafConfig,'-extensions','server'])
   await run('sudo',['security','add-trusted-cert','-d','-r','trustRoot','-k','/Library/Keychains/System.keychain',ca])
   await run('security',['verify-cert','-c',cert,'-c',ca,'-p','ssl','-s','localhost'])
-  let archive,signature,offerVersion='2'
+  let archive,signature,patch,patchSignature,offerVersion='2'
   const requests=[];
   server=createServer({key:await readFile(key),cert:await readFile(cert)},(request,response)=>{
     requests.push({url:request.url,method:request.method});
     if(request.url==='/update.zip'){response.end(archive);return}
+    if(request.url==='/update.delta'){response.end(patch);return}
     response.setHeader('content-type','application/xml')
-    response.end(`<?xml version="1.0"?><rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><title>Test updates</title><item><title>Test ${offerVersion}</title><sparkle:version>${offerVersion}</sparkle:version><sparkle:shortVersionString>0.3.${offerVersion}</sparkle:shortVersionString><enclosure url="https://localhost:${server.address().port}/update.zip" length="${archive.length}" type="application/octet-stream" sparkle:edSignature="${signature}" /></item></channel></rss>`)
+    response.end(`<?xml version="1.0"?><rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><title>Test updates</title><item><title>Test ${offerVersion}</title><sparkle:version>${offerVersion}</sparkle:version><sparkle:shortVersionString>0.3.${offerVersion}</sparkle:shortVersionString><enclosure url="https://localhost:${server.address().port}/update.zip" length="${archive.length}" type="application/octet-stream" sparkle:edSignature="${signature}" />${patch?`<sparkle:deltas><enclosure url="https://localhost:${server.address().port}/update.delta" sparkle:deltaFrom="1" length="${patch.length}" type="application/octet-stream" sparkle:edSignature="${patchSignature}" /></sparkle:deltas>`:''}</item></channel></rss>`)
   })
   await new Promise(ok=>server.listen(0,'127.0.0.1',ok))
   const feed=`https://localhost:${server.address().port}/appcast.xml`,appName='EduWork Sparkle Test.app'
@@ -69,6 +71,7 @@ int main(){@autoreleasepool {NSArray *versions=@[@"0.3.5",@"0.3.6dev20260920.1",
     const payload=join(app,'Contents/Resources/app');await mkdir(join(payload,'native'),{recursive:true})
     await run('clang++',['-std=c++17','-fobjc-arc','-dynamiclib','-undefined','dynamic_lookup','-I',join(headers,'include/node'),'-F',join(app,'Contents/Frameworks'),'-framework','Sparkle','-framework','AppKit','-Wl,-rpath,@loader_path/../../../Frameworks',join(repository,'native/sparkle-addon.mm'),'-o',join(payload,'native/sparkle.node')])
     await writeFile(join(payload,'package.json'),JSON.stringify({name:'eduwork-sparkle-test',version:'1.0.0',main:'main.cjs'}))
+    await writeFile(join(app,'Contents/Resources/release.json'),JSON.stringify({version:`0.3.${version}`}))
     await writeFile(join(payload,'main.cjs'),`const {app}=require('electron');const fs=require('node:fs');app.whenReady().then(()=>{const addon=require('./native/sparkle.node');addon.start(${JSON.stringify(feed)});addon.probe();const started=Date.now();const timer=setInterval(()=>{const state=addon.snapshot();if(state.state==='checking'&&Date.now()-started<30000)return;clearInterval(timer);fs.writeFileSync(process.env.EDUWORK_SPARKLE_RESULT,JSON.stringify({version:${JSON.stringify(version)},...state}));app.exit(state.state==='error'?1:0)},100)})`)
     const plist=join(app,'Contents/Info.plist')
     for(const [name,value] of Object.entries({CFBundleIdentifier:bundleID,CFBundleVersion:version,CFBundleShortVersionString:`0.3.${version}`,SUPublicEDKey:publicKey,SUFeedURL:feed})) await run('plutil',['-replace',name,'-string',value,plist])
@@ -98,6 +101,21 @@ int main(){@autoreleasepool {NSArray *versions=@[@"0.3.5",@"0.3.6dev20260920.1",
   await writeFile(join(cliApp,'Contents/Info.plist'),'<?xml version="1.0"?><plist version="1.0"><dict><key>CFBundleExecutable</key><string>sparkle-cli</string><key>CFBundleIdentifier</key><string>org.eduwork.sparkle-cli-test</string><key>CFBundlePackageType</key><string>APPL</string><key>CFBundleVersion</key><string>1</string><key>LSBackgroundOnly</key><true/></dict></plist>')
   await run('clang++',['-fobjc-arc','-DSPU_OBJC_DIRECT=','-DSPU_OBJC_DIRECT_MEMBERS=','-I',cliSource,'-F',join(cliApp,'Contents/Frameworks'),'-framework','Sparkle','-framework','Cocoa','-Wl,-rpath,@executable_path/../Frameworks',...sources.filter(name=>name.endsWith('.m')).map(name=>join(cliSource,name)),'-o',cli])
   await run('xattr',['-cr',cliApp]);await run('codesign',['--force','--deep','--sign','-','--timestamp=none',cliApp])
+  // The release pipeline's patch updates an unmodified installation; a modified
+  // installation fails the patch and falls back to the full archive.
+  const base=join(root,'base.zip');await run('ditto',['-c','-k','--keepParent',oldApp,base])
+  const [delta]=await createMacDeltas({binaryDelta:join(frameworkRoot,'bin/BinaryDelta'),app:newApp,archiveBytes:archive.length,bases:[base],product:'EduWork',version:'0.3.2',output:root,work:join(root,'delta-work')})
+  patch=await readFile(join(root,delta.name));patchSignature=sign(null,patch,pair.privateKey).toString('base64')
+  for(const [name,downloads,change] of [['delta',['/update.delta'],null],['delta-fallback',['/update.delta','/update.zip'],app=>writeFile(join(app,'Contents/Resources/app/local.txt'),'changed')]]){
+    const app=join(root,name,appName);await mkdir(dirname(app));await run('ditto',[oldApp,app]);if(change)await change(app)
+    requests.length=0
+    await run(cli,[app,'--check-immediately','--feed-url',feed,'--user-agent-name','EduWork native CI','--verbose'])
+    assert.equal((await run('plutil',['-extract','CFBundleVersion','raw',join(app,'Contents/Info.plist')])).output.trim(),'2')
+    await run('codesign',['--verify','--deep','--strict',app])
+    assert.deepEqual(requests.map(row=>row.url).filter(url=>url!=='/appcast.xml'),downloads)
+  }
+  patch=undefined
+  result.checks.push('Release delta installs an unmodified app; a modified app falls back to the signed ZIP')
   const args=[oldApp,'--check-immediately','--feed-url',feed,'--user-agent-name','EduWork native CI','--verbose']
   const originalSignature=signature;signature=Buffer.alloc(64).toString('base64')
   assert.notEqual((await run(cli,args,{failure:true})).code,0)

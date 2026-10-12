@@ -27,6 +27,12 @@ CI 按 `dsh-electron/sparkle.lock.json` 下载并校验框架，编译主进程�
 
 `CFBundleVersion` 和 appcast 必须使用同一个编码：`0.3.6-dev.20260920.1` 对应 `0.3.6dev20260920.1`，公测版对应 `0.3.6`。不要直接把含连字符的版本交给 Sparkle：其比较器会忽略该后缀。原生 CI 验证逐日开发版、公测版、下个版本之间的排序。
 
+## 增量更新
+
+公测版发布时，macOS 构建在整包验收之后为前 3 个公测版各生成一个 Sparkle 补丁 `EduWork-<版本>-macos-arm64-electron-from-<旧版本>.delta`，随 Release 发布。CI 从 Release 下载旧版 ZIP 并按 GitHub 记录的 SHA-256 校验，用锁定 Sparkle 自带的 `BinaryDelta` 生成补丁，再把补丁打到旧版上，与验收过的新版应用逐文件比对。补丁超过完整 ZIP 一半时不生成；开发版不生成补丁。本地构建可用 `--delta-bases <目录>` 指定旧版 ZIP 所在目录，构建回执的 `deltas` 记录生成的补丁。
+
+Sparkle 按已安装的版本选择补丁，客户端无需额外配置。没有对应补丁，或应用包被改过、补丁不再适用时，Sparkle 自动改下完整 ZIP。
+
 ## 签名与发布
 
 每个发行维护自己的 Ed25519 私钥；公钥固定在客户端里。生成新 ZIP 后，校验构建回执并签名：
@@ -35,6 +41,6 @@ CI 按 `dsh-electron/sparkle.lock.json` 下载并校验框架，编译主进程�
 node scripts/macos-update-feed.mjs sign app.zip release-receipt.json mac-updates.json private-key.pem https://downloads.example.org/app.zip appcast.xml
 ```
 
-命令仅生成清单，不上传、创建 GitHub Release 或切换更新入口。先上传完整 ZIP，再发布指向它的 appcast；公测发布时也更新开发渠道。私钥丢失会影响后续更新，必须在仓库外妥善备份。私钥不能随安装包、源码或 CI 日志公开。
+回执列出的补丁需与 ZIP 放在同一目录，命令会一并核对并签名，appcast 中补丁地址与 ZIP 地址位于同一目录。命令仅生成清单，不上传、创建 GitHub Release 或切换更新入口。先上传完整 ZIP 和补丁，再发布指向它们的 appcast；公测发布时也更新开发渠道。私钥丢失会影响后续更新，必须在仓库外妥善备份。私钥不能随安装包、源码或 CI 日志公开。
 
-EdDSA 负责验证更新来源，不能代替 Apple Developer ID 和公证。ad-hoc 包首次打开仍可能出现 macOS 安全提示。原生 CI 使用临时密钥验证真实桥接、HTTPS 检查、错误签名拒绝和应用替换；系统授权弹窗、Gatekeeper 与用户交互仍需对应系统真机验收。
+EdDSA 负责验证更新来源，不能代替 Apple Developer ID 和公证。ad-hoc 包首次打开仍可能出现 macOS 安全提示。原生 CI 使用临时密钥验证真实桥接、HTTPS 检查、错误签名拒绝、补丁安装与改下整包，以及应用替换；系统授权弹窗、Gatekeeper 与用户交互仍需对应系统真机验收。
