@@ -288,3 +288,13 @@ test('only Electron profiles replace auto and legacy desktop picker entries with
     assert.equal(plugins.filter(row => row.id === 'eduwork-directory-flow').length, shell === 'electron' ? 1 : 0)
   }
 })
+
+test('only Windows Electron profiles offer the workspace permission repair', async t => {
+  const { root, product } = await fixture(t)
+  for (const [shell, platform] of [['electron', 'win32'], ['electron', 'darwin'], ['wails', 'win32']]) {
+    const { profile } = await prepareProductProfile({ product, home: join(root, shell + '-' + platform), shell, platform })
+    const plugins = JSON.parse(await readFile(join(profile, 'cordis.patch.yml'))).flatMap(row => row.insert ?? [])
+    assert.deepEqual(plugins.filter(row => row.id === 'eduwork-workspace-access').map(row => row.name),
+      shell === 'electron' && platform === 'win32' ? ['@eduwork/desktop-services/lib/workspace-access.js'] : [])
+  }
+})
