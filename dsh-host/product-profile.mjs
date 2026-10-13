@@ -146,7 +146,7 @@ export async function prepareProductProfile({ product, home, shell, pluginConfig
       { insert: [
         { id: 'eduwork-directory-picker', name: '@eduwork/desktop-services/lib/directory-picker.js' },
         { id: 'eduwork-directory-flow', name: '@deepseek-ai/dsh-client-ui-directory-picker-native' },
-        // Offers DSH's own ACL repair for workspaces its Windows sandbox cannot provision.
+        // Diagnoses actual Windows sandbox grant failures without scanning workspaces.
         ...platform === 'win32' ? [{ id: 'eduwork-workspace-access', name: '@eduwork/desktop-services/lib/workspace-access.js' }] : [],
       ] },
     ] : [],

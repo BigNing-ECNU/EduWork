@@ -89,7 +89,15 @@ export async function startNativeBridge({ vault, openExternal, openConfiguration
       if (request.url === '/v1/desktop/workspace-access') {
         if (!body || Object.keys(body).length !== 1 || typeof body.path !== 'string' || body.path.length > 32767 || !isAbsolute(body.path)) throw new Error('Invalid workspace path')
         if (!workspaceAccess) { response.writeHead(501).end(); return }
-        response.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(await workspaceAccess(body.path))); return
+        const controller = new AbortController()
+        const disconnected = () => controller.abort()
+        response.once('close', disconnected)
+        try {
+          if (response.destroyed) controller.abort()
+          const result = await workspaceAccess(body.path, controller.signal)
+          if (!response.destroyed) response.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(result))
+        } finally { response.removeListener('close', disconnected) }
+        return
       }
       if (request.url === '/v1/extensions/attention') {
         if (!attention) { response.writeHead(501).end(); return }

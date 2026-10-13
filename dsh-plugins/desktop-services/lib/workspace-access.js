@@ -1,39 +1,32 @@
+import { realpathSync } from 'node:fs'
+
 export const name = 'eduwork-workspace-access'
-export const inject = ['desktopBoundary', 'workspaceRegistry']
+export const inject = ['desktopBoundary', 'workspaceRegistry', 'sandboxPolicy']
 
-const WRITE_DAC = 0x40000, WRITE_OWNER = 0x80000, FILE_SHARE_ALL = 7, OPEN_EXISTING = 3, FILE_FLAG_BACKUP_SEMANTICS = 0x2000000, ERROR_ACCESS_DENIED = 5
-let api
-
-// DSH's Windows sandbox writes its workspace grant into the root's DACL and
-// integrity label, which needs WRITE_DAC and WRITE_OWNER. A directory that only
-// inherits Modify, such as a new folder directly under C:\, fails every
-// confined command. Opening the root for both rights asks Windows the same
-// question without changing anything.
-export async function workspaceAccess(path) {
-  const { extendWin32ProcessBindings, isNullPtr } = await import('@deepseek-ai/dsh-win32-process')
-  api ??= extendWin32ProcessBindings(({ kernel32, bind }) => ({
-    createFileW: bind(kernel32, 'CreateFileW', 'void *', ['str16', 'uint32', 'uint32', 'void *', 'uint32', 'uint32', 'void *']),
-  }))
-  const handle = api.createFileW(path, WRITE_DAC | WRITE_OWNER, FILE_SHARE_ALL, null, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, null)
-  if (isNullPtr(handle) || handle === -1n || handle === 0xffffffffffffffffn) return api.getLastError() === ERROR_ACCESS_DENIED ? 'denied' : 'unavailable'
-  api.closeHandle(handle)
-  return 'granted'
+// Only a real grant failure is evidence; a missing WRITE_OWNER alone is not.
+export function failedWorkspaceGrant(exec, result, policy, canonical = realpathSync.native) {
+  if (!exec.agent?.session || result?.isError !== true || typeof result.error?.message !== 'string') return
+  const { mode, workspaceRoot } = policy.resolve({ session: exec.agent.session })
+  if (mode !== 'workspace-write' || !workspaceRoot) return
+  const path = canonical(workspaceRoot)
+  const expected = `SetNamedSecurityInfoW failed (Win32 5): grantWrite(${path})`
+  if (result.error.message.toLowerCase() !== expected.toLowerCase()) return
+  return path
 }
 
-/** Offer the desktop repair once per run for each registered workspace the sandbox cannot provision. */
-export function observeWorkspaceAccess({ registry, on, inspect, repair, failed }) {
+/** Observe actual failures only; never replay a command after adjusting access. */
+export function observeWorkspaceAccess({ on, resolveWorkspace, repair, failed, signal }) {
   const seen = new Set()
   let queue = Promise.resolve()
-  const scan = () => {
-    for (const { path } of registry.list()) {
-      if (seen.has(path)) continue
-      seen.add(path)
-      // One native dialog at a time; a declined or failed repair is not asked again in this run.
-      queue = queue.then(async () => { if (await inspect(path) === 'denied') await repair(path) }).catch(failed)
-    }
-  }
-  scan()
-  on('domain/changed', change => { if (change.domain === 'workspace' && change.table === '' && change.operation === 'put') scan() })
+  on('tools/result', (exec, result) => {
+    queue = queue.then(async () => {
+      if (signal?.aborted) return
+      const path = await resolveWorkspace(exec, result)
+      if (!path || signal?.aborted || seen.has(path.toLowerCase())) return
+      seen.add(path.toLowerCase())
+      await repair(path)
+    }).catch(error => { if (!signal?.aborted) failed(error) })
+  })
   return () => queue
 }
 
@@ -41,15 +34,22 @@ export function apply(ctx) {
   const lifetime = new AbortController()
   ctx.effect(() => () => lifetime.abort())
   observeWorkspaceAccess({
-    registry: ctx.workspaceRegistry, on: (event, listener) => ctx.on(event, listener), inspect: workspaceAccess,
+    on: (event, listener) => ctx.on(event, listener), signal: lifetime.signal,
+    resolveWorkspace: async (exec, result) => {
+      const path = failedWorkspaceGrant(exec, result, ctx.sandboxPolicy)
+      if (!path) return
+      const workspace = await ctx.workspaceRegistry.resolveByPath(path)
+      if (workspace && realpathSync.native(workspace.path).toLowerCase() === path.toLowerCase()) return path
+    },
     repair: async path => {
       const { nativeBridge } = await ctx.desktopBoundary.ready
+      if (lifetime.signal.aborted) return
       const response = await fetch(nativeBridge.baseURL + '/v1/desktop/workspace-access', {
         method: 'POST', headers: { authorization: 'Bearer ' + nativeBridge.token, 'content-type': 'application/json' },
         body: JSON.stringify({ path }), signal: lifetime.signal,
       })
-      if (!response.ok) throw new Error('Desktop workspace access repair is unavailable')
+      if (!response.ok) throw new Error('Desktop workspace access diagnosis is unavailable')
     },
-    failed: error => { if (!lifetime.signal.aborted) console.warn(`[workspace-access] ${error.message}`) },
+    failed: error => console.warn(`[workspace-access] ${error.message}`),
   })
 }
