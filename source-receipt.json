@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-13T09:34:30.569Z",
-  "fileSetSHA256": "13ac627e13f5e5a2ff034e93a5bdb2e6a3d994e7b34efd2053cb5785f6adafa6",
+  "createdAt": "2026-10-13T11:04:27.230Z",
+  "fileSetSHA256": "9aa6e26a08873402f5e63082f3eb803a0212e36a43081487af9e6fee03a5db80",
   "files": [
     {
       "path": ".gitattributes",
@@ -1033,7 +1033,7 @@
     },
     {
       "path": "dsh-electron/src/desktop-pet.mjs",
-      "sha256": "209c4e517f589ae7c385e11c207d35e3e0754b5382147bbdf1a34e98a8c6fd25"
+      "sha256": "b8f6751dc449dd134ccf16c9c43214c84ae7e65a8d39756cebfaa9f3efd656d2"
     },
     {
       "path": "dsh-electron/src/desktop-restart.mjs",

@@ -2,7 +2,7 @@
 // shell owns only this window: always on top, never focused, click-through
 // outside the pet, placed and remembered here. The page runs sandboxed in its
 // own session and talks to this module through a fixed preload API.
-import { BrowserWindow, Menu, ipcMain, powerMonitor, screen, session } from 'electron'
+import { BaseWindow, BrowserWindow, Menu, ipcMain, powerMonitor, screen, session } from 'electron'
 import { readFile, writeFile, mkdir, stat } from 'node:fs/promises'
 import { readFileSync } from 'node:fs'
 import { dirname, extname, isAbsolute, join, relative, sep } from 'node:path'
@@ -193,13 +193,15 @@ export function createDesktopPet({ packageRoot, preload, stateFile, locale, plat
     open(key) { if (ready && typeof key === 'string' && key.length <= 600) open(key) },
     menu() {
       if (!ready) return
-      const menu = Menu.buildFromTemplate(contextMenu()), target = window
-      // Windows closes a popup menu on an outside click only while its window is active.
-      if (platform === 'win32') {
-        target.setFocusable(true); target.focus()
-        menu.once('menu-will-close', () => { if (!target.isDestroyed()) target.setFocusable(false) })
-      }
-      menu.popup({ window: target })
+      const menu = Menu.buildFromTemplate(contextMenu())
+      if (platform !== 'win32') return menu.popup({ window })
+      // Windows closes a popup menu on an outside click only while its window is active. A
+      // short-lived owner takes activation and returns it to the previous app when destroyed;
+      // destroying it inside the callback crashes Electron after an outside click.
+      const { x, y } = screen.getCursorScreenPoint()
+      const owner = new BaseWindow({ x, y, width: 1, height: 1, frame: false, transparent: true, skipTaskbar: true, show: false })
+      owner.show(); owner.focus()
+      menu.popup({ window: owner, callback: () => setTimeout(() => owner.destroy()) })
     },
   }
   const listeners = Object.entries(handlers).map(([name, handle]) => {
