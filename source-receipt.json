@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-10T15:40:21.2858734Z",
-  "fileSetSHA256": "6a477cff0ab24b787d57e2da0698fc10985c3d0e95377a945eee87e4658366ec",
+  "createdAt": "2026-10-12T02:57:09.270Z",
+  "fileSetSHA256": "5fdb2cb40bfb481a1607b9661587eba10d4991f0b0bed5b7194079342ac23fec",
   "files": [
     {
       "path": ".gitattributes",
@@ -61,7 +61,7 @@
     },
     {
       "path": ".github/workflows/validate-pinned-dsh-source.yml",
-      "sha256": "955a356d85639e031e3cd385b5bd8196c2b5731e8def5a5bdedaac05e3f05f7a"
+      "sha256": "6c6d4f119d67b5640d39c8fc7c96638c8136c7158fc81cfa8ef00d7a0bfbc5e6"
     },
     {
       "path": ".github/workflows/validate-portable-extractor.yml",
@@ -457,7 +457,7 @@
     },
     {
       "path": "docs/USER_GUIDE.md",
-      "sha256": "354e48df9ac142172940c8b46cd847fd2c1e0d0a2dfbb0f0a7b64353eb8285ae"
+      "sha256": "4fd159c58ac20a9a59935732f09e205437db51a577db5fe193a513909d11c1a2"
     },
     {
       "path": "docs/数据导入.md",
@@ -945,7 +945,7 @@
     },
     {
       "path": "dsh-electron/scripts/build-shell.mjs",
-      "sha256": "ff3f604a7f238d1cfa94109964ff7c666703554634a9e079af1ac33b01de8ffa"
+      "sha256": "6166629531d700953ec7f2c660b823ba56da7d1b35f8ed68a58b129f51774183"
     },
     {
       "path": "dsh-electron/scripts/native-desktop-source.mjs",
@@ -1069,7 +1069,7 @@
     },
     {
       "path": "dsh-electron/src/native-vault.mjs",
-      "sha256": "d4f13c1a8a043c66fc8ae7523f35ad214b6efc73eaf61b7419121b8138190ac2"
+      "sha256": "1c61e3fd8e7efd2c887af24fc4d252bec020aad6398d9a65a8c0304994b597cf"
     },
     {
       "path": "dsh-electron/src/native-web-host.mjs",
@@ -1081,7 +1081,7 @@
     },
     {
       "path": "dsh-electron/src/product.mjs",
-      "sha256": "82cfd708d33a6d45b20992b7c3479fe2fddd240711acd0125264fb3de92e1bbb"
+      "sha256": "95c35415a2b4bed260dc394420487516d03ba6adb263fa1e733fa653f14a68e9"
     },
     {
       "path": "dsh-electron/src/runtime-access.mjs",
@@ -1110,6 +1110,10 @@
     {
       "path": "dsh-electron/src/window-visibility.mjs",
       "sha256": "91811031f900ed9d325d034266592be198c697613fc0cff8998d7882a8cfc5de"
+    },
+    {
+      "path": "dsh-electron/src/workspace-access.mjs",
+      "sha256": "e9d15b0084e16eccdf742bd9be7a87c69e506262b006650d039b407c7edce71b"
     },
     {
       "path": "dsh-electron/tests/alpha-update-migration.test.mjs",
@@ -1280,6 +1284,10 @@
       "sha256": "8a46d6ac863abd0eb16b1b7ef8a54e8b5072aef9aa34b6a6cb4dee93c1fc822e"
     },
     {
+      "path": "dsh-electron/tests/workspace-access.test.mjs",
+      "sha256": "d69738f1371a137db7393773cfe136a8143619da239d6ab51e4d62f9cf6504fd"
+    },
+    {
       "path": "dsh-electron/upstream-inputs-pinned-source.json",
       "sha256": "cd728ee62585b6fa0acdc5740de15507e6801c0a720a9bf1ff1dbc4e7d7e5fa9"
     },
@@ -1377,7 +1385,7 @@
     },
     {
       "path": "dsh-host/product-profile.mjs",
-      "sha256": "52e42086f3ed0e0810c8b1bcb5d4e7617057a1316831cd77454465b0f5c93432"
+      "sha256": "022be44e8825515efeb8a7c6eef13ad335f596a57a225c447821214fd17cac0c"
     },
     {
       "path": "dsh-host/publisher-bootstrap.mjs",
@@ -1477,7 +1485,7 @@
     },
     {
       "path": "dsh-host/test/product-profile.test.mjs",
-      "sha256": "1460559a623914002c979741bb75927c29fa462e228a67feffe549ac1182fd0c"
+      "sha256": "034400e1e9f41f819ad0a257ab9cc5d1684c8d0daa42d9f55c812200cff958f9"
     },
     {
       "path": "dsh-host/test/publisher-bootstrap.test.mjs",
@@ -2228,12 +2236,20 @@
       "sha256": "bbfd686c5b2c426d6b94ca392fe5d9dd7a86c34f08bd8e937b474761b179565f"
     },
     {
+      "path": "dsh-plugins/desktop-services/lib/workspace-access.js",
+      "sha256": "0d61f3487d86716b6b76f4b5bb37f37cbd4bd0f5e3e1dd940fe8c26ac93778ae"
+    },
+    {
       "path": "dsh-plugins/desktop-services/package.json",
-      "sha256": "d9a51cdc26d44eafc700d36a2bc8cc52e898adcc73f6c819f916b0f707748484"
+      "sha256": "183f5a1f74e0de2f547fe06a8c43ea0063a9b16a28f846fd406643909efa220c"
     },
     {
       "path": "dsh-plugins/desktop-services/test/attention-host.test.mjs",
       "sha256": "505cff8469dba832c3272f28c39653b48d91dc4c6be1a160af3a5568469e4baa"
+    },
+    {
+      "path": "dsh-plugins/desktop-services/test/workspace-access.test.mjs",
+      "sha256": "f7575410c01e7235525e3cbde25c6261c9096d05bdc2d729973165f4c17933fc"
     },
     {
       "path": "dsh-plugins/media-openai/lib/actions.js",

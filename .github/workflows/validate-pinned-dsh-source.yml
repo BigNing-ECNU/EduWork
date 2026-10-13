@@ -122,6 +122,8 @@ jobs:
           $env:EDUWORK_TEST_RUNTIME = "$env:RUNNER_TEMP/native-runtime"
           node --test core/scripts/test/distribution-config-patches.test.mjs
           if ($LASTEXITCODE) { throw 'Distribution config patch checks failed' }
+          node --test core/dsh-electron/tests/workspace-access.test.mjs core/dsh-plugins/desktop-services/test/workspace-access.test.mjs
+          if ($LASTEXITCODE) { throw 'Windows workspace permission repair checks failed' }
           node --test core/dsh-plugins/tool-browser/test/*.test.mjs
           if ($LASTEXITCODE) { throw 'Managed browser lifecycle and search configuration checks failed' }
           node --test core/scripts/test/session-search-runtime.test.mjs

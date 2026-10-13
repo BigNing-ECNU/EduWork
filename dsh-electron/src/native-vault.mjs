@@ -1,7 +1,7 @@
 import { createServer } from 'node:http'
 import { randomBytes, timingSafeEqual } from 'node:crypto'
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises'
-import { dirname } from 'node:path'
+import { dirname, isAbsolute } from 'node:path'
 
 const MAX_BODY = 512 * 1024
 const REF = /^[A-Za-z_][A-Za-z0-9_]{0,511}$/u
@@ -51,7 +51,7 @@ export function externalBrowserURL(value) {
   return url.href
 }
 
-export async function startNativeBridge({ vault, openExternal, openConfiguration, workbench, attention, pickDirectory }) {
+export async function startNativeBridge({ vault, openExternal, openConfiguration, workbench, attention, pickDirectory, workspaceAccess }) {
   const token = randomBytes(32).toString('base64url')
   const authorization = Buffer.from('Bearer ' + token)
   const sockets = new Set()
@@ -85,6 +85,11 @@ export async function startNativeBridge({ vault, openExternal, openConfiguration
           if (!response.destroyed) response.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify({ path }))
         } finally { response.removeListener('close', disconnected) }
         return
+      }
+      if (request.url === '/v1/desktop/workspace-access') {
+        if (!body || Object.keys(body).length !== 1 || typeof body.path !== 'string' || body.path.length > 32767 || !isAbsolute(body.path)) throw new Error('Invalid workspace path')
+        if (!workspaceAccess) { response.writeHead(501).end(); return }
+        response.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(await workspaceAccess(body.path))); return
       }
       if (request.url === '/v1/extensions/attention') {
         if (!attention) { response.writeHead(501).end(); return }
