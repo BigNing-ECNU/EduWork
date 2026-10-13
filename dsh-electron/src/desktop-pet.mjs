@@ -219,7 +219,7 @@ export function createDesktopPet({ packageRoot, preload, stateFile, locale, plat
         if (window && ready) { restore(); remember() }
         return { supported: true }
       }
-      if (body.enabled && !(await stat(join(packageRoot, 'skins', body.skin, 'skin.json'))).isFile()) throw new Error('Unknown pet skin')
+      if (body.enabled && !await stat(join(packageRoot, 'skins', body.skin, 'skin.json')).then(info => info.isFile(), () => false)) throw new Error('Unknown pet skin')
       settings = { ...body }
       failed = false
       sync()

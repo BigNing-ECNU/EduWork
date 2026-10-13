@@ -35,7 +35,7 @@ async function run() {
   const petWindow = () => BrowserWindow.getAllWindows().find(window => pet.owns(window))
   await wait(1000)
   const before = processes()
-  await assert.rejects(pet.handle(configure({ skin: 'missing' })))
+  await assert.rejects(pet.handle(configure({ skin: 'missing' })), /^Error: Unknown pet skin$/)
   assert.deepEqual(await pet.handle(configure()), { supported: true, shown: false })
   assert.equal(petWindow(), undefined, 'waits for the main window before showing')
   pet.start()
