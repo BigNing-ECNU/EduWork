@@ -191,7 +191,16 @@ export function createDesktopPet({ packageRoot, preload, stateFile, locale, plat
       remember()
     },
     open(key) { if (ready && typeof key === 'string' && key.length <= 600) open(key) },
-    menu() { if (ready) Menu.buildFromTemplate(contextMenu()).popup({ window }) },
+    menu() {
+      if (!ready) return
+      const menu = Menu.buildFromTemplate(contextMenu()), target = window
+      // Windows closes a popup menu on an outside click only while its window is active.
+      if (platform === 'win32') {
+        target.setFocusable(true); target.focus()
+        menu.once('menu-will-close', () => { if (!target.isDestroyed()) target.setFocusable(false) })
+      }
+      menu.popup({ window: target })
+    },
   }
   const listeners = Object.entries(handlers).map(([name, handle]) => {
     const listener = (event, value) => { if (owned(event)) handle(value) }

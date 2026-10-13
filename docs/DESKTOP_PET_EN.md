@@ -112,6 +112,7 @@ The built-in characters live in `dsh-plugins/desktop-pet/skins/`, are generated 
 ## Known issues
 
 - **macOS: through remote desktop, pressing the mouse on the pet brings EduWork to the front.** When a tool such as UU Remote controls the Mac, its clicks make macOS 27.0.1 activate the app that owns the clicked window. `prevent-activation.node` above does not stop this, and neither do AppKit's own non-activating panels. Using the Mac's own mouse or trackpad is not affected.
+- **Windows touchscreens: the first tap on the pet reaches the window underneath.** The pet window lets clicks through until the pointer is over the pet; a tap has no hover before it, so the first tap passes through to the window below. The pointer then rests on the pet, and further taps there work. Mouse use is not affected.
 
 ## Development and verification
 

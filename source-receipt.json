@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-13T07:52:29.054Z",
-  "fileSetSHA256": "fe956c9f314286956481114999263ba4821c2546160f22e369e23b3c059339c4",
+  "createdAt": "2026-10-13T09:34:30.569Z",
+  "fileSetSHA256": "13ac627e13f5e5a2ff034e93a5bdb2e6a3d994e7b34efd2053cb5785f6adafa6",
   "files": [
     {
       "path": ".gitattributes",
@@ -281,11 +281,11 @@
     },
     {
       "path": "docs/DESKTOP_PET_EN.md",
-      "sha256": "2264d2a085b08fedc8ebc2bb291e739237cf20dc30704b8ef28a05277ad8fc78"
+      "sha256": "212409fc4ed722c787d22ce93893db640a3ff198a594c00a46c54daa11440477"
     },
     {
       "path": "docs/DESKTOP_PET.md",
-      "sha256": "22191d9155de5268370bdbf18542244b536f24a41a02b5582fcab62ec8671b71"
+      "sha256": "f1a4a836abf1358791a58736fa5c4bcb184736a0447cf5e91bbacb599e1b32e6"
     },
     {
       "path": "docs/dev/desktop-source-and-install.md",
@@ -1033,7 +1033,7 @@
     },
     {
       "path": "dsh-electron/src/desktop-pet.mjs",
-      "sha256": "4aa885e2c30ce55aa76b440b11bc6a14e16f3c03142f89609901f29688ee4a7f"
+      "sha256": "209c4e517f589ae7c385e11c207d35e3e0754b5382147bbdf1a34e98a8c6fd25"
     },
     {
       "path": "dsh-electron/src/desktop-restart.mjs",
