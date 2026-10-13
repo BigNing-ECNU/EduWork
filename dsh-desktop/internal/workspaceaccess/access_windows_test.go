@@ -3,6 +3,8 @@
 package workspaceaccess
 
 import (
+	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -11,6 +13,34 @@ import (
 
 	"golang.org/x/sys/windows"
 )
+
+func TestMain(m *testing.M) {
+	// Hosted Windows runners may start tests with ownership/restore privileges
+	// already enabled. Exercise DACL access as an ordinary owner instead of
+	// allowing those privileges to bypass the deliberately restricted fixture.
+	// This affects only this test process; never enable a privilege or skip the
+	// actual access assertions when the fixture cannot be prepared.
+	var token windows.Token
+	if err := windows.OpenProcessToken(windows.CurrentProcess(), windows.TOKEN_ADJUST_PRIVILEGES|windows.TOKEN_QUERY, &token); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	for _, name := range []string{"SeBackupPrivilege", "SeRestorePrivilege", "SeTakeOwnershipPrivilege"} {
+		var luid windows.LUID
+		if err := windows.LookupPrivilegeValue(nil, windows.StringToUTF16Ptr(name), &luid); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+		state := windows.Tokenprivileges{PrivilegeCount: 1}
+		state.Privileges[0].Luid = luid
+		if err := windows.AdjustTokenPrivileges(token, false, &state, 0, nil, nil); err != nil && !errors.Is(err, windows.ERROR_NOT_ALL_ASSIGNED) {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+	}
+	token.Close()
+	os.Exit(m.Run())
+}
 
 func syntheticWorkspace(t *testing.T, extra string) string {
 	t.Helper()

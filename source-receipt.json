@@ -5,7 +5,7 @@
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
   "createdAt": "2026-10-12T02:57:09.270Z",
-  "fileSetSHA256": "9152b6c17d328d106393ef3ee512fe8b8b5a943d41d1e703331ca09142076f88",
+  "fileSetSHA256": "41ffd0967d04d5689845e50463aaefc439250f7135009f8f12938229f58d445c",
   "files": [
     {
       "path": ".gitattributes",
@@ -849,7 +849,7 @@
     },
     {
       "path": "dsh-desktop/internal/workspaceaccess/access_windows_test.go",
-      "sha256": "db916867cbb22041ea02090ff8dd3edccbe38dc109a76cd1484e9d418f46f295"
+      "sha256": "e3ab13c7d97f1c1986a5a43a30d2a48625606bbbef935f80379f44c752749a0d"
     },
     {
       "path": "dsh-desktop/internal/workspaceaccess/access_windows.go",
