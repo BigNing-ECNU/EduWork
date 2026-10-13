@@ -81,11 +81,11 @@ export function configureEduworkPaths() {
   try {
     ensureRuntimeAccess({ root: paths.root })
   } catch (error) {
-    desktopHostLog(`[desktop:runtime-access] ${error.message}\n`)
-    // A native dialog works even when the sandbox cannot start a renderer.
-    dialog.showErrorBox('无法启动 ' + settings.productName, `${error.message}\n\n诊断日志：${paths.logs}`)
-    app.exit(1)
-    throw error
+    // Most installs already let the sandbox read the runtime (0.2.9 ran there
+    // without this repair); a user who cannot change the ACL of an
+    // administrator-created folder must not be locked out. If the renderer
+    // really cannot start, the window phases report it with this log line.
+    desktopHostLog(`[desktop:runtime-access] continuing without repair: ${error.message}\n`)
   }
   applyDesktopBrand(app, process.platform, settings)
   app.setPath('userData', paths.userData)
