@@ -6,7 +6,8 @@ import { join } from 'node:path'
 // probe listens on them too. That exposes the bundle to the local network and
 // makes Windows ask to let the bundled Node through the firewall. Keep both on
 // loopback. A listener on another address still answers localhost on that
-// port, so the probe also connects. Retire this patch with a Remotion release
+// port, so the probe also connects; a probe that gets no answer in time counts
+// the port as taken and moves on. Retire this patch with a Remotion release
 // that binds the render server to loopback.
 export const remotionRendererPatch = Object.freeze({
   id: 'remotion-renderer-loopback-v1',
@@ -38,11 +39,13 @@ const edits = {
             });
 `, `            server.close(() => {
                 const socket = net_1.default.connect({ port: portToTry, host });
-                socket.on('connect', () => {
+                const settle = (result) => {
                     socket.destroy();
-                    resolve('unavailable');
-                });
-                socket.on('error', () => resolve('available'));
+                    resolve(result);
+                };
+                socket.setTimeout(1000, () => settle('unavailable'));
+                socket.on('connect', () => settle('unavailable'));
+                socket.on('error', () => settle('available'));
             });
 `],
   ],

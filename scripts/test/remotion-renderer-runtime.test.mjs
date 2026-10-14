@@ -2,10 +2,11 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { createRequire } from 'node:module'
-import { connect, createServer } from 'node:net'
+import { Socket, connect, createServer } from 'node:net'
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { networkInterfaces, tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { runInThisContext } from 'node:vm'
 import { patchRemotionRendererSource, remotionRendererPatch } from '../patch-remotion-renderer-runtime.mjs'
 
 const product = process.env.EDUWORK_TEST_PRODUCT
@@ -54,4 +55,29 @@ test('the packaged render server listens on loopback only', { skip: !product && 
   for (const { address } of Object.values(networkInterfaces()).flat().filter(row => !row.internal && !row.scopeid)) {
     assert.notEqual(await reach(server.offthreadPort, address), 'connected', address)
   }
+})
+
+test('a port probe that never gets an answer gives up and releases its socket', { skip: !product && 'Set EDUWORK_TEST_PRODUCT to an assembled product', timeout: 10_000 }, async () => {
+  const renderer = join(product, 'd/node_modules', remotionRendererPatch.package)
+  // Binding and closing succeed; the connection to port 3000 then neither connects nor fails.
+  const sockets = []
+  const net = {
+    createServer: () => ({ unref() {}, on() {}, listen: (_, done) => setImmediate(done), close: done => setImmediate(done) }),
+    connect: ({ port }) => {
+      const socket = new Socket()
+      sockets.push(socket)
+      if (port !== 3000) setImmediate(() => socket.emit('error', new Error('ECONNREFUSED')))
+      return socket
+    },
+  }
+  const module = { exports: {} }
+  const require = createRequire(join(renderer, 'dist/get-port.js'))
+  runInThisContext(`(function (exports, require, module) {${await readFile(join(renderer, 'dist/get-port.js'), 'utf8')}\n})`)(
+    module.exports, name => name === 'net' ? net : require(name), module)
+  const { getDesiredPort } = module.exports
+  const { port, unlockPort } = await getDesiredPort({ from: 3000, to: 3001, hostsToTry: ['127.0.0.1'] })
+  unlockPort()
+  assert.equal(port, 3001)
+  assert.equal(sockets.length, 2)
+  assert.ok(sockets.every(socket => socket.destroyed))
 })
