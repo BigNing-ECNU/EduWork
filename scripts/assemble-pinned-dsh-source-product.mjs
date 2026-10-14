@@ -12,6 +12,7 @@ import { loadDistributionBundleLayers, mergeDistributionConfigPatches } from './
 import { patchSessionSearchRuntime } from './patch-session-search-runtime.mjs'
 import { patchRemotionBundlerRuntime } from './patch-remotion-bundler-runtime.mjs'
 import { omitRuntimePackages } from './omit-runtime-packages.mjs'
+import { patchRemotionRendererRuntime } from './patch-remotion-renderer-runtime.mjs'
 import assert from 'node:assert/strict'
 
 const { values } = parseArgs({ options: Object.fromEntries(['runtime', 'source', 'dependencies', 'host', 'output'].map(key => [key, { type: 'string' }])) })
@@ -38,7 +39,7 @@ await mkdir(paths.output)
 console.log('Copying candidate Runtime into the isolated source product')
 await cp(paths.runtime, join(paths.output, 'd'), { recursive: true })
 const modules = join(paths.output, 'd/node_modules')
-const runtimePatches = [await patchSessionSearchRuntime(modules), ...await patchRemotionBundlerRuntime(modules)]
+const runtimePatches = [await patchSessionSearchRuntime(modules), ...await patchRemotionBundlerRuntime(modules), ...await patchRemotionRendererRuntime(modules)]
 const exists = async path => access(path).then(() => true, () => false)
 // Supplement only packages absent from the verified Runtime. These dependencies
 // come from source-probe's lock, and this output is explicitly not a release.
