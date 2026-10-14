@@ -11,7 +11,7 @@ import {mediaParameters} from '../lib/capabilities.js'
 test('capability discovery does not download a browser and silent video is an explicit selection',async()=>{
   const missing=await inspectMediaRuntime({environment:{}})
   assert.equal(missing.available,false)
-  assert.match(missing.reason,/浏览器/)
+  assert.match(missing.reason,/^本机媒体/)
   const invalid=await inspectMediaRuntime({environment:{DSH_MEDIA_NODE_ENV:'relative'}})
   assert.equal(invalid.available,false)
   assert.doesNotMatch(invalid.reason,/relative/)

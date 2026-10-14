@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-14T10:27:58.727Z",
-  "fileSetSHA256": "1112a91ff3b83fe9f143f8492e59702156a06c37766f2b71a08484fbe252faf9",
+  "createdAt": "2026-10-14T10:27:59.439Z",
+  "fileSetSHA256": "c6a4510e7b50fc6a4f4ea8c08456f69ce2a5275fb19bcc7fa8f185b492780377",
   "files": [
     {
       "path": ".gitattributes",
@@ -3761,7 +3761,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/test/media-runtime.test.mjs",
-      "sha256": "9dfca82d9a923e3f2b157b427e618246483d1a8ef517764d9c12c2389f81661d"
+      "sha256": "fd483969e469d1246a48f11da99b920e00ef99f50890f9838f9216ba6f1f4104"
     },
     {
       "path": "packages/dsh-knowledge-studio/test/media-timeline.test.mjs",
