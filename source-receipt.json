@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-13T13:59:25.945Z",
-  "fileSetSHA256": "2e20ccb731173c426ec857635a783f97647f313136785228a2e4091a5c8db180",
+  "createdAt": "2026-10-14T11:08:02.855Z",
+  "fileSetSHA256": "77e3b8c24220706c87f8823190ff6e4cbbe87ed14e06e082214c7ac34bffc9d6",
   "files": [
     {
       "path": ".gitattributes",
@@ -181,19 +181,19 @@
     },
     {
       "path": "config/desktop/eduwork.jsonc",
-      "sha256": "028bdeb4b6c05f3703f11d4bbc0ba65f23ee34ee8d9014eb99b838533fa4e10c"
+      "sha256": "fbbc035db1adfe91a3c4ae7a67223c724da0c1200a591cc802447c3209838868"
     },
     {
       "path": "config/desktop/examples/litellm.jsonc",
-      "sha256": "c74d259304d0fc21a0fcf926801925dfa46fbc6b5ded9de2b303127c78875e9f"
+      "sha256": "dc2beb361f49e48fbb12e7ba11de48d82dbe276c5b0ba59273dcba42d3a58f74"
     },
     {
       "path": "config/desktop/examples/media.jsonc",
-      "sha256": "a8184532d7e4853f30277aafd133d84049b9ffbd895d791c5827de84ce72f338"
+      "sha256": "c65f23950896f08ba8ed52108f12a0ea8bfdf9c87e52379eb574de8305fa61bb"
     },
     {
       "path": "config/desktop/examples/organization.jsonc",
-      "sha256": "7f0b945fe65287960d6e894fa5b434ecba2d56a1e0c6e9de3c5d26a63c57c8e5"
+      "sha256": "8c40a187a94bd958e95b1cd9859c5de9714a03262c94f116a2ac742fbcb310f7"
     },
     {
       "path": "config/desktop/examples/README_EN.md",
@@ -205,7 +205,7 @@
     },
     {
       "path": "config/desktop/examples/updates.jsonc",
-      "sha256": "4641e0096eff39b87aff7ec44008ae97bdbd7ca72383d31fa770b8b3eb652e40"
+      "sha256": "889bb0f970efcb2de0912bdfb110316ab242b46af62b153c206fd4601a89abc7"
     },
     {
       "path": "config/desktop/mac-updates.json",
@@ -281,11 +281,11 @@
     },
     {
       "path": "docs/DESKTOP_PET_EN.md",
-      "sha256": "212409fc4ed722c787d22ce93893db640a3ff198a594c00a46c54daa11440477"
+      "sha256": "b358dbe326af6b70f1ec7eb41d6b48574988d37734846003d1d2d9a380d65604"
     },
     {
       "path": "docs/DESKTOP_PET.md",
-      "sha256": "f1a4a836abf1358791a58736fa5c4bcb184736a0447cf5e91bbacb599e1b32e6"
+      "sha256": "be86f9847eb71d8e87df5a225914da400530688b3744f831688498312c1a7207"
     },
     {
       "path": "docs/dev/desktop-source-and-install.md",
@@ -1337,7 +1337,7 @@
     },
     {
       "path": "dsh-host/configuration-reference.mjs",
-      "sha256": "116dece396a5cf4521d49e811788af9009ed9f8f79ed0a1c8694bcbd116a249a"
+      "sha256": "444b186d043c33d3569a7bb09f65cd2c7a04550bc223db0f6d50ad66aa5f29a3"
     },
     {
       "path": "dsh-host/content-update-protocol.mjs",
@@ -2265,7 +2265,7 @@
     },
     {
       "path": "dsh-plugins/desktop-pet/lib/skin-files.js",
-      "sha256": "9afe7d0d19ef81563eea5f6a6a9d12885da19ae01dcb797cf1692e4445ada3d3"
+      "sha256": "b5b73ddddd423b4db8ecd2af6d22cfe65052ee1a2b39d5c1ed7ed698ed4259b0"
     },
     {
       "path": "dsh-plugins/desktop-pet/lib/skin.js",
@@ -2289,19 +2289,175 @@
     },
     {
       "path": "dsh-plugins/desktop-pet/package.json",
-      "sha256": "c620ecaa3321f9a728fb7d99a7ac7e68b375a97ef8a165e47ff0c57260532961"
+      "sha256": "23b77f6216d495fdcc4e40a2c9eb6d87a4fdedcf4a3ac2a3ed729a1ebe4f6232"
     },
     {
       "path": "dsh-plugins/desktop-pet/README_EN.md",
-      "sha256": "4f957daf303404f5fe8d68ccc88704ec6d1297e31926161b2dac2cf81e452749"
+      "sha256": "c08d8d89c9c3f3ed47273399ae51ee812e9f34ede5226f4541001093b40f3dd4"
     },
     {
       "path": "dsh-plugins/desktop-pet/README.md",
-      "sha256": "c5d3910d05346d80340ececc34a9c6a658177a3b60c43eb9b38805e99bc05016"
+      "sha256": "3ca2e9b2bad461758ed2b8c3d7567c764ba7a9353c09889f1d56f585e2b7777d"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/scripts/build-huashi-skin.mjs",
+      "sha256": "0a43cce057fa25f9de38f217baaa7c4bf207db8f1e9ff7861ec777fd192e7b48"
     },
     {
       "path": "dsh-plugins/desktop-pet/scripts/build-page-skins.mjs",
       "sha256": "5f45e8d6dd94a3e87e686c3ce9ba835ee4060f7ccc627cde641e2ec9eabc8e90"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/celebrate.png",
+      "sha256": "19409dac7980956fdb592225e881bc52e25bba6ee25b89ae5c98a4f794e2f002"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/drag.png",
+      "sha256": "f59176d72411c448433228619a473898c56bcc4de4f6dd7be88897bb67f09211"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/eat.png",
+      "sha256": "7d107c43a51243444835c821690dc3a54b35d373fed0f904ad7de09d537da463"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/failed.png",
+      "sha256": "c2903294dbbc03f8a35f31487edc4231d28abdcd8757f7a31f71aa194c44e36a"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/idle.png",
+      "sha256": "167c517559b67414a2ca63b7ca15e0fbb2f6f9b9f49881ba9f8872e18374831d"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/joy.png",
+      "sha256": "b30a1faf223a8eb5c816ef18a48498e7195524742427ad9399c031a4012d7a2d"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/peek.png",
+      "sha256": "d23e33924afe953b4d8281291eccd569a32370a4e3b145eb5000213ed6fe6949"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/play.png",
+      "sha256": "bb40c8fd15ae3bfcad401dff190a6700877d23c1a005636976d068ab70cfe7d5"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/skin.json",
+      "sha256": "12beaf9e524dbad906e0b56f49a52091033c1bda69ebc32bbcefbcbf4aca49d8"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/sleep.png",
+      "sha256": "0eaef41f9ab268c0f939d7b4a6c56d468cc0ea1bc70134e25fb927e08dbba96c"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/think.png",
+      "sha256": "a891b570b2f6e18e0b6d187eaee3deb4cfa816904753904685a5244821f27c9e"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/wait.png",
+      "sha256": "37236c6d38f07e6a1800aec6fcefd48c873f7a8662c235e59b202a7a02b33156"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/wake.png",
+      "sha256": "6a30558a92244f166c1bcdfabb759fbaa63e44a592ccfa6c498b1746eca6312e"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/welcome.png",
+      "sha256": "f968d7cdd771410c3276864995983523e5eeea6a7bfd2bb66d1134329979672e"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/dafeiyu/working.png",
+      "sha256": "4e88a4017012894b488d367fb3db4ec27012d41e32b512fd0b0581340e53edae"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/attention-1.svg",
+      "sha256": "c556668ae77f49741b922c527b30a6768aa7fef341ce81fc169251e94547ce60"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/attention-2.svg",
+      "sha256": "648b39df95a3fe12b289765ba09dada5c2d4311886e714d37a6e8e11611c1446"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/blink.svg",
+      "sha256": "28c4f14637f1ab9b4036f096190e0dfba78ab0046c6024dc82dba646c0a13957"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/drag.svg",
+      "sha256": "4c3ddede4f1b90a841edbacae9d00f170e6326b24fff87504947076e47a61ab0"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/failed-1.svg",
+      "sha256": "e94f2932e51dbee1a061893e10ebfb5bf8c1c92a67dd43c97680b6ee72075fb0"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/failed-2.svg",
+      "sha256": "9a78e91bdc463e77d1e8ee783df9d9a8b799dabfe579884ea89dbefc3550606b"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/greet-2.svg",
+      "sha256": "efa83726d57acc170691e14d41405a43dc39aaaddaf4e2b18e807eb0c2adf4f5"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/greet.svg",
+      "sha256": "4210f6723c06ff233697e51f0c3a6f91ff2e347a24fe315df08f2834eba9bffe"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/happy-1.svg",
+      "sha256": "658fcf7624287e2238d5c85655cf4f0db6db0beafc091e452a3348cd2c463b12"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/happy-2.svg",
+      "sha256": "b524dd9ce3769af70e59a78bb246790e1a9263527c855546653a792ed5861fc1"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/idle.svg",
+      "sha256": "5c522c0b038c9d89b4eb06928c99ee70161bbe5702c850d47f822e3882b9ebe4"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/peek.svg",
+      "sha256": "956d5d3a6d90d194b44a1df9ad68a227fd23ac2f2f2bd2fa6909c80e054ab673"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/react-1.svg",
+      "sha256": "86e83567a30c29598c534c1445abadd2c2da2f74e5ebcd97a4276e7af9c93e32"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/react-2.svg",
+      "sha256": "00ce2588f8bd9bae174bc471c07a5ecc440c308a9cfd84c1d99a676b74ba2483"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/react-3.svg",
+      "sha256": "7682ca088797dd37c480b1da75bda663f4eebc3c81b0b675731ebfe991ba82a3"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/skin.json",
+      "sha256": "40c23bd71458a27b5f73b6554de1e5384a2720036fd27504b04dea4a67c087af"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/sleep.svg",
+      "sha256": "9a27fbe83680ccc16c1c6aa2e9007df85fe832d901a919edaa846fd47800831d"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/think.svg",
+      "sha256": "ff75c17a69e458a25f9540bbea02b2fc53c3ce461d623b292fa4cf08aec5c6dc"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/wag-1.svg",
+      "sha256": "2e4390783a242ab2140d408c98a6e8c188d623514f045bba8227769384652431"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/wag-2.svg",
+      "sha256": "a4afe5bd58928478cb38bbb1a43e9a588df6d2ba9d4f604fdc1db061271b9b08"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/work-1.svg",
+      "sha256": "07806394416907d1c94313bb5732e800cc7f660de5d2740d3d8c78d02665828d"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/work-2.svg",
+      "sha256": "e66648d4f19f6071805d239f025e095d04323f14ad07d3483d1ee89241c026d5"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/skins/ecnu-huashi/work-3.svg",
+      "sha256": "3c545c96be201bc77d09610f0b30887ec4e67ffa96e56ee008796b76d4f19136"
     },
     {
       "path": "dsh-plugins/desktop-pet/skins/eduwork-page-blue/attention-1.svg",
@@ -2489,7 +2645,7 @@
     },
     {
       "path": "dsh-plugins/desktop-pet/skins/LICENSE",
-      "sha256": "163eb0866c7f358fe87b6fa37401dda952f06df1aa95abcaae07430dde8a674b"
+      "sha256": "84ad63611d4c334d20f90e5bb44b8ef8d566af5b916f9659d6d2f3d8fe827631"
     },
     {
       "path": "dsh-plugins/desktop-pet/src/client.js",
@@ -2497,7 +2653,7 @@
     },
     {
       "path": "dsh-plugins/desktop-pet/test/host.test.mjs",
-      "sha256": "0e9d2ee031d35b9a1313b0071682a4b278eba9a0710df8fd4c0fbf1157fa52c6"
+      "sha256": "7247da174b9fcde06bdd4bcb4c593fdac7b9ab440caff7844fcdce55d891dd67"
     },
     {
       "path": "dsh-plugins/desktop-pet/test/pet-state.test.mjs",
@@ -2505,7 +2661,7 @@
     },
     {
       "path": "dsh-plugins/desktop-pet/test/skin.test.mjs",
-      "sha256": "9803dec08988c33bc15d39459d832861190b4c19f076aa50e818c41ebd0730f8"
+      "sha256": "78a3bc7fcfc41144a3bb255dbcbb5c8e2e0e538a5593280d94bcf8183404c166"
     },
     {
       "path": "dsh-plugins/desktop-services/lib/attention.js",

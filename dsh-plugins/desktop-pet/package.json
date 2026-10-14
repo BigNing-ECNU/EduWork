@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs",
-    "build:skins": "node scripts/build-page-skins.mjs"
+    "build:skins": "node scripts/build-page-skins.mjs && node scripts/build-huashi-skin.mjs"
   },
   "dsh": {
     "client": {

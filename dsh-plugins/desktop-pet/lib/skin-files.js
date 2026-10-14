@@ -1,6 +1,6 @@
 import { lstat, readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { LIMITS, imageProblem, normalizeSkin } from './skin.js'
+import { DEFAULT_SKIN, LIMITS, imageProblem, normalizeSkin } from './skin.js'
 
 const MIME = { svg: 'image/svg+xml', png: 'image/png', webp: 'image/webp' }
 
@@ -36,7 +36,10 @@ export async function skinPreview(directory, skin) {
  */
 export async function readBuiltinSkins(root, warn) {
   const skins = new Map()
-  for (const entry of await readdir(root, { withFileTypes: true })) {
+  // The default character and its palettes come first, the others by id.
+  const rank = name => name.startsWith(DEFAULT_SKIN) ? 0 : 1
+  const entries = (await readdir(root, { withFileTypes: true })).sort((a, b) => rank(a.name) - rank(b.name) || a.name.localeCompare(b.name))
+  for (const entry of entries) {
     if (!entry.isDirectory()) continue
     const directory = join(root, entry.name)
     try {

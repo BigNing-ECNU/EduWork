@@ -12,25 +12,32 @@ const skins = fileURLToPath(new URL('../skins/', import.meta.url))
 const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><rect width="10" height="10"/></svg>'
 const minimal = (extra = {}) => ({ schemaVersion: 1, id: 'mini', name: 'Mini', frame: { width: 192, height: 208 }, animations: { idle: { image: 'idle.svg' } }, ...extra })
 
-test('built-in skins have every state, safe images and a generated source', async t => {
+const LICENSES = { 'eduwork-page': 'CC-BY-4.0', 'eduwork-page-blue': 'CC-BY-4.0', 'ecnu-huashi': 'LicenseRef-ECNU-Mascot', dafeiyu: 'MIT' }
+// Skins drawn by a script in this package; dafeiyu uses the whale-girl PNG sprites.
+const GENERATED = { 'build-page-skins.mjs': ['eduwork-page', 'eduwork-page-blue'], 'build-huashi-skin.mjs': ['ecnu-huashi'] }
+
+test('built-in skins have every state, safe images and a recorded license', async () => {
   const found = await readBuiltinSkins(skins, message => assert.fail(message))
-  assert.deepEqual([...found.keys()].sort(), ['eduwork-page', 'eduwork-page-blue'])
+  assert.deepEqual([...found.keys()], ['eduwork-page', 'eduwork-page-blue', 'dafeiyu', 'ecnu-huashi'])
   for (const { skin, preview } of found.values()) {
-    for (const name of BUILTIN_ANIMATIONS) assert.ok(skin.animations[name], name)
-    assert.equal(skin.license, 'CC-BY-4.0')
-    assert.match(preview.src, /^data:image\/svg\+xml;base64,/)
+    for (const name of BUILTIN_ANIMATIONS) assert.ok(skin.animations[name], `${skin.id} ${name}`)
+    assert.equal(skin.license, LICENSES[skin.id])
+    assert.match(preview.src, /^data:image\/(?:svg\+xml|png);base64,/)
   }
-  // The committed SVG files are exactly the generator's output.
+})
+
+test('generated skins are exactly their scripts\' output', async t => {
   const output = await mkdtemp(join(tmpdir(), 'pet-skins-'))
   t.after(() => rm(output, { recursive: true, force: true }))
-  const script = await readFile(new URL('../scripts/build-page-skins.mjs', import.meta.url), 'utf8')
   await mkdir(join(output, 'scripts'))
-  await writeFile(join(output, 'scripts/build-page-skins.mjs'), script)
-  execFileSync(process.execPath, [join(output, 'scripts/build-page-skins.mjs')], { stdio: 'ignore' })
-  for (const id of found.keys()) {
-    const files = await readdir(join(skins, id))
-    assert.deepEqual((await readdir(join(output, 'skins', id))).sort(), files.sort())
-    for (const name of files) assert.ok((await readFile(join(skins, id, name))).equals(await readFile(join(output, 'skins', id, name))), `${id}/${name}`)
+  for (const [script, ids] of Object.entries(GENERATED)) {
+    await writeFile(join(output, 'scripts', script), await readFile(new URL(`../scripts/${script}`, import.meta.url)))
+    execFileSync(process.execPath, [join(output, 'scripts', script)], { stdio: 'ignore' })
+    for (const id of ids) {
+      const files = await readdir(join(skins, id))
+      assert.deepEqual((await readdir(join(output, 'skins', id))).sort(), files.sort())
+      for (const name of files) assert.ok((await readFile(join(skins, id, name))).equals(await readFile(join(output, 'skins', id, name))), `${id}/${name}`)
+    }
   }
 })
 

@@ -26,7 +26,9 @@ test('the Host plugin sends validated settings, lists built-in skins and closes 
   const status = await ctx.desktopPet.status()
   assert.equal(status.supported, true)
   assert.deepEqual(status.skins.map(skin => [skin.id, skin.name['zh-CN'], skin.author]), [
-    ['eduwork-page', '小页', 'EduWork contributors'], ['eduwork-page-blue', '小页（蓝）', 'EduWork contributors']])
+    ['eduwork-page', '小页', 'EduWork contributors'], ['eduwork-page-blue', '小页（蓝）', 'EduWork contributors'],
+    ['dafeiyu', '大肥鱼', 'ZipZipPipe (character); whale-girl (vlln)'],
+    ['ecnu-huashi', '小花狮', 'EduWork contributors (drawing); character © East China Normal University']])
   assert.match(status.skins[0].preview.src, /^data:image\/svg\+xml;base64,/)
   assert.deepEqual(await ctx.desktopPet.resetPosition(), { supported: true })
   assert.deepEqual(calls.at(-1), { action: 'reset-position' })

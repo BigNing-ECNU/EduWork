@@ -4,7 +4,7 @@
 
 Electron 客户端可以在桌面上显示一只小宠物。它随会话状态变化：会话进行中会思考，完成或需要你处理时头上出现标记，点击它打开对应会话。桌宠和[桌面通知](DESKTOP_NOTIFICATIONS.md)使用同一份事项数据，只是多了一个展示入口；授权和回答仍在应用内完成。
 
-公版默认关闭，在“设置 → 桌面宠物”中开启。内置形象是纸页精灵“小页”，有红、蓝两种配色。
+公版默认关闭，在“设置 → 桌面宠物”中开启。内置四款形象：纸页精灵“小页”（红、蓝两种配色）、DeepSeek 社区二创的鲸鱼娘“大肥鱼”和华东师范大学吉祥物“小花狮”。所有形象共用同一套窗口、状态、动画播放和点击逻辑，切换形象后行为不变。
 
 ## 状态
 
@@ -45,7 +45,7 @@ Electron 客户端可以在桌面上显示一只小宠物。它随会话状态�
   "desktop": {
     "pet": {
       "enabled": false,         // 公版默认关闭
-      "skin": "eduwork-page",   // 内置：eduwork-page（红）、eduwork-page-blue（蓝）
+      "skin": "eduwork-page",   // 内置：eduwork-page、eduwork-page-blue、dafeiyu、ecnu-huashi
       "size": 100,              // 大小百分比，50–200，10 的倍数；100 约 128 像素高
       "bubbles": true,          // 状态变化时显示简短气泡
       "sleep": true             // 离开或长时间没有活动时打盹
@@ -100,7 +100,15 @@ Electron 客户端可以在桌面上显示一只小宠物。它随会话状态�
 - 素材约定：第 0 帧是静止姿势；各动画脚底对齐、角色占画面比例一致；角色朝左，向右拖动时自动镜像。
 - 安全：SVG 必须有 `viewBox`，不能含脚本、`foreignObject`、事件属性、DOCTYPE 或指向文件外部的引用；PNG 和 WebP 按文件头核对类型，单张不超过 4096×4096。整包不超过 20 MB，单段动画不超过 64 帧、30 fps。文字只按纯文本显示。
 
-内置形象位于 `dsh-plugins/desktop-pet/skins/`，由 `dsh-plugins/desktop-pet/scripts/build-page-skins.mjs` 生成，美术按 CC BY 4.0 发布。
+内置形象位于 `dsh-plugins/desktop-pet/skins/`，每款一个目录，许可与署名见 [`skins/LICENSE`](../dsh-plugins/desktop-pet/skins/LICENSE)：
+
+| 形象 | ID | 来源 | 许可 |
+| --- | --- | --- | --- |
+| 小页（红、蓝） | `eduwork-page`、`eduwork-page-blue` | EduWork contributors，`scripts/build-page-skins.mjs` 生成 | CC BY 4.0 |
+| 大肥鱼 | `dafeiyu` | 角色由 ZipZipPipe 创作；使用 [whale-girl](https://github.com/vlln/whale-girl) 的 PNG 动作立绘，每段动画一张精灵图 | MIT |
+| 小花狮 | `ecnu-huashi` | EduWork contributors 绘制，`scripts/build-huashi-skin.mjs` 生成 | 形象版权归华东师范大学 |
+
+形象由贡献者通过 Pull Request 添加和维护，应用内不提供导入。添加一款形象：在 `skins/<id>/` 放入 `skin.json` 和图片，提供上面列出的全部动画；在 `skins/LICENSE` 写明来源、署名和许可；更新插件测试里的形象列表。内置形象按严格模式校验，缺动画或图片不合规时该形象不会出现。
 
 ## 平台说明
 
