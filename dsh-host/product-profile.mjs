@@ -40,7 +40,7 @@ function mergeConfig(base = {}, extra = {}) {
   return result
 }
 
-export async function prepareProductProfile({ product, home, shell, pluginConfig = {}, patches = [], enterpriseProfile, userConfig, configurationOwnership = 'user', managedContent = {} }) {
+export async function prepareProductProfile({ product, home, shell, pluginConfig = {}, patches = [], enterpriseProfile, userConfig, configurationOwnership = 'user', managedContent = {}, platform = process.platform }) {
   if(!['user','publisher'].includes(configurationOwnership))throw new Error('Unknown desktop configuration ownership')
   product = await canonical(product); home = await canonical(home)
   if (!['electron', 'wails'].includes(shell)) throw new Error('Unknown desktop shell')
@@ -146,6 +146,8 @@ export async function prepareProductProfile({ product, home, shell, pluginConfig
       { insert: [
         { id: 'eduwork-directory-picker', name: '@eduwork/desktop-services/lib/directory-picker.js' },
         { id: 'eduwork-directory-flow', name: '@deepseek-ai/dsh-client-ui-directory-picker-native' },
+        // Diagnoses actual Windows sandbox grant failures without scanning workspaces.
+        ...platform === 'win32' ? [{ id: 'eduwork-workspace-access', name: '@eduwork/desktop-services/lib/workspace-access.js' }] : [],
       ] },
     ] : [],
     { id: 'credentials', disabled: true },

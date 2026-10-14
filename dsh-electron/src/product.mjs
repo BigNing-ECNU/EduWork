@@ -29,7 +29,7 @@ import { applyHostGitIdentity } from './host-git-identity.mjs'
 import { installFromDmg } from './installer-cleanup.mjs'
 import { startupFailurePage } from './startup-failure.mjs'
 import { startupPage } from './startup-page.mjs'
-import { ensureRuntimeAccess } from './runtime-access.mjs'
+import { repairWorkspaceAccess } from './workspace-access.mjs'
 
 export function configureWindowNavigation(window) {
   attachExternalNavigation(window.webContents, url => shell.openExternal(url), () => {
@@ -78,15 +78,9 @@ export function configureEduworkPaths() {
   mkdirSync(paths.userData, { recursive: true })
   mkdirSync(paths.logs, { recursive: true })
   desktopHostLog(`\n[desktop] Starting ${settings.productVersion} (electron) ${new Date().toISOString()}\n`)
-  try {
-    ensureRuntimeAccess({ root: paths.root })
-  } catch (error) {
-    desktopHostLog(`[desktop:runtime-access] ${error.message}\n`)
-    // A native dialog works even when the sandbox cannot start a renderer.
-    dialog.showErrorBox('无法启动 ' + settings.productName, `${error.message}\n\n诊断日志：${paths.logs}`)
-    app.exit(1)
-    throw error
-  }
+  // Successful sandboxed startup is the capability check. Lack of WRITE_DAC
+  // or one expected ACE does not prove Electron cannot run. Installation and
+  // update still provision runtime access; ordinary startup never changes ACLs.
   applyDesktopBrand(app, process.platform, settings)
   app.setPath('userData', paths.userData)
   app.setAppLogsPath(paths.logs)
@@ -216,6 +210,9 @@ async function prepareDesktop() {
     publish: value => notificationAdapter.publish(value), dismiss: () => notificationAdapter.dismiss(), changed: () => refreshTray() })
   const bridge = await startNativeBridge({ vault, pickDirectory: pickDesktopDirectory, openExternal: url => shell.openExternal(url),
     attention: body => taskNotifications.handle(body),
+    workspaceAccess: process.platform === 'win32' ? (path, signal) => repairWorkspaceAccess(path, { productName: settings.productName, root: paths.root,
+      protectedRoots: [paths.home, paths.userData], out: join(paths.logs, 'workspace-access'), log: desktopHostLog, signal,
+      showMessageBox: options => mainWindow && !mainWindow.isDestroyed() ? dialog.showMessageBox(mainWindow, options) : dialog.showMessageBox(options) }) : undefined,
     workbench: async action => portableUpdates && action !== 'diagnostics' ? portableUpdates.action(action) : workbenchAction({ action, config: paths.config, version: settings.productVersion, shell: 'electron', logs: paths.logs, root: paths.root, product: paths.product, home: paths.home,
       updateStatus: action === 'diagnostics' && portableUpdates ? await portableUpdates.action('status').catch(error=>({error:error.message})) : undefined }),
     openConfiguration: target => openConfigurationFile(paths.config, target, path => shell.openPath(path),
