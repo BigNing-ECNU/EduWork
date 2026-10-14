@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-12T02:57:09.270Z",
-  "fileSetSHA256": "41ffd0967d04d5689845e50463aaefc439250f7135009f8f12938229f58d445c",
+  "createdAt": "2026-10-14T02:06:39.102Z",
+  "fileSetSHA256": "f60a44731dafd4338a2b16c891b6cc0a36e6074b00eda85e74b4e78330e5eb9d",
   "files": [
     {
       "path": ".gitattributes",
@@ -61,7 +61,7 @@
     },
     {
       "path": ".github/workflows/validate-pinned-dsh-source.yml",
-      "sha256": "6c6d4f119d67b5640d39c8fc7c96638c8136c7158fc81cfa8ef00d7a0bfbc5e6"
+      "sha256": "a4277ed9a95fa69c30abfbf29ef52dad5d82013fc6040b0517aa06d266c7f3ff"
     },
     {
       "path": ".github/workflows/validate-portable-extractor.yml",
@@ -5149,7 +5149,7 @@
     },
     {
       "path": "scripts/assemble-pinned-dsh-source-product.mjs",
-      "sha256": "8b3a14a5e4d809d9e777d620b009bdffa60f91df4795f5a6ab812d5dd1d3db9f"
+      "sha256": "8e6ca4746da769f19ea3c504ee23758f22046acd23b93de4dd501ad2fd0f4fa8"
     },
     {
       "path": "scripts/audit-eduwork-distribution.mjs",
@@ -5460,6 +5460,10 @@
       "sha256": "7131a5ab4a618b6443d412f0f378d5f59d8e2fcb3055e645233ca070de66b774"
     },
     {
+      "path": "scripts/patch-remotion-renderer-runtime.mjs",
+      "sha256": "08c6c647ef43842d46851c311a8ffd6f2cbfc14238002a78db375c67155c2d9b"
+    },
+    {
       "path": "scripts/patch-session-search-runtime.mjs",
       "sha256": "278319a8b63529af814f44e33dc47ee92a31138d475df8ef0af7715cc0046094"
     },
@@ -5638,6 +5642,10 @@
     {
       "path": "scripts/test/portable-product-links.test.mjs",
       "sha256": "054d8f6db01fd48e69e107d2dd0afd368c496fd63212dcc6a1247197294b0017"
+    },
+    {
+      "path": "scripts/test/remotion-renderer-runtime.test.mjs",
+      "sha256": "0124f8e4d12286e9ee46ddbe7b3381e1bbab6b34e862db07ea31a4f9b3e1bedb"
     },
     {
       "path": "scripts/test/session-search-runtime.test.mjs",
