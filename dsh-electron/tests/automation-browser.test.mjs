@@ -5,16 +5,18 @@ import test, { after } from 'node:test'
 import assert from 'node:assert/strict'
 import { spawn } from 'node:child_process'
 import { once } from 'node:events'
-import { cp, mkdtemp, rm, symlink } from 'node:fs/promises'
+import { cp, mkdtemp, readFile, rm, symlink } from 'node:fs/promises'
 import { createServer } from 'node:http'
 import { createRequire, registerHooks } from 'node:module'
 import { tmpdir } from 'node:os'
 import { basename, dirname, join, resolve } from 'node:path'
 
+const stubs = {
+  electron: 'export const app = {}, BrowserWindow = {}, dialog = {}, Menu = {}, session = {}',
+  ws: 'export class WebSocketServer {}',
+}
 registerHooks({ resolve(specifier, context, next) {
-  return specifier === 'electron'
-    ? { url: 'data:text/javascript,export const app = {}, BrowserWindow = {}, Menu = {}, session = {}', shortCircuit: true }
-    : next(specifier, context)
+  return stubs[specifier] ? { url: `data:text/javascript,${stubs[specifier]}`, shortCircuit: true } : next(specifier, context)
 } })
 const { automationBrowserMode, chromeUserAgent } = await import('../src/automation-browser.mjs')
 
@@ -39,15 +41,17 @@ const skip = !(electron && shell && runtime)
 const live = { skip, timeout: 120_000 }
 const playwright = () => createRequire(join(runtime, 'package.json'))('playwright-core').chromium
 const pages = {
-  '/': '<title>Home</title><p>body text</p><iframe src="/frame"></iframe><button id="popup" onclick="window.open(\'/popup\')">sign in</button>',
+  '/': '<title>Home</title><p>body text</p><iframe src="/frame"></iframe><button id="popup" onclick="window.open(\'/popup\')">sign in</button><a id="file" href="/file">file</a>',
   '/frame': '<p>inside frame</p>',
   '/popup': '<title>Popup</title>',
   '/set': '<title>set</title>',
   '/read': '<script>document.write(document.cookie)</script>',
+  '/file': 'file body',
 }
 async function site(t) {
   const server = createServer((request, response) => {
-    const headers = { 'content-type': 'text/html; charset=utf-8', ...request.url === '/set' ? { 'set-cookie': 'login=kept; Max-Age=86400; Path=/' } : {} }
+    const headers = { 'content-type': 'text/html; charset=utf-8', ...request.url === '/set' ? { 'set-cookie': 'login=kept; Max-Age=86400; Path=/' } : {},
+      ...request.url === '/file' ? { 'content-disposition': 'attachment; filename="file.txt"' } : {} }
     response.writeHead(pages[request.url] ? 200 : 404, headers).end(pages[request.url] ?? '')
   }).listen(0, '127.0.0.1')
   await once(server, 'listening')
@@ -94,8 +98,24 @@ test('Playwright drives the built shell over its debugging pipe', live, async t 
   assert.deepEqual([...(await page.screenshot({ fullPage: true })).subarray(1, 4)], [...Buffer.from('PNG')])
   assert.equal((await page.pdf({ format: 'A4' })).subarray(0, 5).toString(), '%PDF-')
   assert.equal(await page.evaluate(() => Notification.requestPermission()), 'denied')
+  // Chrome answers null when the client dismisses the dialog, as Playwright does by default.
+  assert.equal(await page.evaluate(() => prompt('name')), null)
   const second = await browser.newPage()
   assert.notEqual(second.context(), page.context())
+})
+
+test('downloads follow the client\'s choice', live, async t => {
+  const origin = await site(t)
+  const browser = await playwright().launch({ executablePath: await desktop(), headless: true })
+  t.after(() => browser.close())
+  for (const acceptDownloads of [false, true]) {
+    const page = await browser.newPage({ acceptDownloads })
+    await page.goto(origin + '/')
+    const [download] = await Promise.all([page.waitForEvent('download'), page.click('#file')])
+    assert.equal(download.suggestedFilename(), 'file.txt')
+    if (acceptDownloads) assert.equal(await readFile(await download.path(), 'utf8'), 'file body')
+    else assert.match(await download.failure(), /acceptDownloads/u)
+  }
 })
 
 test('a persistent profile keeps its sign-in across launches', live, async t => {

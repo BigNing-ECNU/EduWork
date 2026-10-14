@@ -5,10 +5,11 @@
 // webContents.debugger. Playwright talks over --remote-debugging-pipe. Remotion
 // only speaks WebSocket and gets a loopback endpoint behind a random path.
 // Chromium's own debugging handlers are never started.
-import { app, BrowserWindow, Menu, session } from 'electron'
-import { createHash, randomBytes, randomUUID } from 'node:crypto'
-import { createServer } from 'node:http'
+import { app, BrowserWindow, dialog, Menu, session } from 'electron'
+import { randomBytes, randomUUID } from 'node:crypto'
 import { Socket } from 'node:net'
+import { join } from 'node:path'
+import { WebSocketServer } from 'ws'
 
 // Nothing launches the desktop app over a debugging pipe. A debugging port
 // alone stays the developer's Electron inspector; Remotion marks automation.
@@ -19,6 +20,8 @@ export function automationBrowserMode(commandLine) {
 }
 
 const allowedPermissions = new Set(['clipboard-sanitized-write', 'fullscreen'])
+// What a visible page may ask its user for, as Chrome would prompt.
+const askablePermissions = { 'clipboard-read': '读取剪贴板', geolocation: '获取你的位置', media: '使用摄像头或麦克风', notifications: '显示通知' }
 const id = () => randomUUID().replaceAll('-', '').toUpperCase()
 
 // Chrome's reduced user agent: no Electron or product tokens for sites to key on.
@@ -45,15 +48,43 @@ export function runAutomationBrowser(mode) {
   app.on('select-client-certificate', (event, _contents, _url, _list, callback) => { event.preventDefault(); callback() })
 
   const contexts = new Map(), targets = new Map(), sessions = new Map(), children = new Map(), streams = new Map()
+  // Playwright may set a context's download behavior before that context exists.
+  const downloadBehavior = new Map(), downloads = new Map()
   const defaultContext = id()
   let autoAttach = false, discover = false, send = () => {}, closing
 
-  const prepare = ses => {
+  const prepare = (ses, contextId) => {
     ses.setUserAgent(userAgent)
-    ses.setPermissionRequestHandler((_contents, permission, callback) => callback(allowedPermissions.has(permission)))
-    ses.setPermissionCheckHandler((_contents, permission) => allowedPermissions.has(permission))
+    // A visible page asks its user and the answer holds for that site until the
+    // browser closes. Background pages are denied, as in headless Chrome.
+    const answers = new Map()
+    ses.setPermissionRequestHandler((contents, permission, callback, { requestingUrl }) => {
+      const { origin, host } = new URL(requestingUrl), key = `${origin} ${permission}`
+      if (allowedPermissions.has(permission)) return callback(true)
+      if (answers.has(key)) return callback(answers.get(key))
+      const window = BrowserWindow.fromWebContents(contents)
+      if (headless || !askablePermissions[permission] || !window?.isVisible()) return callback(false)
+      void dialog.showMessageBox(window, { type: 'question', message: `${host} 想要${askablePermissions[permission]}`, buttons: ['允许', '拒绝'], defaultId: 1, cancelId: 1 })
+        .then(({ response }) => { answers.set(key, response === 0); callback(response === 0) })
+    })
+    ses.setPermissionCheckHandler((_contents, permission, origin) => allowedPermissions.has(permission) || answers.get(`${origin} ${permission}`) === true)
     ses.setDevicePermissionHandler(() => false)
-    ses.on('will-download', (_event, item) => item.cancel())
+    // Downloads follow the client's Browser.setDownloadBehavior and report the
+    // same events as Chrome. Anything but an explicit allow is cancelled.
+    ses.on('will-download', (_event, item, contents) => {
+      const { behavior, downloadPath, eventsEnabled } = downloadBehavior.get(contextId) ?? {}
+      const guid = randomUUID()
+      const progress = state => eventsEnabled && send({ method: 'Browser.downloadProgress', params: { guid, totalBytes: item.getTotalBytes(), receivedBytes: item.getReceivedBytes(), state } })
+      if (eventsEnabled) {
+        const page = [...targets.values()].find(page => page.window.webContents === contents)
+        send({ method: 'Browser.downloadWillBegin', params: { frameId: page?.targetId, guid, url: item.getURL(), suggestedFilename: item.getFilename() } })
+      }
+      item.on('updated', () => progress('inProgress'))
+      item.once('done', (_event, state) => { downloads.delete(guid); progress(state === 'completed' ? 'completed' : 'canceled') })
+      if (behavior !== 'allow' && behavior !== 'allowAndName') return item.cancel()
+      downloads.set(guid, item)
+      item.setSavePath(join(downloadPath, behavior === 'allowAndName' ? guid : item.getFilename()))
+    })
     return ses
   }
   const context = contextId => {
@@ -95,6 +126,9 @@ export function runAutomationBrowser(mode) {
   async function adopt(window, contextId, openerId) {
     const contents = window.webContents
     contents.debugger.attach('1.3')
+    // Electron's window.prompt throws. Answer as Chrome does when the client
+    // dismisses every dialog, which Playwright does without a handler.
+    await contents.debugger.sendCommand('Page.addScriptToEvaluateOnNewDocument', { source: 'window.prompt = () => null', runImmediately: true })
     const { targetInfo } = await contents.debugger.sendCommand('Target.getTargetInfo')
     const page = { targetId: targetInfo.targetId, window, contextId, openerId, sessions: new Set() }
     targets.set(page.targetId, page)
@@ -189,8 +223,10 @@ export function runAutomationBrowser(mode) {
       case 'Browser.close': void close(); return {}
       case 'Browser.getWindowForTarget': { const { window } = target(params.targetId); return { windowId: window.id, bounds: bounds(window) } }
       case 'Browser.setWindowBounds': return setBounds(BrowserWindow.fromId(params.windowId), params.bounds)
-      // Downloads are always cancelled and site permissions denied (see prepare).
-      case 'Browser.setDownloadBehavior': case 'Browser.cancelDownload': case 'Browser.grantPermissions': case 'Browser.resetPermissions': return {}
+      case 'Browser.setDownloadBehavior': downloadBehavior.set(params.browserContextId ?? defaultContext, params); return {}
+      case 'Browser.cancelDownload': downloads.get(params.guid)?.cancel(); return {}
+      // Site permissions are decided in prepare.
+      case 'Browser.grantPermissions': case 'Browser.resetPermissions': return {}
       case 'Target.setAutoAttach':
         autoAttach = params.autoAttach
         if (autoAttach) for (const page of targets.values()) if (page.sessions.size === 0) attach(page)
@@ -203,7 +239,7 @@ export function runAutomationBrowser(mode) {
       case 'Target.getTargets': return { targetInfos: [...targets.values()].map(info) }
       case 'Target.createBrowserContext': {
         const contextId = id()
-        contexts.set(contextId, { session: prepare(session.fromPartition(`automation-${contextId}`)) })
+        contexts.set(contextId, { session: prepare(session.fromPartition(`automation-${contextId}`), contextId) })
         return { browserContextId: contextId }
       }
       case 'Target.disposeBrowserContext': {
@@ -280,7 +316,7 @@ export function runAutomationBrowser(mode) {
       app.dock?.hide()
       Menu.setApplicationMenu(Menu.buildFromTemplate([{ role: 'appMenu' }, { role: 'editMenu' }, { role: 'windowMenu' }]))
     } else Menu.setApplicationMenu(null)
-    contexts.set(defaultContext, { session: prepare(session.defaultSession) })
+    contexts.set(defaultContext, { session: prepare(session.defaultSession, defaultContext) })
     // Chrome opens its startup pages unless told not to; callers wait for them.
     if (!commandLine.hasSwitch('no-startup-window')) {
       const urls = process.argv.slice(1).filter(arg => /^(?:about|https?|data):/u.test(arg))
@@ -314,60 +350,23 @@ function pipeTransport(dispatch, close) {
 // The random path keeps other local processes and web pages out; any
 // browser-originated request carries an Origin header and is refused.
 function websocketTransport(dispatch, close) {
-  const token = randomBytes(24).toString('hex')
-  const server = createServer((_request, response) => { response.writeHead(404).end() })
-  let client, frames = Buffer.alloc(0), fragments = []
-  const frame = (opcode, payload) => {
-    const length = payload.length
-    const header = Buffer.alloc(length < 126 ? 2 : length < 65536 ? 4 : 10)
-    header[0] = 0x80 | opcode
-    if (length < 126) header[1] = length
-    else if (length < 65536) { header[1] = 126; header.writeUInt16BE(length, 2) }
-    else { header[1] = 127; header.writeBigUInt64BE(BigInt(length), 2) }
-    client.write(Buffer.concat([header, payload]))
-  }
-  const receive = () => {
-    while (frames.length >= 2) {
-      const fin = frames[0] & 0x80, opcode = frames[0] & 0x0f
-      let length = frames[1] & 0x7f, offset = 2
-      if (length === 126) { if (frames.length < 4) return; length = frames.readUInt16BE(2); offset = 4 }
-      else if (length === 127) { if (frames.length < 10) return; length = Number(frames.readBigUInt64BE(2)); offset = 10 }
-      if (!(frames[1] & 0x80)) return client.destroy() // clients must mask
-      if (frames.length < offset + 4 + length) return
-      const mask = frames.subarray(offset, offset + 4)
-      const payload = Buffer.from(frames.subarray(offset + 4, offset + 4 + length))
-      for (let index = 0; index < payload.length; index++) payload[index] ^= mask[index & 3]
-      frames = frames.subarray(offset + 4 + length)
-      if (opcode === 0x8) return client.end()
-      if (opcode === 0x9) { frame(0xa, payload); continue }
-      if (opcode === 0xa) continue
-      fragments.push(payload)
-      if (!fin) continue
-      const message = Buffer.concat(fragments).toString('utf8')
-      fragments = []
-      void dispatch(JSON.parse(message))
-    }
-  }
-  server.on('upgrade', (request, socket) => {
-    const key = request.headers['sec-websocket-key']
-    if (client || request.url !== `/devtools/browser/${token}` || request.headers.origin !== undefined || typeof key !== 'string') return socket.destroy()
-    client = socket
-    clearTimeout(idle)
-    const accept = createHash('sha1').update(key + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11').digest('base64')
-    socket.write(`HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: ${accept}\r\n\r\n`)
-    socket.setNoDelay(true)
-    socket.on('data', chunk => { frames = Buffer.concat([frames, chunk]); receive() })
-    socket.on('close', () => void close())
-    socket.on('error', () => socket.destroy())
-  })
+  const path = `/devtools/browser/${randomBytes(24).toString('hex')}`
+  let client
   // A renderer whose parent died before connecting must not linger.
   const idle = setTimeout(() => void close(), 60_000)
   return {
-    send: message => { if (client && !client.destroyed) frame(0x1, Buffer.from(JSON.stringify(message))) },
+    send: message => client?.send(JSON.stringify(message)),
     ready: () => new Promise((resolve, reject) => {
+      const server = new WebSocketServer({ host: '127.0.0.1', port: 0, path, verifyClient: ({ origin }) => !client && origin === undefined })
+      server.on('connection', socket => {
+        client = socket
+        clearTimeout(idle)
+        socket.on('message', data => void dispatch(JSON.parse(data)))
+        socket.on('close', () => void close())
+      })
       server.once('error', reject)
-      server.listen(0, '127.0.0.1', () => {
-        process.stderr.write(`\nDevTools listening on ws://127.0.0.1:${server.address().port}/devtools/browser/${token}\n`)
+      server.once('listening', () => {
+        process.stderr.write(`\nDevTools listening on ws://127.0.0.1:${server.address().port}${path}\n`)
         resolve()
       })
     }),

@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-14T03:11:56.642Z",
-  "fileSetSHA256": "bf794bc7195cb72e1ede49c10145ce2a9d9972f1abe52abb13419a9b8ef73087",
+  "createdAt": "2026-10-14T03:14:22.433Z",
+  "fileSetSHA256": "41501534cf7a16f265a0fc3582cef049d1112016c292c4eb50b5c81694536376",
   "files": [
     {
       "path": ".gitattributes",
@@ -965,7 +965,7 @@
     },
     {
       "path": "dsh-electron/scripts/build-shell.mjs",
-      "sha256": "4ddf566e768cb8564d474998e2ad7fef475046632bc0c020b51137f0bd061115"
+      "sha256": "9fb0e122899a7b25e004bcf7232e7ae42cbff29a4049a3a8785dc7294918abba"
     },
     {
       "path": "dsh-electron/scripts/native-desktop-source.mjs",
@@ -1017,7 +1017,7 @@
     },
     {
       "path": "dsh-electron/src/automation-browser.mjs",
-      "sha256": "7fb558fe90c5b01ebccf402b08b138fdd895af06d8b48f333bd456b8c985bbfe"
+      "sha256": "75fdd8403f8f3346067dccdb539d787d80d57f8867e54f264cb51d8c70c248ae"
     },
     {
       "path": "dsh-electron/src/configuration-files.mjs",
@@ -1149,7 +1149,7 @@
     },
     {
       "path": "dsh-electron/tests/automation-browser.test.mjs",
-      "sha256": "b925c7c336b3243668161a752de71aeaef075f8fea8cab9f1cdeff4e76ba55a3"
+      "sha256": "52709b67de876a024daec827bafc48fa5b5eab5a82d8fc74310835dc7ca41466"
     },
     {
       "path": "dsh-electron/tests/configuration-files.test.mjs",
