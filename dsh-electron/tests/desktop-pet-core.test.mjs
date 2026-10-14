@@ -9,16 +9,20 @@ const geometry = petGeometry({ width: 192, height: 208 }, 100)
 const configure = (extra = {}) => ({ action: 'configure', enabled: true, skin: 'eduwork-page', frame: { width: 192, height: 208 }, size: 100, bubbles: true, sleep: true, ...extra })
 
 test('geometry: 100% is 128 DIP tall, the window leaves room for bubble and badge', () => {
-  assert.deepEqual(geometry, { window: { width: 220, height: 198 }, pet: { x: 51, y: 64, width: 118, height: 128 } })
+  assert.deepEqual(geometry, { window: { width: 220, height: 232 }, pet: { x: 51, y: 64, width: 118, height: 128 } })
   assert.deepEqual(petGeometry({ width: 192, height: 208 }, 200).pet, { x: 40, y: 64, width: 236, height: 256 })
   assert.equal(petGeometry({ width: 400, height: 100 }, 50).window.width, 336)
 })
 
-test('placement stays in the work area, rounds fractional pointers and tucks at outer edges', () => {
-  assert.deepEqual(placePet({ x: 100.6, y: 400.4 }, geometry, [primary]), { x: 101, y: 400, tucked: null, display: 1 })
-  // Never under the menu bar or the Dock: the whole window stays vertically inside.
-  assert.equal(placePet({ x: 100, y: -50 }, geometry, [primary]).y, 33)
-  assert.equal(placePet({ x: 100, y: 2000 }, geometry, [primary]).y, 33 + 870 - 198)
+test('placement keeps the pet in the work area, rounds fractional pointers and tucks at outer edges', () => {
+  assert.deepEqual(placePet({ x: 100.6, y: 400.4 }, geometry, [primary]), { x: 101, y: 400, tucked: null, bubble: 'above', display: 1 })
+  // The pet reaches the menu bar and the Dock but never goes under them; only the
+  // window's empty margins do. At the top the bubble moves below the pet.
+  const top = placePet({ x: 100, y: -50 }, geometry, [primary])
+  assert.equal(top.y + geometry.pet.y, 33)
+  assert.equal(top.bubble, 'below')
+  assert.equal(placePet({ x: 100, y: 33 + 34 - 64 }, geometry, [primary]).bubble, 'above')
+  assert.equal(placePet({ x: 100, y: 2000 }, geometry, [primary]).y + geometry.pet.y + geometry.pet.height, 33 + 870)
   // A small overshoot clamps; a larger one tucks and leaves 42% of the pet visible.
   assert.equal(placePet({ x: -70, y: 300 }, geometry, [primary]).x, -51)
   const left = placePet({ x: -120, y: 300 }, geometry, [primary])
@@ -40,8 +44,8 @@ test('positions are remembered per display and fall back to the primary corner',
   assert.deepEqual(saved, { schemaVersion: 1, display: 2, dx: 488, dy: 500, tucked: null })
   assert.deepEqual(restorePetPosition(saved, geometry, [primary, right], primary), placed)
   const corner = defaultPetPosition(geometry, primary)
-  assert.deepEqual(restorePetPosition(saved, geometry, [primary], primary), { ...corner, tucked: null, display: 1 })
-  assert.deepEqual(restorePetPosition(null, geometry, [primary], primary), { ...corner, tucked: null, display: 1 })
+  assert.deepEqual(restorePetPosition(saved, geometry, [primary], primary), { ...corner, tucked: null, bubble: 'above', display: 1 })
+  assert.deepEqual(restorePetPosition(null, geometry, [primary], primary), { ...corner, tucked: null, bubble: 'above', display: 1 })
   const tucked = placePet({ x: 1450, y: 300 }, geometry, [primary])
   assert.equal(restorePetPosition(savedPetPosition(tucked, [primary]), geometry, [primary], primary).tucked, 'right')
   const back = untuckPetPosition(tucked, geometry, [primary])

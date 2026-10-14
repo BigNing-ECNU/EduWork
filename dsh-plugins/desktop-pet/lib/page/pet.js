@@ -19,7 +19,7 @@ const COPY = {
 let skin, layout, settings, locale, copy
 const images = new Map(), rasters = new Map()
 let status = deriveStatus([], 0), running = 0, acknowledged
-let away = false, tucked = null, dragging = false, direction = 0
+let away = false, tucked = null, bubbleSide = 'above', dragging = false, direction = 0
 let shot = null, interlude = null, interludeAt = 0, pool = ''
 let view = null, blink = null, blinkAt = 0
 let workingUntil = 0, lastActivity = Date.now()
@@ -136,11 +136,15 @@ function say(text, ms = 4000, about = null) {
   bubble.textContent = text
   bubble.hidden = false
   bubbleUntil = Date.now() + ms
+  placeBubble()
+}
+// Above the pet, or below it when the pet sits at the top of the screen.
+function placeBubble() {
   const center = layout.pet.x + layout.pet.width / 2
   bubble.style.left = tucked === 'right' ? '4px' : tucked === 'left' ? 'auto' : `${center}px`
   bubble.style.right = tucked === 'left' ? '4px' : 'auto'
   bubble.style.transform = tucked ? 'none' : ''
-  bubble.style.top = `${Math.max(2, layout.pet.y - 34)}px`
+  bubble.style.top = `${bubbleSide === 'below' ? layout.pet.y + layout.pet.height + 6 : Math.max(2, layout.pet.y - 34)}px`
 }
 function announce() {
   const { state, target, count } = status
@@ -295,6 +299,6 @@ api.on('presence', value => {
   }
   schedule()
 })
-api.on('placement', value => { tucked = value.tucked; schedule() })
+api.on('placement', value => { ({ tucked, bubble: bubbleSide } = value); placeBubble(); schedule() })
 api.on('pointer', value => { if (!pointer && skin) setInteractive(value.inside && hit(value.x, value.y)) })
 api.on('drag-direction', value => { if (value !== direction) { direction = value; schedule() } })

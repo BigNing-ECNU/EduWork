@@ -26,7 +26,7 @@ When several conversations have items, the first matching row wins:
 
 ## Using it
 
-- **Drag** the pet to any display. On release it moves back inside that display's usable area; it never stays off screen or covers the menu bar or taskbar.
+- **Drag** the pet to any display. On release it moves back inside that display's usable area; it never stays off screen or covers the menu bar or taskbar, but it can sit right against them. At the top of the screen the bubble shows below the pet.
 - **Tuck** it by dragging past the outer left or right edge of the screens: it slides in and leaves part of itself visible. Clicking a tucked pet opens the conversation when it shows "!" or "?", and otherwise pulls it back onto the screen.
 - **Right-click** for: open the app, new conversation, pending items, hide pet, pet settings. "Pet settings" opens Settings → Desktop pet directly.
 - **Hide pet** (隐藏桌宠) in the tray or context menu turns off the switch in Settings, which shows the same state; choose **Show pet** (显示桌宠) in the tray to turn it back on.

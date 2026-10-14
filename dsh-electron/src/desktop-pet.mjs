@@ -46,20 +46,17 @@ export function createDesktopPet({ packageRoot, preload, stateFile, locale, plat
   const send = (channel, value) => { if (window && ready) window.webContents.send(`eduwork-pet:${channel}`, value) }
   const displays = () => screen.getAllDisplays()
 
-  function place(target, options) {
-    placed = placePet(target, geometry, displays(), options)
+  function move(next) {
+    placed = next
     window.setPosition(placed.x, placed.y)
-    send('placement', { tucked: placed.tucked })
+    send('placement', { tucked: placed.tucked, bubble: placed.bubble })
   }
+  const place = (target, options) => move(placePet(target, geometry, displays(), options))
   function remember() {
     saved = savedPetPosition(placed, displays())
     void mkdir(dirname(stateFile), { recursive: true }).then(() => writeFile(stateFile, JSON.stringify(saved))).catch(error => log(`position not saved: ${error.message}`))
   }
-  const restore = () => {
-    placed = restorePetPosition(saved, geometry, displays(), screen.getPrimaryDisplay())
-    window.setPosition(placed.x, placed.y)
-    send('placement', { tucked: placed.tucked })
-  }
+  const restore = () => move(restorePetPosition(saved, geometry, displays(), screen.getPrimaryDisplay()))
 
   // Forwarded mouse moves can miss a quick first click; the cursor is also read
   // here, every 50 ms near the pet and every 500 ms otherwise.
@@ -90,7 +87,9 @@ export function createDesktopPet({ packageRoot, preload, stateFile, locale, plat
       backgroundColor: '#00000000', resizable: false, minimizable: false, maximizable: false, fullscreenable: false, hasShadow: false,
       skipTaskbar: true, alwaysOnTop: true, focusable: false,
       // A panel is the only window type shown above other apps' full-screen spaces.
-      ...mac ? { type: 'panel', hiddenInMissionControl: true } : {},
+      // The empty bubble margin may reach under the menu bar; without
+      // enableLargerThanScreen macOS pushes a frameless window below it.
+      ...mac ? { type: 'panel', hiddenInMissionControl: true, enableLargerThanScreen: true } : {},
       webPreferences: { preload, partition: 'eduwork-pet', sandbox: true, contextIsolation: true, nodeIntegration: false, spellcheck: false, devTools: false } })
     const own = window
     preventActivation?.(own)
@@ -185,9 +184,7 @@ export function createDesktopPet({ packageRoot, preload, stateFile, locale, plat
     },
     untuck() {
       if (!ready || !placed.tucked) return
-      placed = untuckPetPosition(placed, geometry, displays())
-      window.setPosition(placed.x, placed.y)
-      send('placement', { tucked: null })
+      move(untuckPetPosition(placed, geometry, displays()))
       remember()
     },
     open(key) { if (ready && typeof key === 'string' && key.length <= 600) open(key) },

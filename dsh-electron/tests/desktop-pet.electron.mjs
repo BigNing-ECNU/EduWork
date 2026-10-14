@@ -45,8 +45,8 @@ async function run() {
   assert.equal(window.isAlwaysOnTop(), true)
   assert.equal(window.isFocusable(), false)
   assert.equal(window.isFocused(), false)
-  assert.deepEqual([bounds.width, bounds.height], [220, 198])
-  assert.ok(bounds.y >= area.y && bounds.y + bounds.height <= area.y + area.height, 'inside the work area')
+  assert.deepEqual([bounds.width, bounds.height], [220, 232])
+  assert.ok(bounds.y + 64 >= area.y && bounds.y + 64 + 128 <= area.y + area.height, 'the pet is inside the work area')
   report.window = { bounds, workArea: area }
   const page = script => window.webContents.executeJavaScript(script)
   const center = { x: 110, y: 128 }
@@ -93,7 +93,7 @@ async function run() {
   pet.retry()
   await until(() => petWindow()?.isVisible(), 'shown again after a failure')
   await pet.handle(configure({ size: 150 }))
-  await until(() => petWindow()?.isVisible() && petWindow().getBounds().height === 262, 'resized')
+  await until(() => petWindow()?.isVisible() && petWindow().getBounds().height === 296, 'resized')
   await pet.handle(configure({ enabled: false }))
   assert.equal(petWindow(), undefined)
   await until(() => processes().join() === before.join(), 'pet processes ended', 15_000)

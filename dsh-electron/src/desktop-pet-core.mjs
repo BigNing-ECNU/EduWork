@@ -17,9 +17,9 @@ export function validatePetRequest(body) {
   return body
 }
 
-// 100% is 128 DIP tall. The window adds room above the pet for the bubble and
-// at the sides for the badge, and never covers more than that.
-const BASE_HEIGHT = 128, MARGIN = { side: 40, top: 64, bottom: 6 }, MIN_WIDTH = 220
+// 100% is 128 DIP tall. The window adds room above and below the pet for the
+// bubble and at the sides for the badge, and never covers more than that.
+const BASE_HEIGHT = 128, MARGIN = { side: 40, top: 64, bottom: 40 }, MIN_WIDTH = 220, BUBBLE = 34
 export function petGeometry(frame, size) {
   const height = Math.round(BASE_HEIGHT * size / 100), width = Math.round(frame.width * height / frame.height)
   const window = { width: Math.max(width + MARGIN.side * 2, MIN_WIDTH), height: height + MARGIN.top + MARGIN.bottom }
@@ -38,26 +38,27 @@ function neighbour(displays, display, side, y) {
 }
 
 /**
- * Final window position for a requested one (screen DIP, integers). The
- * window stays vertically inside the nearest work area; the pet stays
- * horizontally inside it unless it is pushed past an outer edge, where it
- * tucks in and leaves 42% visible.
+ * Final window position for a requested one (screen DIP, integers). The pet
+ * stays inside the nearest work area, while the window's empty margins may
+ * reach past it, so the pet can sit right under the menu bar or on the
+ * taskbar. Pushed past an outer side edge, it tucks in and leaves 42% visible.
+ * The bubble goes below the pet when there is no room above it.
  */
 export function placePet({ x, y }, geometry, displays, { allowTuck = true } = {}) {
-  const { window, pet } = geometry
+  const { pet } = geometry
   const center = { x: Math.round(x + pet.x + pet.width / 2), y: Math.round(y + pet.y + pet.height / 2) }
   const display = nearest(displays, center), area = display.workArea
-  const top = Math.min(Math.max(Math.round(y), area.y), area.y + area.height - window.height)
+  const petY = Math.min(Math.max(Math.round(y) + pet.y, area.y), area.y + area.height - pet.height)
   const left = Math.round(x) + pet.x, right = area.x + area.width
   let tucked = null, petX = Math.min(Math.max(left, area.x), right - pet.width)
   if (allowTuck && left < area.x - pet.width * TUCK_TRIGGER && !neighbour(displays, display, 'left', center.y)) { tucked = 'left'; petX = Math.round(area.x - pet.width * (1 - TUCK_VISIBLE)) }
   if (allowTuck && left + pet.width > right + pet.width * TUCK_TRIGGER && !neighbour(displays, display, 'right', center.y)) { tucked = 'right'; petX = Math.round(right - pet.width * TUCK_VISIBLE) }
-  return { x: petX - pet.x, y: top, tucked, display: display.id }
+  return { x: petX - pet.x, y: petY - pet.y, tucked, bubble: petY - BUBBLE < area.y ? 'below' : 'above', display: display.id }
 }
 
 export function defaultPetPosition(geometry, primary) {
   const area = primary.workArea
-  return { x: area.x + area.width - geometry.pet.x - geometry.pet.width - 32, y: area.y + area.height - geometry.window.height - 24 }
+  return { x: area.x + area.width - geometry.pet.x - geometry.pet.width - 32, y: area.y + area.height - geometry.pet.y - geometry.pet.height - 30 }
 }
 
 /** Saved per display, relative to its work area, so resolution changes keep it near. */

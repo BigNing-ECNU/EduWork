@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-14T11:08:02.855Z",
-  "fileSetSHA256": "77e3b8c24220706c87f8823190ff6e4cbbe87ed14e06e082214c7ac34bffc9d6",
+  "createdAt": "2026-10-14T11:08:11.529Z",
+  "fileSetSHA256": "3d83b5acbc8f7184b1786a9276986fa92e4d3ddbfc5e380da8ab4b8c879c4b6a",
   "files": [
     {
       "path": ".gitattributes",
@@ -281,11 +281,11 @@
     },
     {
       "path": "docs/DESKTOP_PET_EN.md",
-      "sha256": "b358dbe326af6b70f1ec7eb41d6b48574988d37734846003d1d2d9a380d65604"
+      "sha256": "8e2eea25bddfa33137ec43a90b0d1ac80c7353fb2f4eacb9ca3f97df5953a845"
     },
     {
       "path": "docs/DESKTOP_PET.md",
-      "sha256": "be86f9847eb71d8e87df5a225914da400530688b3744f831688498312c1a7207"
+      "sha256": "1d76d2f18eaa87e967b3ec461d3addc7389c1c259b1bc48b4a94590bab802ff4"
     },
     {
       "path": "docs/dev/desktop-source-and-install.md",
@@ -1029,11 +1029,11 @@
     },
     {
       "path": "dsh-electron/src/desktop-pet-core.mjs",
-      "sha256": "aa20c24bcf0b50e393debe58ec1524908c618a00a515aebf65cce809c03271df"
+      "sha256": "434a105c029669c3ded6163df40621eab7d33657f1f31d7c4884b33a975c2cfa"
     },
     {
       "path": "dsh-electron/src/desktop-pet.mjs",
-      "sha256": "0e5560f4af8a00029b0c0b921dd4bad589d3c0a2de67da6cf79560d83eb2d35f"
+      "sha256": "438d0ded829bc99755eca192a36db80cbee5bf934910e2e6321949ae3bbe4e90"
     },
     {
       "path": "dsh-electron/src/desktop-restart.mjs",
@@ -1161,11 +1161,11 @@
     },
     {
       "path": "dsh-electron/tests/desktop-pet-core.test.mjs",
-      "sha256": "08110cdcea13ba35aaec569e1d3401bd8d276ff51f6ce7e9281d16b63d69adc5"
+      "sha256": "987c94fae1a2d962915dad5b64a8c762a25529eae6f5a83c2fc77877958686e1"
     },
     {
       "path": "dsh-electron/tests/desktop-pet.electron.mjs",
-      "sha256": "77eec1659ea2fb6e56824f0424c21aa09e027f3116b05cfcd03f79d8fee20442"
+      "sha256": "203c931fa9acb299b5c52b74a34c4c04ce518b3e2b3a0fa5640a1f8b4e76d0d6"
     },
     {
       "path": "dsh-electron/tests/desktop-restart.test.mjs",
@@ -2257,7 +2257,7 @@
     },
     {
       "path": "dsh-plugins/desktop-pet/lib/page/pet.js",
-      "sha256": "b14622a209edc9a08817d48dcde8c844efb5a5a009428dd2bc23578ff60a6b8a"
+      "sha256": "b33c2c8cbba04b2861d79942b02c02218dc2a1fa74ce252a304408cd27c8f96a"
     },
     {
       "path": "dsh-plugins/desktop-pet/lib/pet-state.js",
