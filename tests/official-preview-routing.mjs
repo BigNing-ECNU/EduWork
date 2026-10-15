@@ -20,6 +20,9 @@ const studio = join(source, 'packages/dsh-knowledge-studio')
 const shared = join(studio, 'packages/artifact-services')
 const manifest = JSON.parse(await readFile(join(shared, 'package.json'), 'utf8'))
 const alias = Object.fromEntries(Object.entries(manifest.exports).map(([key, path]) => [manifest.name + (key === '.' ? '' : key.slice(1)), join(shared, path)]))
+// The real ModuleLoader supplies one React instance. A package-local npm ci
+// must not cause the synthetic component harness to bundle a second instance.
+for (const name of ['react', 'react/jsx-runtime', 'react-dom', 'react-dom/client']) alias[name] = require.resolve(name)
 for (const name of ['path', 'url', 'process']) alias[`node:${name}`] = join(studio, `src/client/shims/${name}.ts`)
 const harness = `
 import React from 'react'; import {createRoot} from 'react-dom/client';
@@ -86,4 +89,7 @@ try {
   assert.deepEqual(errors, [])
   await writeFile(join(output, 'result.json'), JSON.stringify({ passed: true, scope: 'synthetic component and public API contracts', checks: ['official document ownership', 'session-scoped Unicode and escaped paths', 'old tab replacement', 'media retry', 'late response discarded on navigation', 'Studio opens saved file without re-exporting', 'speaker notes retained'], errors }, null, 2))
   console.log('Official preview routing checks passed')
+} catch (error) {
+  await writeFile(join(output, 'failure.json'), JSON.stringify({ message: error.message, errors }, null, 2))
+  throw error
 } finally { await browser.close() }

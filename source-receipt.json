@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-15T02:03:12.074Z",
-  "fileSetSHA256": "f802d605b287d6a4ed91651a76834731f92b2ea1b366d078e07a9d8726c5a034",
+  "createdAt": "2026-10-15T02:05:48.000Z",
+  "fileSetSHA256": "b1504522d034161f8719db0d93fe600d6e293de5920ff5cb89f38fc67cff6df6",
   "files": [
     {
       "path": ".gitattributes",
@@ -5825,7 +5825,7 @@
     },
     {
       "path": "tests/official-preview-routing.mjs",
-      "sha256": "a4644b8d6e75eab6d328411d3b4f2ce6e1126f360586565d8c69946bb6e19a2d"
+      "sha256": "a2655e85e4289e58efbc5c34ddd126aa8062348084e344f0442df9c8fd06e9fe"
     },
     {
       "path": "tests/package-maintenance.test.mjs",
