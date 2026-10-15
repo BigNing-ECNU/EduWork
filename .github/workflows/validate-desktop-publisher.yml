@@ -42,9 +42,11 @@ on:
       - 'scripts/publish-windows-release.mjs'
       - 'scripts/prepare-pinned-dsh-product.mjs'
       - 'scripts/macos-update-feed.mjs'
+      - 'scripts/macos-update-delta.mjs'
       - 'tests/windows-package-preflight.test.mjs'
       - 'tests/desktop-build-plan.test.mjs'
       - 'scripts/test/macos-update-feed.test.mjs'
+      - 'scripts/test/macos-update-delta.test.mjs'
       - 'tests/desktop-candidate-publication.test.mjs'
       - 'scripts/verify-generic-first-launch.mjs'
       - 'tests/generic-first-launch.test.mjs'
@@ -85,4 +87,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24.18.0'
-      - run: node --test tests/windows-package-preflight.test.mjs tests/desktop-build-plan.test.mjs tests/desktop-candidate-publication.test.mjs tests/eduwork-windows-release.test.mjs tests/generic-first-launch.test.mjs scripts/test/macos-update-feed.test.mjs
+      - run: node --test tests/windows-package-preflight.test.mjs tests/desktop-build-plan.test.mjs tests/desktop-candidate-publication.test.mjs tests/eduwork-windows-release.test.mjs tests/generic-first-launch.test.mjs scripts/test/macos-update-feed.test.mjs scripts/test/macos-update-delta.test.mjs
