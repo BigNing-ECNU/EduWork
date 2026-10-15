@@ -76,7 +76,7 @@ function activity(now) {
   lastActivity = now
 }
 
-function choose(now) {
+function pose(now) {
   if (dragging) return { name: 'drag', mirror: direction > 0 }
   if (shot && now < shot.until) return shot
   shot = null
@@ -84,8 +84,13 @@ function choose(now) {
   const state = base(now)
   if (state === 'attention') return { name: 'attention' }
   if (asleep(now, state)) return { name: 'sleep' }
+}
+function choose(now) {
+  const fixed = pose(now)
+  // Interludes restart from scratch afterwards; no deadline outlives its pose.
+  if (fixed) { pool = ''; interlude = null; interludeAt = 0; return fixed }
   // Rest on the first animation of the state and now and then insert another.
-  const kind = state === 'working' ? 'working' : 'idle', list = skin.states[kind]
+  const kind = base(now) === 'working' ? 'working' : 'idle', list = skin.states[kind]
   if (pool !== kind || interlude && now >= interlude.until) { pool = kind; interlude = null; interludeAt = 0 }
   if (!interlude && list.length > 1) {
     interludeAt ||= now + between(kind === 'working' ? PACE.workGap : PACE.idleGap, Math.random)
@@ -173,7 +178,9 @@ function tick() {
   if (shot) waits.push(shot.until - now)
   waits.push(interlude ? interlude.until - now : interludeAt ? interludeAt - now : Infinity)
   if (workingUntil > now) waits.push(workingUntil - now)
-  if (settings.sleep && base(now) === 'idle') waits.push(lastActivity + PACE.sleepAfter - now)
+  // Only a sleep still ahead wakes the clock; once asleep, activity reschedules it.
+  const sleepAt = lastActivity + PACE.sleepAfter
+  if (settings.sleep && base(now) === 'idle' && sleepAt > now) waits.push(sleepAt - now)
   const wait = Math.min(...waits)
   if (wait < Infinity) timer = setTimeout(tick, Math.min(Math.max(16, wait), 2 ** 31 - 1))
 }
