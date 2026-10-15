@@ -13,7 +13,7 @@
 // product's own transcription catalog, which only exists once a product is
 // installed. `install` compares the lock against that catalog instead, keeping
 // `prepare` independent of any product.
-import { chmod, rm } from 'node:fs/promises'
+import { chmod, readdir, rm } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
@@ -193,6 +193,11 @@ export async function installMacosReleaseInputs({ inputs, product } = {}) {
   // link-preserving copy is required; the link-rejecting one is for payloads
   // that must not depend on anything outside themselves.
   await copyTreePreservingLinks(join(inputs, 'python'), join(resources, 'p'))
+  // The standalone interpreter links CPython statically and its extension
+  // modules resolve symbols from it; the shared library only serves embedding.
+  const embedding = (await readdir(join(resources, 'p/lib'))).filter(name => /^libpython\d+\.\d+\.dylib$/.test(name))
+  if (embedding.length !== 1) throw new Error('Expected one CPython embedding library in the macOS Python runtime')
+  await rm(join(resources, 'p/lib', embedding[0]))
   await copyFileTo(join(inputs, 'office-python'), join(resources, 'office-python'))
   await chmod(join(resources, 'office-python'), 0o755)
   await copyFileTo(join(inputs, 'speech/whisper-cli'), join(resources, 'a/whisper-cli'))
