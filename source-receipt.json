@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-15T06:33:14.644Z",
-  "fileSetSHA256": "80980823baf9d881ffeebc9aa432a71edf41cb7dd69a5ff9eef2bdaf6edfc3dd",
+  "createdAt": "2026-10-15T06:39:33.301Z",
+  "fileSetSHA256": "50e52677518edd8ee74b8d07991b85a6f56218ba06b32443ff5355514f3cfdca",
   "files": [
     {
       "path": ".gitattributes",
@@ -273,19 +273,19 @@
     },
     {
       "path": "docs/DESKTOP_NOTIFICATIONS_EN.md",
-      "sha256": "ff9c4870a031cd4f2530bfa9079620900b492c11cb0477f54f902366aa77a2ee"
+      "sha256": "bb311dfe53b52cd626cf696c4082abec734c225ce9f247871c9ecd2c0efa2656"
     },
     {
       "path": "docs/DESKTOP_NOTIFICATIONS.md",
-      "sha256": "a1c6ef5b3a25933ddf48502d91b58a16a402b686c35145d12f0f3e99b29436ff"
+      "sha256": "c23ff797e0e92630417bbc2b7ce3f2af4039a01c6d3c658b07372d39686104ac"
     },
     {
       "path": "docs/DESKTOP_PET_EN.md",
-      "sha256": "8e2eea25bddfa33137ec43a90b0d1ac80c7353fb2f4eacb9ca3f97df5953a845"
+      "sha256": "ed93b9c9d2134966ee6106c83b7c68641e230804e0ebb4b8e6182d54da0000a8"
     },
     {
       "path": "docs/DESKTOP_PET.md",
-      "sha256": "1d76d2f18eaa87e967b3ec461d3addc7389c1c259b1bc48b4a94590bab802ff4"
+      "sha256": "481eaa6292d8f24549392315249fe628c2e24233545e40ec5e872d8e8478af85"
     },
     {
       "path": "docs/dev/desktop-source-and-install.md",
@@ -1345,7 +1345,7 @@
     },
     {
       "path": "dsh-electron/tests/task-notifications.test.mjs",
-      "sha256": "cc9ffacb8fa67c4d2906c9bccd22440aa7b717ec7d260eb023d7e31ac7fd9514"
+      "sha256": "8d63d970e80712effd00f816971757bbc4978bb3aa522552f02c0ff25a71b1d2"
     },
     {
       "path": "dsh-electron/tests/tray-icon.electron.mjs",
@@ -2345,7 +2345,7 @@
     },
     {
       "path": "dsh-plugins/desktop-pet/lib/page/pet.js",
-      "sha256": "b33c2c8cbba04b2861d79942b02c02218dc2a1fa74ce252a304408cd27c8f96a"
+      "sha256": "fad5c159060c86dfb374c1346101274d1965928580926e28f3c3f8b4fa27cd89"
     },
     {
       "path": "dsh-plugins/desktop-pet/lib/pet-state.js",
@@ -2733,7 +2733,7 @@
     },
     {
       "path": "dsh-plugins/desktop-pet/skins/LICENSE",
-      "sha256": "84ad63611d4c334d20f90e5bb44b8ef8d566af5b916f9659d6d2f3d8fe827631"
+      "sha256": "14e19c02a6c16966e06589544dd44ad4acb44715847d3b70624bcaa826dba1d3"
     },
     {
       "path": "dsh-plugins/desktop-pet/src/client.js",
@@ -2742,6 +2742,10 @@
     {
       "path": "dsh-plugins/desktop-pet/test/host.test.mjs",
       "sha256": "7247da174b9fcde06bdd4bcb4c593fdac7b9ab440caff7844fcdce55d891dd67"
+    },
+    {
+      "path": "dsh-plugins/desktop-pet/test/page-clock.test.mjs",
+      "sha256": "3f3c3826b6ffc066d7200ca0154fba8e601cc7b0cf9acb70b670765ac13dc4a4"
     },
     {
       "path": "dsh-plugins/desktop-pet/test/pet-state.test.mjs",
@@ -2753,7 +2757,7 @@
     },
     {
       "path": "dsh-plugins/desktop-services/lib/attention.js",
-      "sha256": "24c5600700268afab0b899524d7f3af4a8042fb2b1297f375b2b13be7259da6a"
+      "sha256": "7a2b8597f6591ea16fe52f08f037de90a07dfd11230751113cde5567f6219c42"
     },
     {
       "path": "dsh-plugins/desktop-services/lib/directory-picker.js",
@@ -2765,7 +2769,7 @@
     },
     {
       "path": "dsh-plugins/desktop-services/lib/index.js",
-      "sha256": "d90b29678337d2b6ff25f2b319581ee20db5953cb1d1e944b4e38256f444749f"
+      "sha256": "10fc3289f00a00a24153f25404ab4a45476a213486620022a4a20326f98fe215"
     },
     {
       "path": "dsh-plugins/desktop-services/lib/workspace-access.js",
@@ -2777,7 +2781,7 @@
     },
     {
       "path": "dsh-plugins/desktop-services/test/attention-host.test.mjs",
-      "sha256": "787c11316349938292fc17e3aa9cd255009e6752e40f2e5c201c6864af02de67"
+      "sha256": "505cff8469dba832c3272f28c39653b48d91dc4c6be1a160af3a5568469e4baa"
     },
     {
       "path": "dsh-plugins/desktop-services/test/workspace-access.test.mjs",
