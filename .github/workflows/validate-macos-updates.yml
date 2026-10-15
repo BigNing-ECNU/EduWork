@@ -5,8 +5,17 @@ on:
       - 'dsh-electron/native/**'
       - 'dsh-electron/src/mac-sparkle-updates.mjs'
       - 'dsh-electron/tests/sparkle-macos-smoke.mjs'
+      - 'dsh-electron/tests/sparkle-quit-retry.electron.mjs'
+      - 'dsh-electron/src/desktop-exit.mjs'
+      - 'dsh-electron/tests/desktop-exit.test.mjs'
       - 'dsh-electron/src/initialize-user-config.mjs'
       - 'dsh-electron/src/product.mjs'
+      - 'dsh-electron/src/quit-confirmation.mjs'
+      - 'dsh-electron/src/native-desktop.mjs'
+      - 'dsh-electron/tests/quit-confirmation.test.mjs'
+      - 'dsh-host/prepare.mjs'
+      - 'dsh-host/quit-inspection.mjs'
+      - 'dsh-host/test/quit-inspection.test.mjs'
       - 'dsh-electron/src/dock-theme-preload.cjs'
       - 'dsh-electron/scripts/build-dock-plugin.mjs'
       - 'dsh-electron/tests/dock-*'
@@ -27,18 +36,24 @@ on:
       - 'dsh-electron/tests/window-visibility.electron.mjs'
       - 'dsh-electron/sparkle.lock.json'
       - 'dsh-electron/scripts/assemble-macos.ps1'
+      - 'dsh-electron/scripts/assemble-macos.mjs'
+      - 'dsh-electron/scripts/create-macos-archive.mjs'
+      - 'dsh-electron/tests/create-macos-archive.test.mjs'
       - 'config/desktop/mac-updates.json'
       - '.github/workflows/desktop-candidates.yml'
       - 'scripts/macos-update-feed.mjs'
       - 'scripts/test/macos-update-feed.test.mjs'
-      - 'scripts/ci-eduwork-macos-release.ps1'
+      - 'scripts/ci-eduwork-macos-release.mjs'
+      - 'scripts/lib/macos-stages.mjs'
+      - 'scripts/prepare-macos-dmg.mjs'
+      - '.github/workflows/development-desktop.yml'
       - '.github/workflows/validate-macos-updates.yml'
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   sparkle:
-    runs-on: macos-15
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -47,7 +62,7 @@ jobs:
         with:
           node-version: '24.18.0'
       - name: Check shared update coordination
-        run: node --test scripts/test/macos-update-feed.test.mjs dsh-electron/tests/mac-sparkle-updates.test.mjs dsh-electron/tests/content-coordinator.test.mjs dsh-electron/tests/desktop-paths.test.mjs dsh-electron/tests/window-visibility.test.mjs
+        run: node --test scripts/test/macos-update-feed.test.mjs dsh-electron/tests/mac-sparkle-updates.test.mjs dsh-electron/tests/content-coordinator.test.mjs dsh-electron/tests/desktop-paths.test.mjs dsh-electron/tests/window-visibility.test.mjs dsh-electron/tests/create-macos-archive.test.mjs dsh-electron/tests/desktop-exit.test.mjs dsh-electron/tests/quit-confirmation.test.mjs dsh-host/test/quit-inspection.test.mjs
       - name: Prepare the pinned Electron test runtime
         run: |
           npm install --prefix "$RUNNER_TEMP/sparkle-check/tools" --ignore-scripts --no-audit --no-fund electron@44.0.0

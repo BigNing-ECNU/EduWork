@@ -4,7 +4,7 @@ import { app, dialog, protocol, powerMonitor } from 'electron'
 import { fileURLToPath } from 'node:url'
 import { DesktopBackendController } from './backend-controller.ts'
 import { DesktopFatalRecovery } from './fatal-recovery.ts'
-import { DesktopQuitConfirmation } from './quit-confirmation.ts'
+import { DesktopQuitConfirmation } from './quit-confirmation.mjs'
 import { claimDesktopSingleInstance } from './single-instance.ts'
 import { writeCrashReport, pruneCrashReports } from './crash-report.ts'
 import { createWindow } from './main.ts'
@@ -17,7 +17,7 @@ import { redactDiagnostic } from './diagnostics.mjs'
 import { showDesktopWindow } from './window-visibility.mjs'
 import { configureEduworkPaths, installEduworkFromDmg, prepareEduworkDesktop, nativeBootstrap, desktopReady,
   trackHost, desktopHostLog, isQuitting, attachDesktopWindow, configureWindowNavigation,
-  showDesktopFailure, checkProductUpdates, setDesktopQuitGuard, restartDesktop } from './product.mjs'
+  showDesktopFailure, checkProductUpdates, setDesktopQuitGuard, restartDesktop, pickDesktopDirectory } from './product.mjs'
 
 configureEduworkPaths()
 protocol.registerSchemesAsPrivileged([{ scheme: SCHEME, privileges: {
@@ -65,7 +65,7 @@ async function main() {
   if (await installEduworkFromDmg() || isQuitting()) return
   if (!claimDesktopSingleInstance(app, () => showDesktopWindow(mainWindow))) return
   void pruneCrashReports(app.getPath('logs')).catch(() => {})
-  bridge = installNativeDesktopBridge({ getHost: () => backend.host, getWindow: () => mainWindow, reportFatal, checkUpdates: checkProductUpdates })
+  bridge = installNativeDesktopBridge({ getHost: () => backend.host, getWindow: () => mainWindow, reportFatal, checkUpdates: checkProductUpdates, pickDirectory: pickDesktopDirectory })
   protocol.handle(SCHEME, request => backend.host?.fetch(request) ?? new Response(null, { status: 503 }))
   powerMonitor.on('shutdown', () => { sessionEnding = true })
   await backend.start(async () => {
