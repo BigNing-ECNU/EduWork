@@ -167,7 +167,7 @@ async function prepareDesktop() {
   const software = process.platform === 'darwin' ? startMacSparkleUpdates({ appPath:app.getAppPath(), version:settings.productVersion, enabled:settings.macSparkle?.enabled === true && user.updates.provider !== 'disabled', feeds:effectiveUpdateDefaults.macFeeds, policy:contentUpdates.policy, onPolicy:async policy=>{
     await mkdir(join(paths.updateDataRoot,'state'),{recursive:true}); await writeFile(join(paths.updateDataRoot,'state/update-preferences.json'),JSON.stringify({schemaVersion:1,policy,source:'user'}))
   } }) : await startPortableUpdates({root:paths.root,updates:user.updates,defaults:settings.updates,version:settings.productVersion,distribution:settings.distribution,onQuit:()=>desktopExit.handoff()})
-  portableUpdates = updateCoordinator({software,content:contentUpdates,version:settings.productVersion,onRestart:restartDesktop,beforeInstall:()=>confirmQuit(),onPolicy:async policy=>{
+  portableUpdates = updateCoordinator({software,content:contentUpdates,version:settings.productVersion,onRestart:restartDesktop,beforeInstall:()=>process.platform==='darwin'||confirmQuit(),onPolicy:async policy=>{
     await mkdir(join(paths.updateDataRoot,'state'),{recursive:true})
     await writeFile(join(paths.updateDataRoot,'state/update-preferences.json'),JSON.stringify({schemaVersion:1,policy,source:'user'}))
   }})
@@ -192,11 +192,15 @@ async function prepareDesktop() {
   for (const [key, value] of Object.entries({ ...prepared.environment, ...launch.environment })) if (typeof value === 'string') process.env[key] = value
   // Reassert the edition's immutable ownership after optional test settings.
   Object.assign(process.env, prepared.environment)
+  // Search, the browser tool, Studio exports and video rendering all launch
+  // this executable as their Chromium (automation-browser.mjs).
+  process.env.DSH_MEDIA_BROWSER = process.execPath
   const gitIdentity = applyHostGitIdentity(process.env)
   desktopHostLog(`[git] host identity ssh=${gitIdentity.ssh} home=${gitIdentity.home} systemGit=${gitIdentity.systemGitOnPath ? 'on-path' : 'missing'}\n`)
   // The Host runs in the bundled Node process, so it cannot read Electron's
   // process.versions directly. Report the version of this running shell.
   process.env.EDUWORK_ELECTRON_VERSION = process.versions.electron
+  process.env.EDUWORK_CHROMIUM_VERSION = process.versions.chrome
   process.env.EDUWORK_PRODUCT_NAME = settings.productName
   const vault = new EncryptedVault(join(paths.userData, 'credentials.encrypted'), safeStorage)
   notificationAdapter = nativeNotificationAdapter({ platform: process.platform, Notification, getTray: () => tray, productName: settings.productName,
