@@ -152,6 +152,12 @@ app.whenReady().then(async()=>{
   const quitRetryNewApp=await prepare('2',true),quitRetryZip=join(root,'quit-retry-update.zip')
   await createMacOSAppArchive(quitRetryNewApp,quitRetryZip)
   archive=await readFile(quitRetryZip);signature=sign(null,archive,pair.privateKey).toString('base64')
+  // Cancel and retry on the delta path, which a release offers to unmodified installations.
+  const quitRetryBase=join(root,'quit-retry-base.zip'),quitRetryDeltas=join(root,'quit-retry-deltas');await mkdir(quitRetryDeltas)
+  await run('ditto',['-c','-k','--keepParent',quitRetryApp,quitRetryBase])
+  const [quitRetryDelta]=await createMacDeltas({binaryDelta:join(frameworkRoot,'bin/BinaryDelta'),app:quitRetryNewApp,archiveBytes:archive.length,bases:[quitRetryBase],product:'EduWork',version:'0.3.2',output:quitRetryDeltas,work:join(root,'delta-work')})
+  patch=await readFile(join(quitRetryDeltas,quitRetryDelta.name));patchSignature=sign(null,patch,pair.privateKey).toString('base64')
+  requests.length=0
   const quitRetryRun=run(join(quitRetryApp,'Contents/MacOS/Electron'),[],{failure:true})
   const deadline=Date.now()+180000
   let events=[]
@@ -167,11 +173,12 @@ app.whenReady().then(async()=>{
   const ordered=events.filter(row=>['native-quit-guard','cancelled-but-retryable','cleanup','updated-and-relaunched'].includes(row.event))
     .map(row=>row.event==='native-quit-guard'?`guard-${row.accepted}`:row.event)
   assert.deepEqual(ordered,['guard-false','cancelled-but-retryable','guard-true','cleanup','updated-and-relaunched'])
+  assert.deepEqual(requests.map(row=>row.url).filter(url=>url!=='/appcast.xml'),['/update.delta'])
   assert.equal((await quitRetryRun).code,0)
   assert.equal((await run('plutil',['-extract','CFBundleVersion','raw',join(quitRetryApp,'Contents/Info.plist')])).output.trim(),'2')
   await run('codesign',['--verify','--deep','--strict',quitRetryApp])
   await writeFile(join(evidence,'requests.json'),JSON.stringify(requests,null,2))
-  result.checks.push('Real Sparkle cancellation preserves installation retry; approved retry cleans up, installs version 2 and relaunches')
+  result.checks.push('Real Sparkle cancellation preserves installation retry on the delta; approved retry cleans up, installs version 2 from the delta and relaunches')
   result.passed=true
 } catch(error) {result.error=error.stack;throw error}
 finally {
