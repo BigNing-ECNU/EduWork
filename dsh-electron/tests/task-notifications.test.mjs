@@ -11,8 +11,8 @@ function setup() {
   const sync = (items, preferences = {}) => shell.handle({ action: 'sync', instance: 'host-a', items, preferences: { ...notificationDefaults, ...preferences } })
   return { shell, sync, popups, shown, dismissed, focus: value => { focused = value }, advance: () => { time += 5000 } }
 }
-function host(bridge = async () => ({ seen: [] })) {
-  return new DesktopAttention({ bridge, preferences: () => notificationDefaults, now: () => 10000, schedule: () => 1, cancel() {} })
+function host(bridge = async () => ({ seen: [] }), goal) {
+  return new DesktopAttention({ bridge, preferences: () => notificationDefaults, goal, now: () => 10000, schedule: () => 1, cancel() {} })
 }
 
 test('foreground suppresses popups; only viewing the matching conversation consumes a completed notice', () => {
@@ -135,4 +135,34 @@ test('Windows uses tray quiet-time flags; macOS failure never bypasses native co
   assert.equal(notifications[0].value.silent, true)
   notifications[0].events.failed(); assert.equal(failed.length, 1)
   notifications[0].events.click(); assert.equal(clicked.at(-1), 'b')
+})
+
+test('goal rounds below the limit stay quiet; a blocked goal fails; the limit round completes', () => {
+  let view
+  const h = host(undefined, id => id === 's' ? view : undefined), session = { id: 's' }
+  const round = turn => { h.event(session, { type: 'turn/start', data: { turn } }, true); h.event(session, { type: 'turn/end', data: { turn, reason: { kind: 'completed' } } }, true) }
+  view = { phase: 'active', activation: 'armed', roundsStarted: 1, maxGoalRounds: 3 }
+  round(1); assert.equal(h.items.size, 0)
+  view = { ...view, activation: 'disarmed' }
+  round(2); assert.equal([...h.items.values()][0].kind, 'completed'); h.items.clear()
+  view = { phase: 'active', activation: 'armed', roundsStarted: 3, maxGoalRounds: 3 }
+  round(3); assert.equal([...h.items.values()][0].kind, 'completed'); h.items.clear()
+  view = { phase: 'blocked', activation: 'disarmed', roundsStarted: 2, maxGoalRounds: 3 }
+  round(4); assert.equal([...h.items.values()][0].kind, 'failed'); h.items.clear()
+  view = { phase: 'complete', activation: 'disarmed', roundsStarted: 2, maxGoalRounds: 3 }
+  round(5); assert.equal([...h.items.values()][0].kind, 'completed')
+})
+
+test('a working background subagent holds completion for the turn it wakes', () => {
+  const h = host(), root = (type, data) => h.event({ id: 'a' }, { type, data }, true)
+  root('turn/start', { turn: 1 }); h.subagent('child', 'turn/start', 'a'); h.subagent('fork', 'turn/start', undefined)
+  root('turn/end', { turn: 1, reason: { kind: 'completed' } })
+  assert.equal(h.items.size, 0)
+  h.subagent('grandchild', 'turn/start', 'a'); h.subagent('child', 'turn/end'); h.subagent('grandchild', 'turn/end'); h.subagent('fork', 'turn/end')
+  assert.equal(h.delegated.size, 0)
+  // The settled subagent wakes the conversation, which then finishes for real.
+  root('turn/start', { turn: 2 }); root('turn/end', { turn: 2, reason: { kind: 'completed' } })
+  assert.equal([...h.items.values()][0].kind, 'completed')
+  root('turn/start', { turn: 3 }); h.subagent('child', 'turn/start', 'a'); root('turn/end', { turn: 3, reason: { kind: 'error' } })
+  assert.equal([...h.items.values()][0].kind, 'failed')
 })
