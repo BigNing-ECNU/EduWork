@@ -13,6 +13,7 @@ import { setDesktopIcon } from '../../scripts/set-desktop-icon.mjs'
 import { setUpdaterManifest } from './set-updater-manifest.mjs'
 import { installDesktopConfig } from '../../scripts/install-desktop-config.mjs'
 import { desktopVersion } from '../../scripts/desktop-build-plan.mjs'
+import { pruneRuntimeFiles } from '../../scripts/lib/runtime-file-policy.mjs'
 import { pruneElectronLocales } from './electron-locales.mjs'
 
 const scriptRoot = dirname(fileURLToPath(import.meta.url))
@@ -63,7 +64,8 @@ export async function assembleWindows({
   }
   await copyTree(join(shellBuild, 'third-party'), join(app, 'third-party'), payloadFilters)
   await copyFileTo(join(shellBuild, 'LICENSE-DeepSeek'), join(app, 'LICENSE-DeepSeek'))
-  await copyTree(product, join(output, 'resources/product'), payloadFilters)
+  await copyTree(product, join(output, 'resources/product'), { skipLinks: true })
+  const runtimeFiles = await pruneRuntimeFiles(join(output, 'resources/product'), 'win32-x64')
   await ensureDir(join(output, 'resources/runtime'))
   await copyFileTo(node, join(output, 'resources/runtime/node.exe'))
   await copyFileTo(nodeLicense, join(output, 'resources/runtime/LICENSE-Node'))
@@ -146,6 +148,7 @@ export async function assembleWindows({
     automaticUpdates: config.updateChannel !== 'disabled-candidate',
     pluginPolicy: 'frozen-candidate',
     assembledAt: new Date().toISOString(),
+    runtimeFiles,
   })
   await writeText(join(output, 'README.txt'), [
     `${name} — Electron candidate ${version}`,

@@ -11,7 +11,9 @@ import {
   pathExists, readJSON, run, sha256File, statEntry, writeJSON, writeText,
 } from '../../scripts/lib/build-util.mjs'
 import { desktopApplicationName } from '../../scripts/lib/local-install.mjs'
+import { pruneRuntimeFiles } from '../../scripts/lib/runtime-file-policy.mjs'
 import { relocateMacosCompositor } from './relocate-macos-compositor.mjs'
+import { createMacOSAppArchive } from './create-macos-archive.mjs'
 import { pruneElectronLocales } from './electron-locales.mjs'
 
 const scriptRoot = dirname(fileURLToPath(import.meta.url))
@@ -110,6 +112,7 @@ export async function assembleMacos({
   await ditto(electronApp, app).catch(() => { throw new Error('Electron.app copy failed') })
   const electronLocales = await pruneElectronLocales(app, 'darwin')
   const resources = join(app, 'Contents/Resources')
+  await rm(join(resources, 'default_app.asar'))
   const appPayload = join(resources, 'app')
   await mkdir(appPayload)
   for (const folder of ['lib', 'renderer', 'third-party']) {
@@ -134,6 +137,7 @@ export async function assembleMacos({
   }
   await mkdir(join(resources, 'product'))
   await rsync(product, join(resources, 'product')).catch(() => { throw new Error('Product copy failed') })
+  const runtimeFiles = await pruneRuntimeFiles(join(resources, 'product'), 'darwin-arm64')
   await relocateMacosCompositor({
     packageRoot: join(resources, 'product/d/node_modules/@remotion/compositor-darwin-arm64'),
     receipt: join(resources, 'compositor-relocation.json'),
@@ -275,6 +279,8 @@ export async function assembleMacos({
     ]).catch(() => { throw new Error('Sparkle native bridge compilation failed') })
     await plutilReplace(plist, 'SUFeedURL', updateDefaultPolicy === 'development' ? sparkleDevelopmentFeedURL : sparkleFeedURL)
     await plutilReplace(plist, 'SUPublicEDKey', sparklePublicEDKey)
+    await run('plutil', ['-replace', 'SUAllowsAutomaticUpdates', '-bool', 'YES', plist])
+      .catch(() => { throw new Error('Sparkle Info.plist setup failed') })
     await run('plutil', ['-replace', 'SUEnableAutomaticChecks', '-bool', 'NO', plist])
       .catch(() => { throw new Error('Sparkle Info.plist setup failed') })
   }
@@ -309,6 +315,7 @@ export async function assembleMacos({
     bundleVersion: effectiveBundleVersion,
     published: false,
     assembledAt: new Date().toISOString(),
+    runtimeFiles,
   }
   await writeJSON(join(resources, 'release.json'), release)
   // Seal the immutable Skill baseline into the app before signing. Mutable content
@@ -328,7 +335,7 @@ export async function assembleMacos({
       .catch(() => { throw new Error('Local ad-hoc signing failed') })
     await run('codesign', ['--verify', '--deep', '--strict', signingApp])
       .catch(() => { throw new Error('Local ad-hoc signature verification failed') })
-    await run('ditto', ['-c', '-k', '--sequesterRsrc', '--keepParent', appName, temporaryArchive], { cwd: signingRoot })
+    await createMacOSAppArchive(signingApp, temporaryArchive)
       .catch(() => { throw new Error('macOS ZIP creation failed') })
     await copyFileTo(temporaryArchive, archive)
   } finally {
