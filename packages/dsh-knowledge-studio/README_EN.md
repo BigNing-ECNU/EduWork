@@ -10,6 +10,8 @@ Studio reads existing workspace files and uses the host's conversations and conf
 
 Open Studio from the official Sidebar Start page. The host manages tabs, collapse and fullscreen. Interactive controls inherit blue/red and light/dark themes; exported files retain their authored colors.
 
+Office skills reuse the host's official processing workflows. Studio reports, tables and slides share official validation and conversion with conversations; PDF exports convert the actual saved Office files. See [Office workflows](packages/artifact-services/docs/OFFICE_PROCESSING_EN.md) for host dependencies and legacy-format support.
+
 ## Packages
 
 - **`@eduwork/dsh-knowledge-studio@0.5.0`**: workspace sources, Studio UI, saved artifacts and learning progress.
