@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-15T03:52:51.663Z",
-  "fileSetSHA256": "097fab3645c84a8ffd475887590073e26bc1b600ce3a9f02b1be55f811bf7e6f",
+  "createdAt": "2026-10-15T04:01:28.751Z",
+  "fileSetSHA256": "49fed64057a29df009c972c0b10e8daa9bf67ced54c68c7e3ad63dd28350b465",
   "files": [
     {
       "path": ".gitattributes",
@@ -2429,7 +2429,7 @@
     },
     {
       "path": "dsh-plugins/skill-control-native/lib/index.js",
-      "sha256": "73e30f18279ae533843fe20c8d5c3ed2c15a57f6ba67aa20a56d138c46c47020"
+      "sha256": "ee7f1b020a34e0ed372955c39974a1bd8d1f4aff7ee615f10bfd7cfb30565696"
     },
     {
       "path": "dsh-plugins/skill-control-native/package.json",
@@ -2449,7 +2449,7 @@
     },
     {
       "path": "dsh-plugins/skill-control-native/test/host.test.js",
-      "sha256": "356ab289be0b04737f070525cffff0a420e8583a831e1dc580bff04f69caa7f6"
+      "sha256": "2fca3d580315ffb5c25fcb94c0618ddf6ac6ab25a705cd5771ea38c76a45a583"
     },
     {
       "path": "dsh-plugins/skill-manager-native/lib/core.js",
@@ -2793,11 +2793,11 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/docs/CREATION_CONTRACT.md",
-      "sha256": "8fb2b4197d0428aaa6d28fd39f0ac025f4e581cb1fc94b2de637e28770cb62e4"
+      "sha256": "ac9114297099ac7d766d6c0105ef0bb25313309fcab017a0004a9d8e576be852"
     },
     {
       "path": "packages/dsh-knowledge-studio/docs/DEVELOPMENT.md",
-      "sha256": "47368dc979cd3914c80b08e2a4dc9206d03d569e81f2307ed2b0e3471f782e1b"
+      "sha256": "e215fa07556ac6215b1163f5a25dd69c98529632a3c1321c5d533c847b3538e4"
     },
     {
       "path": "packages/dsh-knowledge-studio/docs/MIGRATION.md",
@@ -2933,7 +2933,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/lib/studio-export.js",
-      "sha256": "5a31a46fca9128fceb4acf05d9c269d06cf40b609c7e739172ecf5d541401051"
+      "sha256": "21a8e13778f4f20c34b123898f67a37da48ed7ea3be29dc9f01a8d77ec630e2c"
     },
     {
       "path": "packages/dsh-knowledge-studio/lib/studio-instructions.d.ts",
@@ -3008,6 +3008,14 @@
       "sha256": "2bfbd31cded0fa5968ed39d5b67d175e62ce750356898f4e8c065c05f6062950"
     },
     {
+      "path": "packages/dsh-knowledge-studio/packages/artifact-services/docs/OFFICE_PROCESSING_EN.md",
+      "sha256": "848924ea258f3f038d9b2bba1a6b857b89721556b7d4aa5ba29db1ac812002dd"
+    },
+    {
+      "path": "packages/dsh-knowledge-studio/packages/artifact-services/docs/OFFICE_PROCESSING.md",
+      "sha256": "a39a57650c31f0f2258bd303df81fdfc09c356685485f18cf923108a146078e7"
+    },
+    {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/docs/PLATFORMS.md",
       "sha256": "69e99b089656458c81cdbf39e87cef26cababdbd79d11f8e18757d9a47b9a760"
     },
@@ -3021,7 +3029,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/dsh.js",
-      "sha256": "c0816df551ea023b44af6173b91021e5a67c1dfbbad7620a22df21dfc43590ac"
+      "sha256": "136f3f971f1b756a9fb44cd2e9cab1cd5bdd02c9d76f793928ff5d77eb45ce7a"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/image-tools.js",
@@ -3069,11 +3077,15 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/office-tools.js",
-      "sha256": "5dbc714e1b89c52e69235e5f8708f80e024dd0053574806248f1dde388fe289d"
+      "sha256": "726aa37dfd8e69c8878d9ce12de49fb712d822ee66f83f160fafcece3516246b"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/office.js",
-      "sha256": "e530898459e1dccbc2266257f590210d16856d082d9d8261ea073de161c739f2"
+      "sha256": "3d8b2447eefd2d34ca68bc7de4c634a685d95818c6d3f17b5c1c057cda439b7e"
+    },
+    {
+      "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/official-office.js",
+      "sha256": "3471f197d5eb1517cb6798f5683701ae89d5471a587c23ab0676b934733ee851"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/presentation-contract.d.ts",
@@ -3097,7 +3109,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/skills.js",
-      "sha256": "4962df3a874b817fb7c35daa72941eb58a849f601c28f4758b79a05acfaa4dbe"
+      "sha256": "b6fd9637a03e16a00bdc7b08d0f830bf9d96256136d78eb5dcb424d8aae9bdd3"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/speech-macos.js",
@@ -3229,7 +3241,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/package.json",
-      "sha256": "f2d0a0b5b507038e6ce87a4118125f48e37d2aa0c86884009a078eafdcaca479"
+      "sha256": "7ab50684475635d047e6385a57927997de8caa3ae40dd2e4ec21eaefa90e2d6b"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/python/dsh_office/__init__.py",
@@ -3340,6 +3352,10 @@
       "sha256": "99fd2e889a30890f2b9a5a3c5dd7d7c285292e434a78bb55fee6cf2bcbb6eaa2"
     },
     {
+      "path": "packages/dsh-knowledge-studio/packages/artifact-services/python/official_check.py",
+      "sha256": "8fe4818cb8321e6913516be6bd82d3df9c3c4aceb4520da886f4819c64240064"
+    },
+    {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/python/requirements.txt",
       "sha256": "9e9fa7bd363a362fee8c06230574f3e929f37aa28a2c01c41e1ad5b610e14c8a"
     },
@@ -3349,15 +3365,15 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/README_EN.md",
-      "sha256": "2c06c0dffca10c72836adcc2cd3d307e28b948fda2bac5ace67da338414d5649"
+      "sha256": "2bd8c3d7726b55edf61f41b88405bb3d41e0ea8cc1e9a98c17a4a568b9a07b48"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/README.md",
-      "sha256": "0cdefb5b5080defb50017c6f6edaadc1124a2cf4c82b476917b09bc077e398ef"
+      "sha256": "ec4058c28c3df747bf006a7912a91b02cd2463604d01c9ab15f8d02c1a2d6136"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/skills/documents/SKILL.md",
-      "sha256": "d976888967805b47aa3e8ff8ff1b1f9f6336c84736e4e7689280bb23e0526e01"
+      "sha256": "50a7e39118136f89e49dcdadc4460be6e6cd4f7a45fdcf8a380e027278e312c1"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/skills/images/SKILL.md",
@@ -3381,7 +3397,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/skills/presentations/SKILL.md",
-      "sha256": "fdd352696ed7fe2e63c64550a2b3430337125f5fd01b48ec012271081d062216"
+      "sha256": "274a7bbf5ca7bbb16f6d57fd5a9d29427c75dbdba516a1e38b8b2eb6945585ca"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/skills/shared/references/common.md",
@@ -3409,7 +3425,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/skills/spreadsheets/SKILL.md",
-      "sha256": "80857358a63974c71d33d9ab25b0e3f2252e0a6a06f92e3f214f3447059aee7f"
+      "sha256": "f26fa3a3a02c6cab4bd896bbea4cb6fb7c56ee591a9c077ff8f9d28d5cf51070"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/skills/video/references/quality-check.md",
@@ -3477,11 +3493,11 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/README_EN.md",
-      "sha256": "f04482a408b0079dde6afdfc4c820f6e7af64fabd0087a26ca3c849ec1abb898"
+      "sha256": "87d5dd8c141eade4fc3a19ab835ea29c79a8fd779a2f57ae34ca804679ab9535"
     },
     {
       "path": "packages/dsh-knowledge-studio/README.md",
-      "sha256": "ef55cb2a58bb6ecdc0d262c7029ac8eea29fe8e8b8bdd9ee091448d0abe8b730"
+      "sha256": "f7909269dca45afb92ef340617abad51e800881e8c353e6528e5a8f86cb35ff2"
     },
     {
       "path": "packages/dsh-knowledge-studio/scripts/artifact-evidence-smoke.mjs",
@@ -3622,6 +3638,10 @@
     {
       "path": "packages/dsh-knowledge-studio/scripts/office-preview-zoom-smoke.mjs",
       "sha256": "b2f16532ad2f3fd768f044d9b75867cc628dccfa947431ac86232a9b370534eb"
+    },
+    {
+      "path": "packages/dsh-knowledge-studio/scripts/official-office-smoke.mjs",
+      "sha256": "10a06c3b4100688e868b9ed2cd0dddbd37be5b7968b43a3249761fe64e73e2d5"
     },
     {
       "path": "packages/dsh-knowledge-studio/scripts/p0-smoke.mjs",
@@ -3848,6 +3868,10 @@
       "sha256": "434ae49b30e1c19c88188ecbbb407e8b3de4db1e14b1bb31db8e2e4ef26e193c"
     },
     {
+      "path": "packages/dsh-knowledge-studio/test/official-office.test.mjs",
+      "sha256": "b3f3b97ac43e24a7d86d4c5e315d37d0b4ffa316d32924133d66c2af26c90e1b"
+    },
+    {
       "path": "packages/dsh-knowledge-studio/test/presentation-pagination.test.mjs",
       "sha256": "1bacfe96316aa625cdde1d337261e263b32b0238e6e733beb59ce1dbfbc2d9b2"
     },
@@ -3889,7 +3913,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/test/studio-runtime-isolation.test.mjs",
-      "sha256": "dc595329fa3b5fc64d5839394ac777e6c05691207fe9535140b00f0944682c66"
+      "sha256": "5bc558b31a45e0404385ae0997cf4fafe4537bfe906a0cefb32de67c431e28af"
     },
     {
       "path": "packages/dsh-knowledge-studio/test/studio-slides.test.mjs",

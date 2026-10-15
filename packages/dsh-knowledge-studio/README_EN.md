@@ -12,6 +12,8 @@ Open Studio from the official Sidebar Start page. The host manages tabs, collaps
 
 On DSH 0.2 desktop builds, saved Word documents, spreadsheets and presentations open in the official file viewer through **Open file preview**, using the same entry as conversation files. Studio retains generation, downloads, speaker notes, citations and artifact management; quizzes, flashcards, mind maps and media remain interactive. Older hosts retain the previous Office preview adapter. The official spreadsheet view primarily displays cell content; use Office or WPS for complex layout and embedded objects.
 
+Office skills reuse the host's official processing workflows. Studio reports, tables and slides share official validation and conversion with conversations; PDF exports convert the actual saved Office files. See [Office workflows](packages/artifact-services/docs/OFFICE_PROCESSING_EN.md) for host dependencies and legacy-format support.
+
 ## Packages
 
 - **`@eduwork/dsh-knowledge-studio@0.5.0`**: workspace sources, Studio UI, saved artifacts and learning progress.
