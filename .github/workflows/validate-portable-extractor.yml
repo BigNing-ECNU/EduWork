@@ -4,6 +4,8 @@ on:
     paths:
       - 'dsh-desktop/internal/portable/**'
       - 'dsh-desktop/internal/electronaccess/**'
+      - 'dsh-desktop/internal/winacl/**'
+      - 'dsh-desktop/internal/workspaceaccess/**'
       - 'dsh-desktop/internal/updater/**'
       - 'dsh-desktop/internal/updatecontrol/**'
       - 'dsh-desktop/cmd/eduwork-updater/**'
@@ -39,8 +41,8 @@ jobs:
         working-directory: dsh-desktop
         shell: bash
         run: |
-          go test -v ./internal/portable ./internal/electronaccess ./internal/updater ./internal/updatecontrol ./cmd/eduwork-updater
-          go vet ./internal/portable ./internal/electronaccess ./internal/updater ./cmd/eduwork-extract
+          go test -v ./internal/portable ./internal/electronaccess ./internal/workspaceaccess ./internal/winacl ./internal/updater ./internal/updatecontrol ./cmd/eduwork-updater
+          go vet ./internal/portable ./internal/electronaccess ./internal/workspaceaccess ./internal/winacl ./internal/updater ./cmd/eduwork-extract
           go build -trimpath -o "$RUNNER_TEMP/eduwork-extract.exe" ./cmd/eduwork-extract
       - name: Build both branded packages and verify release publication inputs
         shell: bash

@@ -29,7 +29,7 @@ import { applyHostGitIdentity } from './host-git-identity.mjs'
 import { installFromDmg } from './installer-cleanup.mjs'
 import { startupFailurePage } from './startup-failure.mjs'
 import { startupPage } from './startup-page.mjs'
-import { ensureRuntimeAccess } from './runtime-access.mjs'
+import { repairWorkspaceAccess } from './workspace-access.mjs'
 
 export function configureWindowNavigation(window) {
   attachExternalNavigation(window.webContents, url => shell.openExternal(url), () => {
@@ -78,15 +78,9 @@ export function configureEduworkPaths() {
   mkdirSync(paths.userData, { recursive: true })
   mkdirSync(paths.logs, { recursive: true })
   desktopHostLog(`\n[desktop] Starting ${settings.productVersion} (electron) ${new Date().toISOString()}\n`)
-  try {
-    ensureRuntimeAccess({ root: paths.root })
-  } catch (error) {
-    desktopHostLog(`[desktop:runtime-access] ${error.message}\n`)
-    // A native dialog works even when the sandbox cannot start a renderer.
-    dialog.showErrorBox('无法启动 ' + settings.productName, `${error.message}\n\n诊断日志：${paths.logs}`)
-    app.exit(1)
-    throw error
-  }
+  // Successful sandboxed startup is the capability check. Lack of WRITE_DAC
+  // or one expected ACE does not prove Electron cannot run. Installation and
+  // update still provision runtime access; ordinary startup never changes ACLs.
   applyDesktopBrand(app, process.platform, settings)
   app.setPath('userData', paths.userData)
   app.setAppLogsPath(paths.logs)
@@ -173,7 +167,7 @@ async function prepareDesktop() {
   const software = process.platform === 'darwin' ? startMacSparkleUpdates({ appPath:app.getAppPath(), version:settings.productVersion, enabled:settings.macSparkle?.enabled === true && user.updates.provider !== 'disabled', feeds:effectiveUpdateDefaults.macFeeds, policy:contentUpdates.policy, onPolicy:async policy=>{
     await mkdir(join(paths.updateDataRoot,'state'),{recursive:true}); await writeFile(join(paths.updateDataRoot,'state/update-preferences.json'),JSON.stringify({schemaVersion:1,policy,source:'user'}))
   } }) : await startPortableUpdates({root:paths.root,updates:user.updates,defaults:settings.updates,version:settings.productVersion,distribution:settings.distribution,onQuit:()=>desktopExit.handoff()})
-  portableUpdates = updateCoordinator({software,content:contentUpdates,version:settings.productVersion,onRestart:restartDesktop,beforeInstall:()=>confirmQuit(),onPolicy:async policy=>{
+  portableUpdates = updateCoordinator({software,content:contentUpdates,version:settings.productVersion,onRestart:restartDesktop,beforeInstall:()=>process.platform==='darwin'||confirmQuit(),onPolicy:async policy=>{
     await mkdir(join(paths.updateDataRoot,'state'),{recursive:true})
     await writeFile(join(paths.updateDataRoot,'state/update-preferences.json'),JSON.stringify({schemaVersion:1,policy,source:'user'}))
   }})
@@ -198,11 +192,15 @@ async function prepareDesktop() {
   for (const [key, value] of Object.entries({ ...prepared.environment, ...launch.environment })) if (typeof value === 'string') process.env[key] = value
   // Reassert the edition's immutable ownership after optional test settings.
   Object.assign(process.env, prepared.environment)
+  // Search, the browser tool, Studio exports and video rendering all launch
+  // this executable as their Chromium (automation-browser.mjs).
+  process.env.DSH_MEDIA_BROWSER = process.execPath
   const gitIdentity = applyHostGitIdentity(process.env)
   desktopHostLog(`[git] host identity ssh=${gitIdentity.ssh} home=${gitIdentity.home} systemGit=${gitIdentity.systemGitOnPath ? 'on-path' : 'missing'}\n`)
   // The Host runs in the bundled Node process, so it cannot read Electron's
   // process.versions directly. Report the version of this running shell.
   process.env.EDUWORK_ELECTRON_VERSION = process.versions.electron
+  process.env.EDUWORK_CHROMIUM_VERSION = process.versions.chrome
   process.env.EDUWORK_PRODUCT_NAME = settings.productName
   const vault = new EncryptedVault(join(paths.userData, 'credentials.encrypted'), safeStorage)
   notificationAdapter = nativeNotificationAdapter({ platform: process.platform, Notification, getTray: () => tray, productName: settings.productName,
@@ -212,6 +210,9 @@ async function prepareDesktop() {
     publish: value => notificationAdapter.publish(value), dismiss: () => notificationAdapter.dismiss(), changed: () => refreshTray() })
   const bridge = await startNativeBridge({ vault, pickDirectory: pickDesktopDirectory, openExternal: url => shell.openExternal(url),
     attention: body => taskNotifications.handle(body),
+    workspaceAccess: process.platform === 'win32' ? (path, signal) => repairWorkspaceAccess(path, { productName: settings.productName, root: paths.root,
+      protectedRoots: [paths.home, paths.userData], out: join(paths.logs, 'workspace-access'), log: desktopHostLog, signal,
+      showMessageBox: options => mainWindow && !mainWindow.isDestroyed() ? dialog.showMessageBox(mainWindow, options) : dialog.showMessageBox(options) }) : undefined,
     workbench: async action => portableUpdates && action !== 'diagnostics' ? portableUpdates.action(action) : workbenchAction({ action, config: paths.config, version: settings.productVersion, shell: 'electron', logs: paths.logs, root: paths.root, product: paths.product, home: paths.home,
       updateStatus: action === 'diagnostics' && portableUpdates ? await portableUpdates.action('status').catch(error=>({error:error.message})) : undefined }),
     openConfiguration: target => openConfigurationFile(paths.config, target, path => shell.openPath(path),
