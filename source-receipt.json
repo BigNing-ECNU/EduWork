@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-15T12:00:10.887Z",
-  "fileSetSHA256": "345ac8955f4bc1f8dc023e756086e9cc1c151ee1a7c0145715185a86d5a32def",
+  "createdAt": "2026-10-15T12:00:20.025Z",
+  "fileSetSHA256": "d0c8f86445791342f9df417a69467c2fe634c3ecd62e2392b64599e121df8238",
   "files": [
     {
       "path": ".gitattributes",
@@ -273,11 +273,11 @@
     },
     {
       "path": "docs/DESKTOP_NOTIFICATIONS_EN.md",
-      "sha256": "472fd8a45f24392585309adf13933b954059fec542ae74302575894b4e1f9197"
+      "sha256": "5ce75f517706f23cbc06d40947d7aac3c76627cb2f37d303e2243a6c98362f74"
     },
     {
       "path": "docs/DESKTOP_NOTIFICATIONS.md",
-      "sha256": "86c19eefbed1128b7d2d9393ec8ebe5ab1fe4c4ab0fb46f358112e0fcadec858"
+      "sha256": "1b0783948d8e284df16606bfc64ba6078af2029766222cc331d909b333f4688f"
     },
     {
       "path": "docs/DESKTOP_PET_EN.md",
@@ -1345,7 +1345,7 @@
     },
     {
       "path": "dsh-electron/tests/task-notifications.test.mjs",
-      "sha256": "c7d872c76ce2bc4ebb9b9d645bf2feb593e2f079cb00e6e64e45c2064d7a9f81"
+      "sha256": "ef4bf485e5463649b9014f725e44da2be7a32d6e5db990445fd85e0087fa7395"
     },
     {
       "path": "dsh-electron/tests/tray-icon.electron.mjs",
@@ -2757,7 +2757,7 @@
     },
     {
       "path": "dsh-plugins/desktop-services/lib/attention.js",
-      "sha256": "64d46d2f6b00a4796716fd9cea647cb772d414fcdd2d6e1ad7cb0ef775d838a0"
+      "sha256": "4ffc113a039b4f76da3fba9eed67e31398bc1fd68ee27569710c96ccbc6a748c"
     },
     {
       "path": "dsh-plugins/desktop-services/lib/directory-picker.js",
@@ -2781,7 +2781,7 @@
     },
     {
       "path": "dsh-plugins/desktop-services/test/attention-host.test.mjs",
-      "sha256": "17c7f90828079b4fae7167aee107412c679e0c57b21c09a2064cf3f3f2e7078b"
+      "sha256": "6442cf1e58707d3c334658fc00cea69f7ad36563b6a7a9d352da736b9532c1fc"
     },
     {
       "path": "dsh-plugins/desktop-services/test/workspace-access.test.mjs",

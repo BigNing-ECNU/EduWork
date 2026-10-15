@@ -138,20 +138,20 @@ test('Windows uses tray quiet-time flags; macOS failure never bypasses native co
   notifications[0].events.click(); assert.equal(clicked.at(-1), 'b')
 })
 
-test('goal rounds below the limit stay quiet; a blocked goal fails; the limit round completes', () => {
+test('an armed goal holds its turn until the driver continues, blocks or completes it', () => {
   let view
-  const h = host(undefined, id => id === 's' ? view : undefined), session = { id: 's' }
-  const round = turn => { h.event(session, { type: 'turn/start', data: { turn } }, true); h.event(session, { type: 'turn/end', data: { turn, reason: { kind: 'completed' } } }, true) }
-  view = { phase: 'active', activation: 'armed', roundsStarted: 1, maxGoalRounds: 3 }
-  round(1); assert.equal(h.items.size, 0)
-  view = { ...view, activation: 'disarmed' }
-  round(2); assert.equal([...h.items.values()][0].kind, 'completed'); h.items.clear()
-  view = { phase: 'active', activation: 'armed', roundsStarted: 3, maxGoalRounds: 3 }
-  round(3); assert.equal([...h.items.values()][0].kind, 'completed'); h.items.clear()
-  view = { phase: 'blocked', activation: 'disarmed', roundsStarted: 2, maxGoalRounds: 3 }
-  round(4); assert.equal([...h.items.values()][0].kind, 'failed'); h.items.clear()
-  view = { phase: 'complete', activation: 'disarmed', roundsStarted: 2, maxGoalRounds: 3 }
-  round(5); assert.equal([...h.items.values()][0].kind, 'completed')
+  const h = host(undefined, id => view?.[id]), round = (id, turn) => { h.event({ id }, { type: 'turn/start', data: { turn } }, true); h.event({ id }, { type: 'turn/end', data: { turn, reason: { kind: 'completed' } } }, true) }
+  const kinds = () => [...h.items.values()].map(item => item.kind), armed = { phase: 'active', activation: 'armed', roundsStarted: 3, maxGoalRounds: 3 }
+  view = { a: armed, b: armed, c: armed, d: armed }
+  // The next round starts: nothing to report yet. At the limit the driver blocks the goal after the turn.
+  round('a', 1); round('a', 2); assert.deepEqual(kinds(), [])
+  h.goalChanged('a', 'edit'); assert.deepEqual(kinds(), [])
+  h.goalChanged('a', 'block'); h.goalChanged('a', 'block'); assert.deepEqual(kinds(), ['failed'])
+  round('b', 1); h.goalChanged('b', 'complete'); assert.deepEqual(kinds(), ['failed', 'completed'])
+  // A pause or clear is the user's own stop; a goal never held here is not reported.
+  round('c', 1); h.goalChanged('c', 'pause'); h.goalChanged('d', 'block'); assert.deepEqual(kinds(), ['failed', 'completed'])
+  view = { e: { ...armed, activation: 'disarmed' }, f: { ...armed, phase: 'blocked', activation: 'disarmed' } }
+  round('e', 1); round('f', 1); assert.deepEqual(kinds(), ['failed', 'completed', 'completed', 'failed'])
 })
 
 test('a working background subagent holds completion for the turn it wakes', () => {
