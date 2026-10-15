@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-15T01:38:09.937Z",
-  "fileSetSHA256": "1404a62bb7e00c3b0b3836c658a80045b43034ba3911f3c8fa1c5612e5563bb3",
+  "createdAt": "2026-10-15T01:56:10.035Z",
+  "fileSetSHA256": "e878638cdadd0a5f7f4ccfaebeefe4cec26068bbbc497bdd362407b35dfacb87",
   "files": [
     {
       "path": ".gitattributes",
@@ -3697,7 +3697,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/test/client-surface.test.mjs",
-      "sha256": "2f283147b0b8e1c701745ff959dd20ad62f8fb8ff1d4716a72a2f5a7b3fd4289"
+      "sha256": "047c9a7d0b462c7171e2023e7c1bc69ed6df1a8f8b6b3615100fa030259a12f4"
     },
     {
       "path": "packages/dsh-knowledge-studio/test/core.test.mjs",
