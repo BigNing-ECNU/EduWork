@@ -136,6 +136,12 @@ try {
  nativeDetails={totalBytes:1048576,downloadStage:'extracting'};await page.reload()
  await page.getByText('正在解包并校验',{exact:true}).waitFor()
  assert.equal(await page.getByLabel('更新下载进度').getAttribute('aria-valuenow'),null)
+ // A Windows delta reports its check of the installed files, not a finished download.
+ nativeDetails={totalBytes:1048576,downloadStage:'verifying',checkedFiles:3,totalFiles:4};await page.reload()
+ await page.getByText('正在校验本机文件',{exact:true}).waitFor()
+ await page.getByText('已检查 3 / 4 个 · 75%',{exact:true}).waitFor()
+ assert.equal(await page.getByLabel('本机文件校验进度').getAttribute('aria-valuenow'),'75')
+ assert.equal(await pill.innerText(),'校验 75%')
  state='error';nativeDetails={releaseNotesURL:'https://example.org/notes',error:'此更新需要前往发行页面查看说明。'};await page.reload()
  await page.getByRole('link',{name:'查看发行说明'}).waitFor()
  assert.equal(await page.getByRole('link',{name:'查看发行说明'}).getAttribute('href'),'https://example.org/notes')

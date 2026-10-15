@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-15T07:21:07.418Z",
-  "fileSetSHA256": "4fbf79b565e477a4aa5b8ada7e33dba505df9642c001f7e865f6fbb5a39580e2",
+  "createdAt": "2026-10-15T07:28:59.488Z",
+  "fileSetSHA256": "7c6b81965aef4366170878ec54f33427c152bb86621b4e4bc1d217c8be1a61d1",
   "files": [
     {
       "path": ".gitattributes",
@@ -769,23 +769,23 @@
     },
     {
       "path": "dsh-desktop/internal/updatecontrol/manager_test.go",
-      "sha256": "86005ef0fbdde2ff72b893d6a1ae5139234b6a419d4380c12a4f72f8fd4b4c99"
+      "sha256": "e256eb89ee4ffa4e258056ca803740ca6e3438ab2fff73bd294fc6a5eb66013e"
     },
     {
       "path": "dsh-desktop/internal/updatecontrol/manager.go",
-      "sha256": "fd85b76202eb9118406ea5b62a960bacb928a129ce6a79433ba7137f9442d0ce"
+      "sha256": "e6ee27710dbb01cb75a0d1171134920459932ff9bcf5633494795e7790ae4b13"
     },
     {
       "path": "dsh-desktop/internal/updater/apply.go",
-      "sha256": "fa75bd427ba546f1aac7cdf410fbbbe76e1a8dbcc3f2088401f3e4221bb61691"
+      "sha256": "49e3d4382a58781032e4431494251301fc8cf19f98c7b6a156faf3f13d79441f"
     },
     {
       "path": "dsh-desktop/internal/updater/delta_test.go",
-      "sha256": "6874abb3a092e3d649dd416389f8b77c5325982252bc7a71cf3c839e7c01d8fc"
+      "sha256": "816d0d707fbb0c64283d1b1188005e0256b0ce7b8d9d77ab6d30b0ee43fede11"
     },
     {
       "path": "dsh-desktop/internal/updater/download.go",
-      "sha256": "14e7a7ef27fa64dc134f6c647becbe3e8e120ea5ad2d2687f3e9a8585b5d39b2"
+      "sha256": "f615382b823177a5c4f56db6637b1b7e0e5e07e1e920d3092e658b7f875fb202"
     },
     {
       "path": "dsh-desktop/internal/updater/github_cache_test.go",
@@ -2705,7 +2705,7 @@
     },
     {
       "path": "dsh-plugins/workbench-native/src/updates.ts",
-      "sha256": "55b6d5963c5b7ec8874ac7cf9f191fdab9a0bbb1e6cd6ed0f60bffd335ba7828"
+      "sha256": "ffe3d118176d206aba84a0106ac5a7e12bc312a56cb09b43d213eb1c2bf71349"
     },
     {
       "path": "dsh-plugins/workbench-native/test/concurrency-browser.mjs",
@@ -2749,7 +2749,7 @@
     },
     {
       "path": "dsh-plugins/workbench-native/test/updates-browser.mjs",
-      "sha256": "a9658504e58bb8c7f9a02ed737b92373119d7db85f7dde54e42b1a8e6060b02e"
+      "sha256": "500d2642a20c7a6b620bd06a9a7a3e0c66aa8596f1510d7fcdf8f95be1fc1b92"
     },
     {
       "path": "dsh-plugins/workbench-native/tsconfig.json",

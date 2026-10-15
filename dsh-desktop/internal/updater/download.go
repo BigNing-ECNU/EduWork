@@ -47,7 +47,10 @@ type DownloadStatus struct {
 	FileName        string `json:"fileName,omitempty"`
 	DownloadedBytes int64  `json:"downloadedBytes"`
 	TotalBytes      int64  `json:"totalBytes"`
-	Error           string `json:"error,omitempty"`
+	// CheckedFiles and TotalFiles count installed files verified for a delta.
+	CheckedFiles int    `json:"checkedFiles,omitempty"`
+	TotalFiles   int    `json:"totalFiles,omitempty"`
+	Error        string `json:"error,omitempty"`
 }
 
 type PendingUpdate struct {
@@ -76,7 +79,8 @@ func PendingFile(stateDir string) string {
 
 // Download prefers a delta made for exactly this installation. A missing,
 // unreachable or damaged delta never blocks the update: the complete package
-// is downloaded instead.
+// is downloaded instead. A delta becomes ready only after the installed files
+// it reuses are verified, which reports the "verifying" state.
 func Download(ctx context.Context, config DownloadConfig) (DownloadStatus, error) {
 	if delta, ok := usableDelta(config); ok {
 		deltaConfig := config
@@ -84,15 +88,25 @@ func Download(ctx context.Context, config DownloadConfig) (DownloadStatus, error
 		deltaConfig.deltaFrom = delta.FromVersion
 		status, err := downloadArtifact(ctx, deltaConfig)
 		if err == nil {
-			zipPath := filepath.Join(downloadDir(config.StateDir, config.Version), delta.FileName)
-			if err = preflightDelta(zipPath, config.InstallDir); err == nil {
-				return status, nil
+			zipPath := artifactPath(deltaConfig)
+			err = preflightDelta(ctx, zipPath, config.InstallDir, func(done, total int) {
+				status.State, status.CheckedFiles, status.TotalFiles = "verifying", done, total
+				emitDownload(config.Progress, status)
+			})
+			if err == nil {
+				return finishDownload(deltaConfig, status)
 			}
-			_ = os.Remove(PendingFile(config.StateDir))
+			if ctx.Err() != nil {
+				return failDownload(config.Progress, status, ctx.Err())
+			}
 			rejectDelta(config.StateDir, config.Version, zipPath, err)
 		}
 	}
-	return downloadArtifact(ctx, config)
+	status, err := downloadArtifact(ctx, config)
+	if err != nil {
+		return status, err
+	}
+	return finishDownload(config, status)
 }
 
 func usableDelta(config DownloadConfig) (DeltaArtifact, bool) {
@@ -119,6 +133,10 @@ func downloadDir(stateDir, version string) string {
 	return filepath.Join(stateDir, "updates", "downloads", sanitizePathPart(version))
 }
 
+func artifactPath(config DownloadConfig) string {
+	return filepath.Join(downloadDir(config.StateDir, config.Version), config.Artifact.FileName)
+}
+
 // rejectedDeltaFile marks a version whose delta failed to stage, typically
 // because a local program file was modified; the next download uses the full ZIP.
 func rejectedDeltaFile(stateDir, version string) string {
@@ -130,6 +148,8 @@ func rejectDelta(stateDir, version, zipPath string, cause error) {
 	_ = os.WriteFile(rejectedDeltaFile(stateDir, version), []byte(cause.Error()+"\n"), 0o600)
 }
 
+// downloadArtifact leaves the verified file at artifactPath; it does not mark
+// the update ready.
 func downloadArtifact(ctx context.Context, config DownloadConfig) (DownloadStatus, error) {
 	if config.Artifact.Shell != "" && config.Artifact.Shell != "wails" && config.Artifact.Shell != "electron" {
 		return DownloadStatus{}, errors.New("unsupported update shell")
@@ -184,13 +204,13 @@ func downloadArtifact(ctx context.Context, config DownloadConfig) (DownloadStatu
 	if err := os.MkdirAll(directory, 0o700); err != nil {
 		return DownloadStatus{}, fmt.Errorf("create update download directory: %w", err)
 	}
-	finalPath := filepath.Join(directory, config.Artifact.FileName)
+	finalPath := artifactPath(config)
 	tempPath := finalPath + ".part"
 	status := DownloadStatus{State: "downloading", Version: config.Version, FileName: config.Artifact.FileName, TotalBytes: config.Artifact.Bytes}
 	if fileMatches(finalPath, config.Artifact.Bytes, expectedHash) {
 		status.DownloadedBytes = config.Artifact.Bytes
 		emitDownload(config.Progress, status)
-		return finishDownload(config, status, finalPath, expectedHash)
+		return status, nil
 	}
 	if err := removeInvalidFinal(finalPath); err != nil {
 		return failDownload(config.Progress, status, err)
@@ -232,7 +252,7 @@ func downloadArtifact(ctx context.Context, config DownloadConfig) (DownloadStatu
 	if err := activateVerifiedDownload(tempPath, finalPath); err != nil {
 		return failDownload(config.Progress, status, err)
 	}
-	return finishDownload(config, status, finalPath, expectedHash)
+	return status, nil
 }
 
 func transferDownload(ctx context.Context, client *http.Client, config DownloadConfig, tempPath string, status *DownloadStatus) error {
@@ -434,10 +454,10 @@ func activateVerifiedDownload(tempPath, finalPath string) error {
 	return nil
 }
 
-func finishDownload(config DownloadConfig, status DownloadStatus, finalPath, expectedHash string) (DownloadStatus, error) {
+func finishDownload(config DownloadConfig, status DownloadStatus) (DownloadStatus, error) {
 	pending := PendingUpdate{
 		SchemaVersion: pendingSchemaVersion, Version: config.Version, Channel: config.Channel,
-		Flavor: config.Artifact.Flavor, ZIPPath: finalPath, SHA256: expectedHash,
+		Flavor: config.Artifact.Flavor, ZIPPath: artifactPath(config), SHA256: strings.ToLower(strings.TrimSpace(config.Artifact.SHA256)),
 		InstallDir: config.InstallDir, ExecutableName: config.ExecutableName,
 		RestartArgs: []string{"run"}, State: "ready", CreatedAt: time.Now().UTC().Format(time.RFC3339),
 		TargetShell: config.Artifact.Shell, AllowShellMigration: config.AllowShellMigration,

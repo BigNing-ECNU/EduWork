@@ -51,6 +51,9 @@ type Snapshot struct {
 	FileName           string `json:"fileName,omitempty"`
 	DownloadedBytes    int64  `json:"downloadedBytes"`
 	TotalBytes         int64  `json:"totalBytes"`
+	DownloadStage      string `json:"downloadStage,omitempty"` // "verifying": checking the installed files a delta reuses
+	CheckedFiles       int    `json:"checkedFiles,omitempty"`
+	TotalFiles         int    `json:"totalFiles,omitempty"`
 	InstallOnNextStart bool   `json:"installOnNextStart"`
 	RelaunchedVersion  string `json:"relaunchedVersion,omitempty"`
 	Error              string `json:"error,omitempty"`
@@ -335,14 +338,18 @@ func (manager *Manager) AutoCheck() {
 }
 
 func (manager *Manager) snapshotLocked() Snapshot {
+	stage := ""
+	if manager.state == "downloading" && manager.download.State == "verifying" {
+		stage = "verifying"
+	}
 	return Snapshot{
 		Enabled: manager.edition.enabled(),
 		State:   manager.state, Policy: manager.policy, CurrentVersion: manager.config.Version,
 		LatestVersion: manager.status.LatestVersion, Channel: manager.status.Channel,
 		CheckedAt: manager.status.CheckedAt, PublishedAt: manager.status.PublishedAt,
 		FileName: manager.download.FileName, DownloadedBytes: manager.download.DownloadedBytes,
-		TotalBytes: manager.download.TotalBytes, InstallOnNextStart: manager.installOnNextStart,
-		RelaunchedVersion: manager.relaunchedVersion, Error: manager.lastErr,
+		TotalBytes: manager.download.TotalBytes, DownloadStage: stage, CheckedFiles: manager.download.CheckedFiles, TotalFiles: manager.download.TotalFiles,
+		InstallOnNextStart: manager.installOnNextStart, RelaunchedVersion: manager.relaunchedVersion, Error: manager.lastErr,
 	}
 }
 

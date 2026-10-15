@@ -2,6 +2,7 @@ package updater
 
 import (
 	"archive/zip"
+	"context"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
@@ -422,7 +423,8 @@ func reusedFiles(manifest releaseManifest, carried map[string]struct{}) ([]relea
 // a delta reuses is intact in the installation. Staging repeats the check after
 // the application exits; this pass lets an installation that the delta cannot
 // serve download the complete package instead of showing a failed update.
-func preflightDelta(zipPath, installDir string) error {
+// checked reports progress as files are verified.
+func preflightDelta(ctx context.Context, zipPath, installDir string, checked func(done, total int)) error {
 	archive, err := zip.OpenReader(zipPath)
 	if err != nil {
 		return err
@@ -460,7 +462,11 @@ func preflightDelta(zipPath, installDir string) error {
 	if err != nil {
 		return err
 	}
-	for _, item := range reused {
+	checked(0, len(reused))
+	for index, item := range reused {
+		if err := ctx.Err(); err != nil {
+			return err
+		}
 		path := filepath.Join(installDir, filepath.FromSlash(item.Path))
 		if info, err := os.Stat(path); err != nil || !info.Mode().IsRegular() || info.Size() != item.Bytes {
 			return fmt.Errorf("installed %s differs from the release", item.Path)
@@ -468,6 +474,7 @@ func preflightDelta(zipPath, installDir string) error {
 		if err := verifyFileSHA256(path, item.SHA256); err != nil {
 			return fmt.Errorf("installed %s differs from the release: %w", item.Path, err)
 		}
+		checked(index+1, len(reused))
 	}
 	return nil
 }

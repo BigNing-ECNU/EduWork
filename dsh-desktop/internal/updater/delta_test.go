@@ -9,6 +9,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strings"
 	"testing"
@@ -145,6 +146,9 @@ func TestDownloadPrefersMatchingDeltaAndFallsBackToFullPackage(t *testing.T) {
 	defer server.Close()
 	base := server.URL + "/releases"
 	installed := []byte(`{"schemaVersion":1,"launcherVersion":"0.4.3"}`)
+	// states records each reported state; verifying entries carry checked/total
+	// and whether a pending update already existed at that moment.
+	var states []string
 	download := func(t *testing.T, fromManifest string, change func(installDir string)) (PendingUpdate, string) {
 		t.Helper()
 		installDir, deltaZIP, _ := deltaFixture(t)
@@ -163,6 +167,17 @@ func TestDownloadPrefersMatchingDeltaAndFallsBackToFullPackage(t *testing.T) {
 			Artifact: Artifact{Flavor: "offline", FileName: "full.zip", Bytes: int64(len(full)), SHA256: digest(full), URL: url + "full.zip", SHA256URL: url + "full.zip.sha256",
 				Deltas: []DeltaArtifact{{FromVersion: "0.4.3", FromManifestSHA256: fromManifest, FileName: "delta.zip", Bytes: int64(len(delta)), SHA256: digest(delta), URL: url + "delta.zip", SHA256URL: url + "delta.zip.sha256"}}},
 		}
+		states = nil
+		config.Progress = func(status DownloadStatus) {
+			state := status.State
+			if state == "verifying" {
+				_, err := os.Stat(PendingFile(stateDir))
+				state = fmt.Sprintf("verifying %d/%d pending=%t", status.CheckedFiles, status.TotalFiles, err == nil)
+			}
+			if len(states) == 0 || states[len(states)-1] != state {
+				states = append(states, state)
+			}
+		}
 		if _, err := Download(context.Background(), config); err != nil {
 			t.Fatal(err)
 		}
@@ -175,6 +190,10 @@ func TestDownloadPrefersMatchingDeltaAndFallsBackToFullPackage(t *testing.T) {
 	if pending, _ := download(t, digest(installed), nil); pending.DeltaFrom != "0.4.3" || pending.SHA256 != digest(delta) || filepath.Base(pending.ZIPPath) != "delta.zip" {
 		t.Fatalf("matching installation did not use the delta: %#v", pending)
 	}
+	// The two reused files are checked before the delta is ready.
+	if got := strings.Join(states, ", "); got != "downloading, verifying 0/2 pending=false, verifying 1/2 pending=false, verifying 2/2 pending=false, ready" {
+		t.Fatalf("delta states: %s", got)
+	}
 	if pending, _ := download(t, strings.Repeat("0", 64), nil); pending.DeltaFrom != "" || pending.SHA256 != digest(full) {
 		t.Fatalf("another build used the delta: %#v", pending)
 	}
@@ -185,6 +204,10 @@ func TestDownloadPrefersMatchingDeltaAndFallsBackToFullPackage(t *testing.T) {
 	})
 	if pending.DeltaFrom != "" || pending.SHA256 != digest(full) {
 		t.Fatalf("modified installation kept the delta: %#v", pending)
+	}
+	// Files are checked in manifest order, so the changed one may come first or second.
+	if got := strings.Join(states, ", "); !regexp.MustCompile(`^downloading, verifying 0/2 pending=false, (verifying 1/2 pending=false, )?downloading, ready$`).MatchString(got) {
+		t.Fatalf("rejected delta states: %s", got)
 	}
 	if _, err := os.Stat(rejectedDeltaFile(stateDir, deltaTestVersion)); err != nil {
 		t.Fatalf("rejected delta was not recorded: %v", err)
