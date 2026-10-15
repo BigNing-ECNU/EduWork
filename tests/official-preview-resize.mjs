@@ -64,10 +64,21 @@ try {
             const needed = pages.reduce((sum, page) => sum + page.getBoundingClientRect().height, 0) + parseFloat(css.paddingTop) + parseFloat(css.paddingBottom) + (pages.length - 1) * parseFloat(css.gap)
             return Math.round(innerHeight - node.clientHeight + needed)
           })
-          for (const offset of [-2, -1, 0, 1, 2]) {
+          // #155 identified fractional CSS dimensions as a separate trigger in
+          // the old viewer. Exercise them in the official renderer as well.
+          for (const offset of [-2, -1, 0, 1, 2]) for (const fraction of [0, 0.5]) {
+            await scrollport.evaluate(node => { for (const name of ['width', 'height']) node.style.removeProperty(name) })
             const height = Math.max(350, boundary + offset)
             await page.setViewportSize({ width, height })
             await page.waitForTimeout(250)
+            if (fraction) {
+              await scrollport.evaluate((node, fraction) => {
+                const box = node.getBoundingClientRect()
+                node.style.width = `${Math.floor(box.width) - fraction}px`
+                node.style.height = `${Math.floor(box.height) - fraction}px`
+              }, fraction)
+              await page.waitForTimeout(250)
+            }
             const sample = await scrollport.evaluate(async node => {
               const frame = node.closest('[data-document-zoom-mode]'), canvas = node.querySelector('canvas'), samples = [], writes = []
               const observer = new MutationObserver(records => writes.push(...records.map(record => performance.now())))
@@ -79,13 +90,16 @@ try {
                 samples.push({ width: node.clientWidth, height: node.clientHeight, pageWidth: box.width, pageHeight: box.height, bitmapWidth: canvas.width, bitmapHeight: canvas.height, zoom: frame.style.getPropertyValue('--document-zoom') })
               }
               observer.disconnect()
-              return { samples, lateWrites: writes.filter(time => time - start > 400).length, gutter: getComputedStyle(node).scrollbarGutter, reserved: node.offsetWidth - node.clientWidth, mode: frame.dataset.documentZoomMode }
+              const box = node.getBoundingClientRect()
+              return { samples, lateWrites: writes.filter(time => time - start > 400).length, gutter: getComputedStyle(node).scrollbarGutter, reserved: node.offsetWidth - node.clientWidth, mode: frame.dataset.documentZoomMode, layoutWidth: box.width, layoutHeight: box.height }
             })
             const stable = new Set(sample.samples.slice(-15).map(value => JSON.stringify(value))).size === 1 && sample.lateWrites === 0
-            const passed = stable && sample.gutter === 'stable' && sample.reserved === scrollbar && sample.mode === 'fit-width'
-            results.push({ dpr, file, scrollbar, width, height, offset, passed, ...sample })
+            const fractionalLayout = !fraction || [sample.layoutWidth, sample.layoutHeight].every(value => Math.abs(value % 1 - fraction) < 1 / 64)
+            const passed = stable && fractionalLayout && sample.gutter === 'stable' && sample.reserved === scrollbar && sample.mode === 'fit-width'
+            results.push({ dpr, file, scrollbar, width, height, offset, fraction, passed, ...sample })
             await writeFile(join(output, 'progress.json'), JSON.stringify({ checked: results.length, failed: results.filter(result => !result.passed).length }))
           }
+          await scrollport.evaluate(node => { for (const name of ['width', 'height']) node.style.removeProperty(name) })
         }
       }
     }

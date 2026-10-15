@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-15T02:05:48.000Z",
-  "fileSetSHA256": "b1504522d034161f8719db0d93fe600d6e293de5920ff5cb89f38fc67cff6df6",
+  "createdAt": "2026-10-15T03:02:41.305Z",
+  "fileSetSHA256": "5fb81d9bfad1c0bd5d67300d096f72a270c18aa51d0fc89ab625a35908de7300",
   "files": [
     {
       "path": ".gitattributes",
@@ -2949,7 +2949,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/package.json",
-      "sha256": "369292a58942403a0fe44d52ea972b4160e359b1fa2ba579635906036db607f7"
+      "sha256": "ac2898a13672159eff21cf89b750eaa8d9fdbf1f43fd1b30428830933d2f7b0a"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/contracts/presentation-metrics.json",
@@ -3013,7 +3013,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/office-preview-client.js",
-      "sha256": "aabc605a315c43b580a44d3572e6036693d620be15b96389cd9deb76d340af65"
+      "sha256": "bd6cb84d89555ecd5b80519cb64f2532cdff4e6e8aedd03c94d04fc482865c18"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/office-preview.js",
@@ -3561,11 +3561,19 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/scripts/office-preview-client-smoke.mjs",
-      "sha256": "640af6d3d4ec65ba986d039ba7bb9af7ad70c9a5e39e77701ea1e154dac04797"
+      "sha256": "cc2202aa96a2484b0dc29b3cf19aafbf9c66a5259b45dcf1a098ec8bf6e9ceea"
     },
     {
       "path": "packages/dsh-knowledge-studio/scripts/office-preview-scaling-smoke.mjs",
       "sha256": "57b259526101d1d1c73cdc9687ac7f032c668668a5cb55f918067371ab7fdac8"
+    },
+    {
+      "path": "packages/dsh-knowledge-studio/scripts/office-preview-zoom-checks.mjs",
+      "sha256": "3cd7c47ca8f854101508f63c31e0840033fa7830213eb8ead4dfb4610e342813"
+    },
+    {
+      "path": "packages/dsh-knowledge-studio/scripts/office-preview-zoom-smoke.mjs",
+      "sha256": "b2f16532ad2f3fd768f044d9b75867cc628dccfa947431ac86232a9b370534eb"
     },
     {
       "path": "packages/dsh-knowledge-studio/scripts/p0-smoke.mjs",
@@ -5821,7 +5829,7 @@
     },
     {
       "path": "tests/official-preview-resize.mjs",
-      "sha256": "600066edf326f472649bb3e28a49bcc0d9940f0807c617302703505b0d01f5eb"
+      "sha256": "482a95c74eb1082241c2bc1672f67ebcf93505c2fe3585cb961ed0d4285c0950"
     },
     {
       "path": "tests/official-preview-routing.mjs",
