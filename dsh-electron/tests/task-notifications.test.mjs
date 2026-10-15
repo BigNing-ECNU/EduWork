@@ -8,7 +8,7 @@ function setup() {
   let focused = false, time = 10000
   const popups = [], shown = [], dismissed = []
   const shell = new TaskNotifications({ foreground: () => focused, now: () => time, show: () => shown.push(true), publish: value => popups.push(value), dismiss: () => dismissed.push(true), changed() {} })
-  const sync = (items, preferences = {}) => shell.handle({ action: 'sync', instance: 'host-a', items, preferences: { ...notificationDefaults, ...preferences } })
+  const sync = (items, preferences = {}, running = []) => shell.handle({ action: 'sync', instance: 'host-a', items, running, preferences: { ...notificationDefaults, ...preferences } })
   return { shell, sync, popups, shown, dismissed, focus: value => { focused = value }, advance: () => { time += 5000 } }
 }
 function host(bridge = async () => ({ seen: [] }), goal) {
@@ -109,9 +109,10 @@ test('snapshot failures are contained and can recover without losing pending wor
 })
 
 test('bridge contract rejects commands, arbitrary URLs, oversized or ambiguous state', () => {
-  const good = { action: 'sync', instance: 'a', items: [item('a')], preferences: notificationDefaults }
+  const good = { action: 'sync', instance: 'a', items: [item('a')], running: ['session-b'], preferences: notificationDefaults }
   assert.equal(validateAttentionRequest(good), good)
   for (const bad of [ { ...good, command: 'run' }, { ...good, items: [item('a', 'approval', { url: 'https://example.org' })] },
+    { ...good, running: undefined }, { ...good, running: ['s', 's'] }, { ...good, running: [''] }, { ...good, running: ['a\nb'] },
     { ...good, items: [item('a'), item('a')] }, { ...good, preferences: { ...notificationDefaults, sound: 'yes' } },
     { action: 'view', sessionId: '../a', url: 'file://secret' } ]) assert.throws(() => validateAttentionRequest(bad))
 })
@@ -165,4 +166,30 @@ test('a working background subagent holds completion for the turn it wakes', () 
   assert.equal([...h.items.values()][0].kind, 'completed')
   root('turn/start', { turn: 3 }); h.subagent('child', 'turn/start', 'a'); root('turn/end', { turn: 3, reason: { kind: 'error' } })
   assert.equal([...h.items.values()][0].kind, 'failed')
+})
+
+test('running lists root turns and generating Studio results once per session', async () => {
+  const synced = [], h = host(async body => { synced.push(body); return { seen: [] } }), event = (id, type, data, root = true) => h.event({ id }, { type, data }, root)
+  event('a', 'turn/start', { turn: 1 }); event('child', 'turn/start', { turn: 1 }, false)
+  h.studio('w', [{ id: 'artifact_a', sessionId: 'a', version: 1, status: 'running', updatedAt: new Date(11000).toISOString() },
+    { id: 'artifact_b', sessionId: 'b', version: 1, status: 'queued', updatedAt: new Date(11000).toISOString() },
+    { id: 'artifact_c', version: 1, status: 'running', updatedAt: new Date(11000).toISOString() }])
+  assert.deepEqual(h.running(), ['a', 'b'])
+  await h.flush(); assert.deepEqual(synced.at(-1).running, ['a', 'b'])
+  event('a', 'turn/end', { turn: 1, reason: { kind: 'completed' } }); assert.deepEqual(h.running(), ['a', 'b'])
+  h.studio('w', [{ id: 'artifact_a', sessionId: 'a', version: 2, status: 'completed', updatedAt: new Date(12000).toISOString() }])
+  assert.deepEqual(h.running(), [])
+  const f = setup(); f.sync([], {}, ['a', 'b'])
+  assert.deepEqual(f.shell.running, ['a', 'b'])
+})
+
+test('a result finished in the conversation on screen is acknowledged once, without a pending entry', () => {
+  const f = setup(), changes = []
+  f.shell.changed = () => changes.push(f.shell.acknowledged)
+  f.focus(true); f.shell.handle({ action: 'view', sessionId: 'session-a' })
+  assert.deepEqual(f.sync([item('done', 'completed')]).seen, ['done']); assert.equal(f.shell.acknowledged, 1); assert.equal(f.shell.items.size, 0)
+  f.sync([item('bad', 'failed')]); assert.equal(f.shell.acknowledged, 1)
+  f.focus(false); f.sync([item('later', 'completed')]); f.focus(true)
+  f.sync([item('later', 'completed')]); assert.equal(f.shell.acknowledged, 1)
+  assert.equal(changes[0], 1)
 })

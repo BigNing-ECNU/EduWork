@@ -15,14 +15,17 @@ import { DesktopHostProcess } from './eduwork-host-process.mjs'
 import { installNativeDesktopBridge } from './native-desktop-bridge.mjs'
 import { redactDiagnostic } from './diagnostics.mjs'
 import { showDesktopWindow } from './window-visibility.mjs'
+import { PET_SCHEME } from './desktop-pet-core.mjs'
 import { configureEduworkPaths, installEduworkFromDmg, prepareEduworkDesktop, nativeBootstrap, desktopReady,
   trackHost, desktopHostLog, isQuitting, attachDesktopWindow, configureWindowNavigation,
   showDesktopFailure, checkProductUpdates, setDesktopQuitGuard, restartDesktop, pickDesktopDirectory } from './product.mjs'
 
 configureEduworkPaths()
+// Electron accepts one privileged-scheme registration; the pet page scheme is
+// served only in the desktop pet's own session.
 protocol.registerSchemesAsPrivileged([{ scheme: SCHEME, privileges: {
   standard: true, secure: true, supportFetchAPI: true, corsEnabled: true, stream: true, codeCache: true,
-} }])
+} }, { scheme: PET_SCHEME, privileges: { standard: true, secure: true, supportFetchAPI: true } }])
 let mainWindow, bridge, product, entered = false, sessionEnding = false, recoveryExit = false
 let hostEnvironment = process.env
 const loginShellRead = new AbortController()

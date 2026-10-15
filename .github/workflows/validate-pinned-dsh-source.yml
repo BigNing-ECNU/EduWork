@@ -143,6 +143,8 @@ jobs:
           if ($LASTEXITCODE) { throw 'Shared media template build and assembly checks failed' }
           node --test core/dsh-plugins/workbench-native/test/data-import.test.mjs core/dsh-plugins/workbench-native/test/import-catalog.test.mjs
           if ($LASTEXITCODE) { throw 'Historical directory import qualification failed' }
+          node --test core/dsh-plugins/desktop-pet/test/*.test.mjs core/dsh-electron/tests/desktop-pet-core.test.mjs
+          if ($LASTEXITCODE) { throw 'Desktop pet plugin and placement checks failed' }
       - name: Qualify authenticated Host transport and update admission
         shell: pwsh
         run: |
@@ -186,6 +188,9 @@ jobs:
           $electron = if ($IsWindows) { "$env:RUNNER_TEMP/electron/runtime/electron.exe" } else { "$env:RUNNER_TEMP/electron/runtime/Electron.app/Contents/MacOS/Electron" }
           node core/dsh-electron/scripts/probe-native-desktop.mjs --shell "$env:RUNNER_TEMP/native-shell" --runtime "$env:RUNNER_TEMP/native-runtime" --electron $electron --output "$env:RUNNER_TEMP/native-desktop-evidence"
           if ($LASTEXITCODE) { throw 'Native Electron acceptance failed' }
+          $env:EDUWORK_TEST_EVIDENCE = "$env:RUNNER_TEMP/desktop-pet-evidence"
+          $pet = Start-Process -FilePath $electron -ArgumentList 'core/dsh-electron/tests/desktop-pet.electron.mjs' -NoNewWindow -Wait -PassThru
+          if ($pet.ExitCode) { throw 'Desktop pet Electron checks failed' }
           $env:EDUWORK_TEST_ELECTRON = $electron
           $env:EDUWORK_TEST_RUNTIME = "$env:RUNNER_TEMP/native-runtime"
           node --test core/dsh-electron/tests/automation-browser.test.mjs
@@ -226,4 +231,5 @@ jobs:
             ${{ runner.temp }}/native-shell/source-receipt.json
             ${{ runner.temp }}/native-desktop-evidence/report.json
             ${{ runner.temp }}/native-desktop-evidence/electron.log
+            ${{ runner.temp }}/desktop-pet-evidence/desktop-pet.json
           if-no-files-found: ignore
