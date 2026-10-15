@@ -11,6 +11,7 @@ import {
   pathExists, readJSON, run, sha256File, statEntry, writeJSON, writeText,
 } from '../../scripts/lib/build-util.mjs'
 import { desktopApplicationName } from '../../scripts/lib/local-install.mjs'
+import { pruneRuntimeFiles } from '../../scripts/lib/runtime-file-policy.mjs'
 import { relocateMacosCompositor } from './relocate-macos-compositor.mjs'
 import { createMacOSAppArchive } from './create-macos-archive.mjs'
 
@@ -109,6 +110,7 @@ export async function assembleMacos({
   await mkdir(output)
   await ditto(electronApp, app).catch(() => { throw new Error('Electron.app copy failed') })
   const resources = join(app, 'Contents/Resources')
+  await rm(join(resources, 'default_app.asar'))
   const appPayload = join(resources, 'app')
   await mkdir(appPayload)
   for (const folder of ['lib', 'renderer', 'third-party']) {
@@ -133,6 +135,7 @@ export async function assembleMacos({
   }
   await mkdir(join(resources, 'product'))
   await rsync(product, join(resources, 'product')).catch(() => { throw new Error('Product copy failed') })
+  const runtimeFiles = await pruneRuntimeFiles(join(resources, 'product'), 'darwin-arm64')
   await relocateMacosCompositor({
     packageRoot: join(resources, 'product/d/node_modules/@remotion/compositor-darwin-arm64'),
     receipt: join(resources, 'compositor-relocation.json'),
@@ -303,6 +306,7 @@ export async function assembleMacos({
     bundleVersion: effectiveBundleVersion,
     published: false,
     assembledAt: new Date().toISOString(),
+    runtimeFiles,
   }
   await writeJSON(join(resources, 'release.json'), release)
   // Seal the immutable Skill baseline into the app before signing. Mutable content

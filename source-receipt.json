@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-14T10:29:29.714Z",
-  "fileSetSHA256": "728a931403e789c2470fe4adc82a1d78e31030d232e6014a9c98ed6c45182eb6",
+  "createdAt": "2026-10-15T03:24:24.131Z",
+  "fileSetSHA256": "321c38cdf4761b07c77091d3aaa9a98695c58ff80c39a2479fa9c0c03700ea59",
   "files": [
     {
       "path": ".gitattributes",
@@ -45,7 +45,7 @@
     },
     {
       "path": ".github/workflows/validate-desktop-publisher.yml",
-      "sha256": "5dff38260e000ea5db4bd4c123c85db2240c0cecb1d627ea7fa19a9ec6431ab7"
+      "sha256": "2d8a752f8a516ccdd694445e752b491de8e2bdf8b9997cfb505a6777789bea84"
     },
     {
       "path": ".github/workflows/validate-local-web.yml",
@@ -245,7 +245,7 @@
     },
     {
       "path": "docs/BUILD.md",
-      "sha256": "7ad1ab4f471c023852ac812c5b127f0058d4bac9137f105ae25c079dc0ae2692"
+      "sha256": "fa9e986e2133bc0ab8595989955af96c900966698ffe0172c00f89ec600a2c69"
     },
     {
       "path": "docs/CONFIGURATION_EN.md",
@@ -945,7 +945,7 @@
     },
     {
       "path": "dsh-electron/scripts/assemble-macos.mjs",
-      "sha256": "c45c37357656e7b769ec5bc3dbe3d36185408911ec719ea3486f6d5b3b0997df"
+      "sha256": "134a525bdd04a6764f79931074175a27c4f70adc1e6c8c560f0aa7886337ac49"
     },
     {
       "path": "dsh-electron/scripts/assemble-macos.ps1",
@@ -953,7 +953,7 @@
     },
     {
       "path": "dsh-electron/scripts/assemble-windows.mjs",
-      "sha256": "ba3a5b77d86403076555b4d4f8c6f78e06f2274e85ec06f8366f8fece3f69fa1"
+      "sha256": "ff711b809e51fd0c45dea0fdd083185252bf532b6addf7429904924a616bc412"
     },
     {
       "path": "dsh-electron/scripts/assemble-windows.ps1",
@@ -3021,7 +3021,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/media.js",
-      "sha256": "7a7035f4ec18f051e61b63341263d315127b538b7aa441c219edfec139949de7"
+      "sha256": "de094efbe47de316a5a4364d4946df9d684d8516a5cfef238d5e63863776ad21"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/music.js",
@@ -3065,7 +3065,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/remotion.js",
-      "sha256": "c065c370094b265c3c9e05f4572d765bf4bb2fa35812c09539ac3c83c6400f0d"
+      "sha256": "d22dacb6566d05363fcdb06532b218eb4dea71c553f99769c0a070930817fb6d"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/runtime.js",
@@ -3789,7 +3789,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/test/media-runtime.test.mjs",
-      "sha256": "7ef533cfb6e99d44099f4fcfffedd1161b02358f2a07fc616a8136623b0a7efa"
+      "sha256": "fd483969e469d1246a48f11da99b920e00ef99f50890f9838f9216ba6f1f4104"
     },
     {
       "path": "packages/dsh-knowledge-studio/test/media-timeline.test.mjs",
@@ -5360,6 +5360,10 @@
       "sha256": "cb18f03e24840c4db5f91e72e0002ef8f1192642d31672a8368e867ea67a4131"
     },
     {
+      "path": "scripts/lib/runtime-file-policy.mjs",
+      "sha256": "546cd9697644c792b19afa9d0c450e42c2549f09c946d50ea39bd83be16b585c"
+    },
+    {
       "path": "scripts/lib/shared-desktop-stages.mjs",
       "sha256": "5ba948c37bdc53cf7ad00ea51854b8e175b03c23d39c8002236400849ed963ab"
     },
@@ -5854,6 +5858,10 @@
     {
       "path": "tests/publisher-acceptance.test.mjs",
       "sha256": "73ee8cbe37c03bdd899a7d8378b5283f7cb2ea4349dc871eeec92ea7e1a86251"
+    },
+    {
+      "path": "tests/runtime-file-policy.test.mjs",
+      "sha256": "bd37b0eaa84f1096a6695e9b39b31334255018541dd47230ad1b190049871fc8"
     },
     {
       "path": "tests/settings-theme-browser.mjs",
