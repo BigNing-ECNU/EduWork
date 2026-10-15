@@ -170,7 +170,8 @@
     "unpdf": "1.8.1",
     "zod": "^4.4.3",
     "jszip": "3.10.1",
-    "esbuild": "0.28.1"
+    "esbuild": "0.28.1",
+    "@deepseek-ai/dsh-util-workspace-path": "0.1.5-rc.1"
   },
   "engines": {
     "node": ">=22.19.0"

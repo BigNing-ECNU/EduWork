@@ -1,5 +1,5 @@
-// DSH 0.1.7 owns file intake and deliverable/tool cards. Keep only the product
-// preview formats still shared with Studio until native renderer acceptance.
+// DSH owns file intake, deliverable cards and general document previews.
+// Extend its public Sidebar only for audio/video playback.
 import previewRemote from '@chatecnu-work/dsh-artifact-preview-native/remote'
 import { installSidebarPreview } from './sidebar-preview.js'
 

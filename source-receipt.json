@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-14T02:06:39.102Z",
-  "fileSetSHA256": "f60a44731dafd4338a2b16c891b6cc0a36e6074b00eda85e74b4e78330e5eb9d",
+  "createdAt": "2026-10-15T01:38:09.937Z",
+  "fileSetSHA256": "1404a62bb7e00c3b0b3836c658a80045b43034ba3911f3c8fa1c5612e5563bb3",
   "files": [
     {
       "path": ".gitattributes",
@@ -2045,11 +2045,11 @@
     },
     {
       "path": "dsh-plugins/client-ui-media-artifacts/README_EN.md",
-      "sha256": "5bbe5ae2583b4e21e74621dfb00fa4bce708c8fdb52d7711877cba23704fba7a"
+      "sha256": "9e3a4629b8741af44673f003a18688d5829477dc11d5d0f2ef6514683b48b556"
     },
     {
       "path": "dsh-plugins/client-ui-media-artifacts/README.md",
-      "sha256": "bd236f6a9680c50c7b4cec8d2bb8aaa6ee92beaa722aee9dd24299524476eb2d"
+      "sha256": "51cfecd8463e15a7fad17fed394bd9f3c29ae5e26876ec857ada520be4d8a05b"
     },
     {
       "path": "dsh-plugins/client-ui-media-artifacts/src/client/deliverable-utils.js",
@@ -2069,7 +2069,7 @@
     },
     {
       "path": "dsh-plugins/client-ui-media-artifacts/src/client/native.js",
-      "sha256": "f6dea01a5b91674f5851bcf0220e7551eb395b710905d0e8d3362ee04607bf00"
+      "sha256": "a6ce6055d42055973b72f9495e4dd84d0ae21e3d96253e24f2a2d22c158a77cc"
     },
     {
       "path": "dsh-plugins/client-ui-media-artifacts/src/client/paste-target.js",
@@ -2081,7 +2081,7 @@
     },
     {
       "path": "dsh-plugins/client-ui-media-artifacts/src/client/sidebar-preview.js",
-      "sha256": "3bd81b20a49f729c646f6a6e4075932007e8e4b47f4cc3abe60d6393151745ae"
+      "sha256": "3034555c4c0664a0283296dcb49e7e97e9ea5f26bf6d22b21c43825e79c9def4"
     },
     {
       "path": "dsh-plugins/client-ui-media-artifacts/src/index.js",
@@ -2941,11 +2941,11 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/package-lock.json",
-      "sha256": "1289369dc0689beb159f9805613d9b33c995ed502264f01c3ddb52e30c6588f5"
+      "sha256": "b7f76e304a4b0d855239fde4fbe93c80e4d09e6faabdc59297007e967ccf13b5"
     },
     {
       "path": "packages/dsh-knowledge-studio/package.json",
-      "sha256": "50670514b75dc9223e6cf3089a0493c86057fcc25082691acb733f70b5fb69c4"
+      "sha256": "369292a58942403a0fe44d52ea972b4160e359b1fa2ba579635906036db607f7"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/contracts/presentation-metrics.json",
@@ -3425,11 +3425,11 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/README_EN.md",
-      "sha256": "6ad401e192b5d2c1973ad17bbc082438d4b777b7b7573d18f020be485bd7f7c7"
+      "sha256": "f04482a408b0079dde6afdfc4c820f6e7af64fabd0087a26ca3c849ec1abb898"
     },
     {
       "path": "packages/dsh-knowledge-studio/README.md",
-      "sha256": "21c6ade2ed9c367427ca4f46b43de55f88c890481aaa8831e2ecf759c3bc4c87"
+      "sha256": "ef55cb2a58bb6ecdc0d262c7029ac8eea29fe8e8b8bdd9ee091448d0abe8b730"
     },
     {
       "path": "packages/dsh-knowledge-studio/scripts/artifact-evidence-smoke.mjs",
@@ -3612,8 +3612,12 @@
       "sha256": "5961e4a69326505d0b0187b778385b0d01b9af495f53912f2c2f527784fa50fa"
     },
     {
+      "path": "packages/dsh-knowledge-studio/src/client/file-preview.ts",
+      "sha256": "170285269f0fb1b72e9a936823c5b825eb2c3deb20fed99180233ba8a592b669"
+    },
+    {
       "path": "packages/dsh-knowledge-studio/src/client/index.tsx",
-      "sha256": "c39e078a0cf103d5ef4a3197413a6b235b7cb6fb36e931972f47af8e64320232"
+      "sha256": "12d2f3826ac74fb8e5c740b49b43129cd48dd1b852225ef4f43df26634f8e7f2"
     },
     {
       "path": "packages/dsh-knowledge-studio/src/client/KnowledgeMarkdown.tsx",
@@ -3625,7 +3629,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/src/client/locale.ts",
-      "sha256": "9271f3dd58f0922650e1d381acb2fe270f771f2c077df67274826780dcbac728"
+      "sha256": "6449cd8a931f22e6d40e945700a3d2e129057a25aa113f19acef1abd5a596590"
     },
     {
       "path": "packages/dsh-knowledge-studio/src/client/mindmap-export.ts",
@@ -3657,7 +3661,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/src/client/StudioArtifact.tsx",
-      "sha256": "4771fdbf62020f01845734b2f6bc2f1d2f88e2eefaf7bcf4e47b4139ae1b298d"
+      "sha256": "cdd853e839507f3a3528f1beaedf9bd18cb47ff018ce8778bf54dc0613e75f8c"
     },
     {
       "path": "packages/dsh-knowledge-studio/src/client/StudioEntry.tsx",
@@ -5810,6 +5814,10 @@
     {
       "path": "tests/native-compile-cache.test.mjs",
       "sha256": "05596ed40b16aca180e93aa82908223d6d738d00b288abb24f7b9e46d2f02ac5"
+    },
+    {
+      "path": "tests/official-preview-routing.mjs",
+      "sha256": "a4644b8d6e75eab6d328411d3b4f2ce6e1126f360586565d8c69946bb6e19a2d"
     },
     {
       "path": "tests/package-maintenance.test.mjs",
