@@ -2,7 +2,7 @@
 
 [简体中文](README.md)
 
-DSH 0.2 desktop builds use `src/client/native.js`. Official components own attachment intake, deliverable cards and general file preview; this entry only adds audio/video playback. The legacy card and attachment adapters below remain for older hosts.
+DSH 0.2 desktop builds use `src/client/native.js`. Official components own attachment intake, deliverable cards and general file preview; this entry adds audio/video playback and preview layout stabilization. The legacy card and attachment adapters below remain for older hosts.
 
 This replaceable DSH client plugin is a narrow compatibility derivative of
 `@deepseek-ai/dsh-client-ui-deliverables@0.1.2-rc.1`. It replaces that one
@@ -51,6 +51,10 @@ and text remain official. Studio opens saved Office artifacts in the same file
 tabs; generation, downloads and interactive artifacts remain in Studio. Older
 hosts retain Artifact Services' Office preview adapter. PDF/HTML exports are
 unchanged.
+
+Official preview scrollports reserve space for classic scrollbars to prevent
+repeated auto-fit rendering at boundary window sizes. Fit-width and manual zoom
+remain available.
 
 `build-client.ps1` accepts `-DshLockPath`, `-ArtifactServices` and `-Output`.
 Source assembly profiles build into their own derived package directory.

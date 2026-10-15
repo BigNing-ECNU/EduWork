@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-15T01:56:10.035Z",
-  "fileSetSHA256": "e878638cdadd0a5f7f4ccfaebeefe4cec26068bbbc497bdd362407b35dfacb87",
+  "createdAt": "2026-10-15T02:03:12.074Z",
+  "fileSetSHA256": "f802d605b287d6a4ed91651a76834731f92b2ea1b366d078e07a9d8726c5a034",
   "files": [
     {
       "path": ".gitattributes",
@@ -2045,11 +2045,11 @@
     },
     {
       "path": "dsh-plugins/client-ui-media-artifacts/README_EN.md",
-      "sha256": "9e3a4629b8741af44673f003a18688d5829477dc11d5d0f2ef6514683b48b556"
+      "sha256": "54813e2ab77a4f35308377611dfdddf3b44805b8ebb4ba0d26ae2a30208001b5"
     },
     {
       "path": "dsh-plugins/client-ui-media-artifacts/README.md",
-      "sha256": "51cfecd8463e15a7fad17fed394bd9f3c29ae5e26876ec857ada520be4d8a05b"
+      "sha256": "40def83fcc3bf256d2c896cac9b8b578001a92ee6142e93b2193925cb85c6c83"
     },
     {
       "path": "dsh-plugins/client-ui-media-artifacts/src/client/deliverable-utils.js",
@@ -2058,6 +2058,10 @@
     {
       "path": "dsh-plugins/client-ui-media-artifacts/src/client/deliverables.js",
       "sha256": "d55c508010f431c3e69ce630d8669df4890be13a450b2dd5e1a791fbdae07c41"
+    },
+    {
+      "path": "dsh-plugins/client-ui-media-artifacts/src/client/document-preview-layout.js",
+      "sha256": "84b723c5cbf22ee2509c26035186cf5a14bfb03025e7d503e2696ebbc3bb65e0"
     },
     {
       "path": "dsh-plugins/client-ui-media-artifacts/src/client/index.js",
@@ -2069,7 +2073,7 @@
     },
     {
       "path": "dsh-plugins/client-ui-media-artifacts/src/client/native.js",
-      "sha256": "a6ce6055d42055973b72f9495e4dd84d0ae21e3d96253e24f2a2d22c158a77cc"
+      "sha256": "26cb4bf9d7e02993a47d55340b94ee6f1533fa2017041d77ffbf475f93ca674b"
     },
     {
       "path": "dsh-plugins/client-ui-media-artifacts/src/client/paste-target.js",
@@ -5814,6 +5818,10 @@
     {
       "path": "tests/native-compile-cache.test.mjs",
       "sha256": "05596ed40b16aca180e93aa82908223d6d738d00b288abb24f7b9e46d2f02ac5"
+    },
+    {
+      "path": "tests/official-preview-resize.mjs",
+      "sha256": "600066edf326f472649bb3e28a49bcc0d9940f0807c617302703505b0d01f5eb"
     },
     {
       "path": "tests/official-preview-routing.mjs",
