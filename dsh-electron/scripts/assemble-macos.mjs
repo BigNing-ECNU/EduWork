@@ -13,6 +13,7 @@ import {
 import { desktopApplicationName } from '../../scripts/lib/local-install.mjs'
 import { pruneRuntimeFiles } from '../../scripts/lib/runtime-file-policy.mjs'
 import { relocateMacosCompositor } from './relocate-macos-compositor.mjs'
+import { createMacOSAppArchive } from './create-macos-archive.mjs'
 
 const scriptRoot = dirname(fileURLToPath(import.meta.url))
 
@@ -270,6 +271,8 @@ export async function assembleMacos({
     ]).catch(() => { throw new Error('Sparkle native bridge compilation failed') })
     await plutilReplace(plist, 'SUFeedURL', updateDefaultPolicy === 'development' ? sparkleDevelopmentFeedURL : sparkleFeedURL)
     await plutilReplace(plist, 'SUPublicEDKey', sparklePublicEDKey)
+    await run('plutil', ['-replace', 'SUAllowsAutomaticUpdates', '-bool', 'YES', plist])
+      .catch(() => { throw new Error('Sparkle Info.plist setup failed') })
     await run('plutil', ['-replace', 'SUEnableAutomaticChecks', '-bool', 'NO', plist])
       .catch(() => { throw new Error('Sparkle Info.plist setup failed') })
   }
@@ -323,7 +326,7 @@ export async function assembleMacos({
       .catch(() => { throw new Error('Local ad-hoc signing failed') })
     await run('codesign', ['--verify', '--deep', '--strict', signingApp])
       .catch(() => { throw new Error('Local ad-hoc signature verification failed') })
-    await run('ditto', ['-c', '-k', '--sequesterRsrc', '--keepParent', appName, temporaryArchive], { cwd: signingRoot })
+    await createMacOSAppArchive(signingApp, temporaryArchive)
       .catch(() => { throw new Error('macOS ZIP creation failed') })
     await copyFileTo(temporaryArchive, archive)
   } finally {
