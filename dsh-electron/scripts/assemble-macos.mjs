@@ -14,6 +14,7 @@ import { desktopApplicationName } from '../../scripts/lib/local-install.mjs'
 import { pruneRuntimeFiles } from '../../scripts/lib/runtime-file-policy.mjs'
 import { relocateMacosCompositor } from './relocate-macos-compositor.mjs'
 import { createMacOSAppArchive } from './create-macos-archive.mjs'
+import { pruneElectronLocales } from './electron-locales.mjs'
 
 const scriptRoot = dirname(fileURLToPath(import.meta.url))
 
@@ -109,6 +110,7 @@ export async function assembleMacos({
   const app = join(output, appName)
   await mkdir(output)
   await ditto(electronApp, app).catch(() => { throw new Error('Electron.app copy failed') })
+  const electronLocales = await pruneElectronLocales(app, 'darwin')
   const resources = join(app, 'Contents/Resources')
   await rm(join(resources, 'default_app.asar'))
   const appPayload = join(resources, 'app')
@@ -172,9 +174,15 @@ export async function assembleMacos({
   await run(node, ['-e', ladybugSmoke, ladybugPackage])
     .catch(() => { throw new Error('Bundled LadybugDB native smoke test failed') })
   await mkdir(join(resources, 'runtime'))
-  await copyFileTo(node, join(resources, 'runtime/node'))
+  const bundledNode = join(resources, 'runtime/node')
+  await copyFileTo(node, bundledNode)
   await copyFileTo(nodeLicense, join(resources, 'runtime/LICENSE-Node'))
-  await chmod(join(resources, 'runtime/node'), 0o755)
+  await chmod(bundledNode, 0o755)
+  // Native addons resolve Node-API through exported symbols; -x drops only the
+  // local debugging symbols. Stripping voids the official signature.
+  await run('strip', ['-x', bundledNode]).catch(() => { throw new Error('Bundled Node symbol stripping failed') })
+  await run('codesign', ['--force', '--sign', '-', '--timestamp=none', bundledNode])
+    .catch(() => { throw new Error('Bundled Node ad-hoc signing failed') })
 
   let ownership = 'user'
   const policyPath = join(product, 'resources/desktop/configuration-policy.json')
@@ -292,6 +300,7 @@ export async function assembleMacos({
     applicationName: appName,
     platform: 'darwin-arm64',
     electronVersion,
+    electronLocales,
     nodeVersion: receipt.host.nodeVersion,
     minimumSystemVersion: '15.0',
     ladybugNativePatched: true,

@@ -14,6 +14,7 @@ import { setUpdaterManifest } from './set-updater-manifest.mjs'
 import { installDesktopConfig } from '../../scripts/install-desktop-config.mjs'
 import { desktopVersion } from '../../scripts/desktop-build-plan.mjs'
 import { pruneRuntimeFiles } from '../../scripts/lib/runtime-file-policy.mjs'
+import { pruneElectronLocales } from './electron-locales.mjs'
 
 const scriptRoot = dirname(fileURLToPath(import.meta.url))
 
@@ -54,6 +55,7 @@ export async function assembleWindows({
   if (!await isFile(nodeLicense)) throw new Error('Use the extracted official Node distribution, including its LICENSE beside node.exe')
 
   await copyTree(electronRuntime, output, payloadFilters)
+  const electronLocales = await pruneElectronLocales(output, 'win32')
   const app = join(output, 'resources/app')
   await ensureDir(app)
   await copyTree(join(shellBuild, 'lib'), join(app, 'lib'), payloadFilters)
@@ -139,6 +141,7 @@ export async function assembleWindows({
     dshCommit: identity.dshCommit,
     distribution: identity.distribution,
     productName: name,
+    electronLocales,
     nodeVersion,
     nodeSHA256: await sha256File(node),
     published: false,
