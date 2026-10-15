@@ -52,7 +52,7 @@ export function windowsStages({ coreRoot, receiptBase, recipe = 'npm' }) {
       outputs: ['inputs'],
       // The inputs are a function of the pinned runtime manifests and the
       // reviewed source catalog, never of the product, so a product change does
-      // not re-download Python, Node, Chromium or the ASR engine.
+      // not re-download Python, Node or the ASR engine.
       inputs: async (workspace) => ({
         node: await sha256File(join(coreRoot, 'dsh-desktop/internal/productruntime/builtin/node-runtime-manifest.json')),
         python: await sha256File(join(coreRoot, 'dsh-desktop/internal/productruntime/builtin/python-runtime-manifest.json')),
@@ -372,9 +372,6 @@ async function publishWindows({ workspace, coreRoot, receiptBase }) {
       vcRedist: inputs.vcRedist,
       asrSHA256: inputs.asrSHA256,
       modelSHA256: inputs.modelSHA256,
-      browserVersion: inputs.browserVersion,
-      browserURL: inputs.browserURL,
-      browserArchiveSHA256: inputs.browserArchiveSHA256,
     },
     checks: { sourceAndDependencies: 'passed', ...checks, asset: undefined, portableExtractorAssets: undefined },
     asset: checks.asset,
