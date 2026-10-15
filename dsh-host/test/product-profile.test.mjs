@@ -308,3 +308,13 @@ test('only the native Electron product inserts the desktop pet with file-owned d
   const pet = rows.flatMap(row => row.insert ?? []).find(plugin => plugin.id === 'eduwork-desktop-pet')
   assert.deepEqual(pet, { id: 'eduwork-desktop-pet', name: '@eduwork/dsh-desktop-pet', config: { enabled: true, skin: 'eduwork-page', size: 80, bubbles: true, sleep: true } })
 })
+
+test('only Windows Electron profiles offer the workspace permission repair', async t => {
+  const { root, product } = await fixture(t)
+  for (const [shell, platform] of [['electron', 'win32'], ['electron', 'darwin'], ['wails', 'win32']]) {
+    const { profile } = await prepareProductProfile({ product, home: join(root, shell + '-' + platform), shell, platform })
+    const plugins = JSON.parse(await readFile(join(profile, 'cordis.patch.yml'))).flatMap(row => row.insert ?? [])
+    assert.deepEqual(plugins.filter(row => row.id === 'eduwork-workspace-access').map(row => row.name),
+      shell === 'electron' && platform === 'win32' ? ['@eduwork/desktop-services/lib/workspace-access.js'] : [])
+  }
+})
