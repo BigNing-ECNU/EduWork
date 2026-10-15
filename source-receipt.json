@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-15T04:16:44.424Z",
-  "fileSetSHA256": "17993d9d80849f1e1cad60174af86791475da786d3cabd854d3ed7fbebfbcead",
+  "createdAt": "2026-10-15T06:47:30.953Z",
+  "fileSetSHA256": "e76de4f3485f098140202be2ec18a3be52d02f3b4055ce4b9f612e9df3744434",
   "files": [
     {
       "path": ".gitattributes",
@@ -25,7 +25,7 @@
     },
     {
       "path": ".github/workflows/desktop-candidates.yml",
-      "sha256": "5acb1677bbabf64707ac6850c942addbec4f64c84b8d30ad208baa4e5c2d8e36"
+      "sha256": "34333af49b3915c26fc25549f330b26623e9b1ca20d77876f38d378d14939a54"
     },
     {
       "path": ".github/workflows/development-desktop.yml",
@@ -45,7 +45,7 @@
     },
     {
       "path": ".github/workflows/validate-desktop-publisher.yml",
-      "sha256": "2d8a752f8a516ccdd694445e752b491de8e2bdf8b9997cfb505a6777789bea84"
+      "sha256": "3573f8ea341bb119943914c9ab8a67b4bdfd24935ff1925ee10bee4b58be1b5b"
     },
     {
       "path": ".github/workflows/validate-local-web.yml",
@@ -57,7 +57,7 @@
     },
     {
       "path": ".github/workflows/validate-macos-updates.yml",
-      "sha256": "9352ddfd2a4585e9677c380531860be14c556488fa8bdcc35c444b17934cb360"
+      "sha256": "28c1fbeab041799dea9ff9eef6f53049f1beddf742e4133d8722569bdc0b3e98"
     },
     {
       "path": ".github/workflows/validate-pinned-dsh-source.yml",
@@ -225,7 +225,7 @@
     },
     {
       "path": "docs/assets/build-pipeline-macos.json",
-      "sha256": "4d54f78e12b2b37fbc192a7ce529c3bc945cc535611fb1077981841abea2a8b5"
+      "sha256": "3572fb24720471eaf69704f6acd203995bb7772ca274a1f4302887caa70d13fc"
     },
     {
       "path": "docs/assets/build-pipeline-windows.json",
@@ -325,11 +325,11 @@
     },
     {
       "path": "docs/MACOS_UPDATES_EN.md",
-      "sha256": "e636bd07886d5c54d2d829fb7d074374e9b48a12d5011f7785483c07a2b0bcd5"
+      "sha256": "290c4ce94b590b666ca8783111f4182830b844fc5ebd384b2fd536f2a95b1fd8"
     },
     {
       "path": "docs/MACOS_UPDATES.md",
-      "sha256": "ffc191201fb4214744ac6a5eead42e094250035ea7036e245b94355bd487bb0f"
+      "sha256": "3099847689d18653571fcca1ed32244a27281c8b3f43c9f5f6be1c4dcf3db4be"
     },
     {
       "path": "docs/MACOS.md",
@@ -389,7 +389,7 @@
     },
     {
       "path": "docs/RELEASE.md",
-      "sha256": "ee18c390bf3e776844d87d4f19279b7c54998e9cafebcbd53ec6b63218d0f51c"
+      "sha256": "b7dbfad5e5fb80c2e9db936617d2e22b4d89ea485560e801430201f461ad9f9f"
     },
     {
       "path": "docs/releases/0.3.5.md",
@@ -1297,7 +1297,7 @@
     },
     {
       "path": "dsh-electron/tests/sparkle-macos-smoke.mjs",
-      "sha256": "af31df55e56b702a3cc2a9d51de4e15b9c0bb6b7b095a8d26ea214aa4026a8a9"
+      "sha256": "3a9efb7d936d1e5db4a4b2bf38281b3195973f7b2b0e5e930ac7b6eb4dc02cf0"
     },
     {
       "path": "dsh-electron/tests/sparkle-quit-retry.electron.mjs",
@@ -5285,7 +5285,7 @@
     },
     {
       "path": "scripts/ci-eduwork-macos-release.mjs",
-      "sha256": "8f07e3e774277da44269ef13752a17b8492c6422fa3b42ca5515d0862ed3193a"
+      "sha256": "c5f7a9f7aa434c29de0deee90cc58a8fc7661fbeb3c211a1a35943c8b0add4bf"
     },
     {
       "path": "scripts/ci-eduwork-macos-release.ps1",
@@ -5409,7 +5409,7 @@
     },
     {
       "path": "scripts/lib/macos-stages.mjs",
-      "sha256": "df2f988dc6f5d7bde8b74b043735659011445a4a95be45f1f3b41cc111fb4a3a"
+      "sha256": "4df1976ac0704bba1d08b79c9cbe03fe89f0029f2db5a2b8a451d95221a404b7"
     },
     {
       "path": "scripts/lib/native-compile-cache.mjs",
@@ -5492,8 +5492,12 @@
       "sha256": "bd8ae7d6bca873a9b612af46393f962849221ba3769e02719157b8e898b18824"
     },
     {
+      "path": "scripts/macos-update-delta.mjs",
+      "sha256": "afcce8720a9bafe2b8c896808c762cca25a5d20c42cb533ca946fec721856e1f"
+    },
+    {
       "path": "scripts/macos-update-feed.mjs",
-      "sha256": "7f991caab32c041923ea8711d0410bb544d208d0afb47a1cf2768dd978fd9f67"
+      "sha256": "39fef462379d9f429d3d2a7449403b7682c77dc84071b9a4af74e07d8c7620ca"
     },
     {
       "path": "scripts/native-file-reference-ui.mjs",
@@ -5697,7 +5701,7 @@
     },
     {
       "path": "scripts/publish-desktop-candidate.mjs",
-      "sha256": "4f8298935002d114ef6392dc15e8d28de0da8da648b3c593a06b57656dfc7003"
+      "sha256": "ff6a52d1bc03a978bf5978545eb2258e166a88724b61743eb78214872e68a05c"
     },
     {
       "path": "scripts/publish-windows-release.mjs",
@@ -5732,8 +5736,12 @@
       "sha256": "08bc9f287375774954691fa6e3e8df276a3c8fa8f86acf5c7e60c41991f46e69"
     },
     {
+      "path": "scripts/test/macos-update-delta.test.mjs",
+      "sha256": "c8ea34efe46dea8dda599196fc33db9db54131b70547e4c3374e6021fba6387d"
+    },
+    {
       "path": "scripts/test/macos-update-feed.test.mjs",
-      "sha256": "b96fc80915ca5440e2314eec396d4f256c95f6af4a34cd5fc7adec980991a7b1"
+      "sha256": "e1f9d11582d5900d54be92b1789c43c82535a2f438400708d81f0f6382f3e414"
     },
     {
       "path": "scripts/test/media-template.test.mjs",
@@ -5813,7 +5821,7 @@
     },
     {
       "path": "tests/desktop-candidate-publication.test.mjs",
-      "sha256": "c18ede30131e5cf381756d6e0ea6fcb9c7828f2893c43074df27004ebce5028c"
+      "sha256": "d82bea5130cd3b57eb464783c367710eb0b66d6179b61f99181f7d58acd418ed"
     },
     {
       "path": "tests/desktop-enterprise-ui-acceptance.mjs",

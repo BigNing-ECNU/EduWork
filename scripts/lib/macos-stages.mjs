@@ -16,6 +16,7 @@ import { assembleMacos } from '../../dsh-electron/scripts/assemble-macos.mjs'
 import { verifyMacOSAppArchive } from '../../dsh-electron/scripts/create-macos-archive.mjs'
 import { prepareMacosReleaseInputs, installMacosReleaseInputs } from '../prepare-macos-release-inputs.mjs'
 import { prepareMacosDmg } from '../prepare-macos-dmg.mjs'
+import { createMacDeltas } from '../macos-update-delta.mjs'
 import { verifyPublisherFirstLaunch } from './publisher-acceptance.mjs'
 
 function freeLoopbackPort() {
@@ -31,7 +32,7 @@ function freeLoopbackPort() {
 
 export function macosStages({
   coreRoot, name, version, development, releaseNotesFile, verifyPublisherBootstrap, receiptBase,
-  recipe = 'npm',
+  recipe = 'npm', deltaBases = [],
 }) {
   return [
     // Native inputs depend only on the lock file, never on the product, so a
@@ -125,10 +126,11 @@ export function macosStages({
     }),
     stage({
       name: 'publish',
-      description: 'Release ZIP, DMG and receipt',
+      description: 'Release ZIP, DMG, delta updates and receipt',
       requires: ['accept'],
       outputs: ['publish'],
-      clean: ['dmg-work'],
+      clean: ['dmg-work', 'delta-work'],
+      inputs: async () => ({ deltaBases: await Promise.all(deltaBases.map(sha256File)) }),
       run: async (workspace) => {
         const desktop = workspace.resolvePath('desktop')
         const receipt = await readJSON(join(desktop, 'release-receipt.json'))
@@ -144,6 +146,16 @@ export function macosStages({
           output: join(publish, `${name}-${version}-macos-arm64-electron.dmg`),
           workDirectory: workspace.resolvePath('dmg-work'),
           coreRoot,
+        })
+        const deltas = await createMacDeltas({
+          binaryDelta: workspace.resolvePath('sparkle/bin/BinaryDelta'),
+          app: join(workspace.resolvePath('unpacked'), appName),
+          archiveBytes: receipt.asset.bytes,
+          bases: deltaBases,
+          product: name,
+          version,
+          output: publish,
+          work: workspace.resolvePath('delta-work'),
         })
         if (!development && releaseNotesFile) {
           await copyFileTo(join(workspace.parameters.editionRoot, releaseNotesFile), join(publish, 'RELEASE-NOTES.md'))
@@ -162,6 +174,7 @@ export function macosStages({
           bundleVersion: receipt.bundleVersion,
           asset: receipt.asset,
           installer,
+          deltas,
           minimumSystemVersion: receipt.minimumSystemVersion,
           nativeLockSHA256: inputs.nativeLockSHA256,
           recipe,
