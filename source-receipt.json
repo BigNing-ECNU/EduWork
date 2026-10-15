@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-14T10:27:59.439Z",
-  "fileSetSHA256": "c6a4510e7b50fc6a4f4ea8c08456f69ce2a5275fb19bcc7fa8f185b492780377",
+  "createdAt": "2026-10-15T03:17:06.558Z",
+  "fileSetSHA256": "03067ec077fa8d49f1086c16723c1997267cf982f41dd1c09e3e3a21a9711576",
   "files": [
     {
       "path": ".gitattributes",
@@ -45,7 +45,7 @@
     },
     {
       "path": ".github/workflows/validate-desktop-publisher.yml",
-      "sha256": "5dff38260e000ea5db4bd4c123c85db2240c0cecb1d627ea7fa19a9ec6431ab7"
+      "sha256": "2d8a752f8a516ccdd694445e752b491de8e2bdf8b9997cfb505a6777789bea84"
     },
     {
       "path": ".github/workflows/validate-local-web.yml",
@@ -245,7 +245,7 @@
     },
     {
       "path": "docs/BUILD.md",
-      "sha256": "7ad1ab4f471c023852ac812c5b127f0058d4bac9137f105ae25c079dc0ae2692"
+      "sha256": "fa9e986e2133bc0ab8595989955af96c900966698ffe0172c00f89ec600a2c69"
     },
     {
       "path": "docs/CONFIGURATION_EN.md",
@@ -945,7 +945,7 @@
     },
     {
       "path": "dsh-electron/scripts/assemble-macos.mjs",
-      "sha256": "541ec575b055ed489ddebd0d700759e27a3f4a4bbd647c5b16e31508656d5763"
+      "sha256": "c1c78f5b942aad2ef4ebe1e677c84cf340835520aa81760a79c8542028b7e89c"
     },
     {
       "path": "dsh-electron/scripts/assemble-macos.ps1",
@@ -953,7 +953,7 @@
     },
     {
       "path": "dsh-electron/scripts/assemble-windows.mjs",
-      "sha256": "ba3a5b77d86403076555b4d4f8c6f78e06f2274e85ec06f8366f8fece3f69fa1"
+      "sha256": "ff711b809e51fd0c45dea0fdd083185252bf532b6addf7429904924a616bc412"
     },
     {
       "path": "dsh-electron/scripts/assemble-windows.ps1",
@@ -5332,6 +5332,10 @@
       "sha256": "cb18f03e24840c4db5f91e72e0002ef8f1192642d31672a8368e867ea67a4131"
     },
     {
+      "path": "scripts/lib/runtime-file-policy.mjs",
+      "sha256": "546cd9697644c792b19afa9d0c450e42c2549f09c946d50ea39bd83be16b585c"
+    },
+    {
       "path": "scripts/lib/shared-desktop-stages.mjs",
       "sha256": "5ba948c37bdc53cf7ad00ea51854b8e175b03c23d39c8002236400849ed963ab"
     },
@@ -5826,6 +5830,10 @@
     {
       "path": "tests/publisher-acceptance.test.mjs",
       "sha256": "73ee8cbe37c03bdd899a7d8378b5283f7cb2ea4349dc871eeec92ea7e1a86251"
+    },
+    {
+      "path": "tests/runtime-file-policy.test.mjs",
+      "sha256": "bd37b0eaa84f1096a6695e9b39b31334255018541dd47230ad1b190049871fc8"
     },
     {
       "path": "tests/settings-theme-browser.mjs",
