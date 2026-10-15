@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-14T10:26:23.621Z",
-  "fileSetSHA256": "78babd9c94d6672358d8d94bcc3a15ce0d0891ec22175f7f12f01ed272f598b6",
+  "createdAt": "2026-10-15T03:17:06.558Z",
+  "fileSetSHA256": "03067ec077fa8d49f1086c16723c1997267cf982f41dd1c09e3e3a21a9711576",
   "files": [
     {
       "path": ".gitattributes",
@@ -2993,7 +2993,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/media.js",
-      "sha256": "7a7035f4ec18f051e61b63341263d315127b538b7aa441c219edfec139949de7"
+      "sha256": "de094efbe47de316a5a4364d4946df9d684d8516a5cfef238d5e63863776ad21"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/music.js",
@@ -3037,7 +3037,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/remotion.js",
-      "sha256": "c065c370094b265c3c9e05f4572d765bf4bb2fa35812c09539ac3c83c6400f0d"
+      "sha256": "d22dacb6566d05363fcdb06532b218eb4dea71c553f99769c0a070930817fb6d"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/runtime.js",
@@ -3761,7 +3761,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/test/media-runtime.test.mjs",
-      "sha256": "7ef533cfb6e99d44099f4fcfffedd1161b02358f2a07fc616a8136623b0a7efa"
+      "sha256": "fd483969e469d1246a48f11da99b920e00ef99f50890f9838f9216ba6f1f4104"
     },
     {
       "path": "packages/dsh-knowledge-studio/test/media-timeline.test.mjs",
