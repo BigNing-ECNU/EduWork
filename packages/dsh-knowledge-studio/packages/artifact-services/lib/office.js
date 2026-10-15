@@ -120,7 +120,7 @@ export function buildOfficeInvocation(request, projectPath) {
   const { contract, operation } = contractFor(request.format, request.action)
   if(!operation.command)throw new Error('Official conversion operations must run through runOffice')
   const absolute = relativePath => join(projectPath, ...relativePath.split('/'))
-  const args = ['-I', '-X', 'utf8', runner, `${contract.module}.${operation.command}`, '--project-root', projectPath]
+  const args = ['-I', '-B', '-X', 'utf8', runner, `${contract.module}.${operation.command}`, '--project-root', projectPath]
   if (request.inputPath !== undefined) args.push('--input', absolute(request.inputPath))
   for (const input of request.inputPaths ?? []) args.push('--input', absolute(input))
   if (request.outputPath !== undefined) args.push('--output', absolute(request.outputPath))
@@ -179,7 +179,7 @@ export async function runOffice({ request, projectPath, signal, environment = pr
       const inputPath=await officeInputPath(projectPath,request.inputPath)
       if((await stat(inputPath)).size>256*1024*1024)throw new Error('Office input exceeds the 256 MiB validation limit')
       const checker=fileURLToPath(new URL('../python/official_check.py',import.meta.url))
-      const stdout=await execFilePromise(privatePython(environment),['-I','-X','utf8',checker,runtime.checker,inputPath],{
+      const stdout=await execFilePromise(privatePython(environment),['-I','-B','-X','utf8',checker,runtime.checker,inputPath],{
         cwd:projectPath,env:environment,windowsHide:true,timeout:180_000,signal,encoding:'utf8',maxBuffer:2*1024*1024,
       },execFileImpl)
       const check=JSON.parse(stdout.trim())

@@ -19,10 +19,26 @@ const hooks=registerHooks({resolve(specifier,context,next){
   if(specifier.startsWith('@deepseek-ai/'))return next(specifier,{...context,parentURL:runtimeParent})
   return next(specifier,context)
 }})
-const [{Context},{default:prompt},{default:tools},{default:fs},sessions,office,{exportWithOfficeTools},{exportDocument},{withOfficialOfficeSkill,convertOfficeFile}]=await Promise.all([
+const [{Context},{default:prompt},{default:tools},{default:fs},sessions,office,{exportWithOfficeTools},{exportDocument},{withOfficialOfficeSkill,convertOfficeFile,officialOfficeRuntime}]=await Promise.all([
   import('@deepseek-ai/cordis'),import('@deepseek-ai/dsh-system-prompt'),import('@deepseek-ai/dsh-tools'),import('@deepseek-ai/dsh-fs-local'),import('@deepseek-ai/dsh-session'),
   import('../packages/artifact-services/lib/office-tools.js'),import('../lib/office-tools.js'),import('../lib/studio-export.js'),import('../packages/artifact-services/lib/official-office.js'),
 ])
+// Python -I ignores PYTHONDONTWRITEBYTECODE: the installed scripts must stay
+// unchanged even during validation and conversion of user-owned documents.
+const bytecodeRoots=[resolve(import.meta.dirname,'../packages/artifact-services/python'),dirname(officialOfficeRuntime().checker)]
+async function bytecodeSnapshot() {
+  const files=[]
+  async function visit(directory) {
+    for(const entry of await readdir(directory,{withFileTypes:true})) {
+      const path=join(directory,entry.name)
+      if(entry.isDirectory())await visit(path)
+      else if(entry.isFile()&&entry.name.endsWith('.pyc'))files.push({path,sha256:createHash('sha256').update(await readFile(path)).digest('hex')})
+    }
+  }
+  for(const directory of bytecodeRoots)await visit(directory)
+  return files.sort((a,b)=>a.path.localeCompare(b.path))
+}
+const bytecodeBefore=await bytecodeSnapshot()
 const ctx=new Context(),events=[]
 try {
   await ctx.plugin(prompt);await ctx.plugin(tools);await ctx.plugin(fs,{cwd:output})
@@ -85,7 +101,7 @@ try {
   assert.equal((await execute('office_document',{action:'inspect',input_path:'fake.doc'})).isError,true)
   await call('office_spreadsheet',{action:'create',output_path:'formula.xlsx',spec:{sheets:[{name:'Data',rows:[[2,3,{type:'formula',value:'=SUM(A1:B1)'}]]}]}})
   await call('office_spreadsheet',{action:'recalculate',input_path:'formula.xlsx',output_path:'recalculated.xlsx'})
-  execFileSync(values.python,['-I','-c',"import sys,openpyxl; p=sys.argv[1]; assert openpyxl.load_workbook(p,data_only=True).active['C1'].value==5; assert openpyxl.load_workbook(p,data_only=False).active['C1'].value.startswith('=')",join(root,'recalculated.xlsx')],{windowsHide:true})
+  execFileSync(values.python,['-I','-B','-c',"import sys,openpyxl; p=sys.argv[1]; assert openpyxl.load_workbook(p,data_only=True).active['C1'].value==5; assert openpyxl.load_workbook(p,data_only=False).active['C1'].value.startswith('=')",join(root,'recalculated.xlsx')],{windowsHide:true})
   const fixtures=[
     {id:'report',kind:'report',title:'Office integration',citations:[],content:{sections:[{heading:'Report',body:'Chinese 中文 and body',evidenceIds:[]}]}},
     {id:'table',kind:'table',title:'Office table',citations:[],content:{columns:['Name'],rows:[{cells:['Value'],evidenceIds:[]}]}},
@@ -101,7 +117,7 @@ try {
     const again=await exportDocument({...artifact,exports:[file]},dirname(file.path),'pdf')
     assert.notEqual(again.path,pdf.path,'repeat downloads do not overwrite files or reuse a stale conversion')
     if(artifact.kind==='report') {
-      execFileSync(values.python,['-I','-c',"import sys; from docx import Document; d=Document(sys.argv[1]); d.add_paragraph('External modification marker'); d.save(sys.argv[1])",file.path],{windowsHide:true})
+      execFileSync(values.python,['-I','-B','-c',"import sys; from docx import Document; d=Document(sys.argv[1]); d.add_paragraph('External modification marker'); d.save(sys.argv[1])",file.path],{windowsHide:true})
       const changed=await exportDocument({...artifact,exports:[file]},dirname(file.path),'pdf')
       const {extractPdfText}=await import('../lib/pdf-runtime.js')
       const text=await extractPdfText(new Uint8Array(await readFile(changed.path)))
@@ -121,6 +137,8 @@ try {
     events.push({skill:skill.name,originalWorkflowIncluded:true,status:'passed'})
   }
   assert.equal(approvals,1,'standing workspace access is reused')
+  assert.deepEqual(await bytecodeSnapshot(),bytecodeBefore,'Office processing must not write Python bytecode into installed scripts')
+  events.push({operation:'installed-python-bytecode-unchanged',status:'passed'})
   await writeFile(join(output,'result.json'),JSON.stringify({status:'passed',events,originalHash,originalUnchanged:true,scope:'Real DSH tool registry and Studio export with synthetic files; no model call or native shell UI'},null,2))
   console.log('Official Office acceptance passed')
 } catch(error) {

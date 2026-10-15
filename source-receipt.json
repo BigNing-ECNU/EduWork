@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-15T02:51:21.160Z",
-  "fileSetSHA256": "22cb7aa223a64558fb384b68e3b9644f5863e6513163f7506a08c9dffb88c711",
+  "createdAt": "2026-10-15T03:34:23.404Z",
+  "fileSetSHA256": "94a9844428985601f0e4277b3c8e1fcad5167f95664778dcbe45220bff9e3fc6",
   "files": [
     {
       "path": ".gitattributes",
@@ -3029,7 +3029,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/office.js",
-      "sha256": "0cf1d0716c43f61ca4453839a7d8d65012c69c57acdae3ccf67be6e0871e7908"
+      "sha256": "3d8b2447eefd2d34ca68bc7de4c634a685d95818c6d3f17b5c1c057cda439b7e"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/official-office.js",
@@ -3581,7 +3581,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/scripts/official-office-smoke.mjs",
-      "sha256": "ff8dc7712e1569adae337298537e27774abde4710cca194f9ec25c79637a460b"
+      "sha256": "10a06c3b4100688e868b9ed2cd0dddbd37be5b7968b43a3249761fe64e73e2d5"
     },
     {
       "path": "packages/dsh-knowledge-studio/scripts/p0-smoke.mjs",
