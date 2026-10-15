@@ -11,8 +11,8 @@ function setup() {
   const sync = (items, preferences = {}, running = []) => shell.handle({ action: 'sync', instance: 'host-a', items, running, preferences: { ...notificationDefaults, ...preferences } })
   return { shell, sync, popups, shown, dismissed, focus: value => { focused = value }, advance: () => { time += 5000 } }
 }
-function host(bridge = async () => ({ seen: [] }), goal) {
-  return new DesktopAttention({ bridge, preferences: () => notificationDefaults, goal, now: () => 10000, schedule: () => 1, cancel() {} })
+function host(bridge = async () => ({ seen: [] })) {
+  return new DesktopAttention({ bridge, preferences: () => notificationDefaults, now: () => 10000, schedule: () => 1, cancel() {} })
 }
 
 test('foreground suppresses popups; only viewing the matching conversation consumes a completed notice', () => {
@@ -138,22 +138,6 @@ test('Windows uses tray quiet-time flags; macOS failure never bypasses native co
   notifications[0].events.click(); assert.equal(clicked.at(-1), 'b')
 })
 
-test('goal rounds below the limit stay quiet; a blocked goal fails; the limit round completes', () => {
-  let view
-  const h = host(undefined, id => id === 's' ? view : undefined), session = { id: 's' }
-  const round = turn => { h.event(session, { type: 'turn/start', data: { turn } }, true); h.event(session, { type: 'turn/end', data: { turn, reason: { kind: 'completed' } } }, true) }
-  view = { phase: 'active', activation: 'armed', roundsStarted: 1, maxGoalRounds: 3 }
-  round(1); assert.equal(h.items.size, 0)
-  view = { ...view, activation: 'disarmed' }
-  round(2); assert.equal([...h.items.values()][0].kind, 'completed'); h.items.clear()
-  view = { phase: 'active', activation: 'armed', roundsStarted: 3, maxGoalRounds: 3 }
-  round(3); assert.equal([...h.items.values()][0].kind, 'completed'); h.items.clear()
-  view = { phase: 'blocked', activation: 'disarmed', roundsStarted: 2, maxGoalRounds: 3 }
-  round(4); assert.equal([...h.items.values()][0].kind, 'failed'); h.items.clear()
-  view = { phase: 'complete', activation: 'disarmed', roundsStarted: 2, maxGoalRounds: 3 }
-  round(5); assert.equal([...h.items.values()][0].kind, 'completed')
-})
-
 test('running lists root turns and generating Studio results once per session', async () => {
   const synced = [], h = host(async body => { synced.push(body); return { seen: [] } }), event = (id, type, data, root = true) => h.event({ id }, { type, data }, root)
   event('a', 'turn/start', { turn: 1 }); event('child', 'turn/start', { turn: 1 }, false)
@@ -167,22 +151,6 @@ test('running lists root turns and generating Studio results once per session', 
   assert.deepEqual(h.running(), [])
   const f = setup(); f.sync([], {}, ['a', 'b'])
   assert.deepEqual(f.shell.running, ['a', 'b'])
-})
-
-test('a working background subagent keeps its conversation running and holds completion for the woken turn', () => {
-  const h = host(), root = (type, data) => h.event({ id: 'a' }, { type, data }, true)
-  root('turn/start', { turn: 1 }); h.subagent('child', 'turn/start', 'a'); h.subagent('fork', 'turn/start', undefined)
-  root('turn/end', { turn: 1, reason: { kind: 'completed' } })
-  assert.equal(h.items.size, 0); assert.deepEqual(h.running(), ['a'])
-  h.subagent('grandchild', 'turn/start', 'a'); h.subagent('child', 'turn/end')
-  assert.deepEqual(h.running(), ['a'])
-  h.subagent('grandchild', 'turn/end'); h.subagent('fork', 'turn/end')
-  assert.deepEqual(h.running(), [])
-  // The settled subagent wakes the conversation, which then finishes for real.
-  root('turn/start', { turn: 2 }); root('turn/end', { turn: 2, reason: { kind: 'completed' } })
-  assert.equal([...h.items.values()][0].kind, 'completed')
-  root('turn/start', { turn: 3 }); h.subagent('child', 'turn/start', 'a'); root('turn/end', { turn: 3, reason: { kind: 'error' } })
-  assert.equal([...h.items.values()][0].kind, 'failed')
 })
 
 test('a result finished in the conversation on screen is acknowledged once, without a pending entry', () => {

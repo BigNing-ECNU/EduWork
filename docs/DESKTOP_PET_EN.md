@@ -8,20 +8,19 @@ The public edition ships with the pet turned off; turn it on under Settings → 
 
 ## States
 
-When several conversations have items, the first matching row wins:
+The pet is one more way to show the same state: Needs you, Failed and Done come straight from the pending items of [desktop notifications](DESKTOP_NOTIFICATIONS_EN.md), with exactly the rules the tray and system notifications use, so turning the pet on or off does not change notifications. When several conversations have items, the first matching row wins:
 
 | State | When | Looks like | Click |
 | --- | --- | --- | --- |
 | Needs you | A question or an approval is waiting | Raises a hand and looks around; blue "?" | Opens that conversation |
-| Failed | A turn failed, was blocked or hit the output limit; a goal is blocked | Upset for a moment, then calm; red "!" until viewed | Opens that conversation |
+| Failed | A turn failed, was blocked or hit the output limit | Upset for a moment, then calm; red "!" until viewed | Opens that conversation |
 | Done | A main turn or a Studio result finished and you have not viewed it in the foreground | Celebrates for a few seconds; "!" or the count of results | Opens that conversation; Studio results open on the result |
-| Working | A main conversation or one of its subagents is running, or a Studio result is being generated | Mostly thinking, now and then writing | A short reaction; the bubble shows how many conversations are running |
+| Working | A main conversation is running, or a Studio result is being generated | Mostly thinking, now and then writing | A short reaction; the bubble shows how many conversations are running |
 | Napping | You are away (system idle for 5 minutes or locked), or nothing has happened for 10 minutes | Sleeps sitting down; animation paused | Wakes up |
 | Idle | Otherwise | Mostly still, sometimes blinks, flips its folded corner or waves | A short reaction |
 
 - When the conversation on screen finishes, the pet only celebrates briefly and shows no "!". The "!" clears just like the tray entry: open the conversation in the foreground, or open it from the pet, the tray or a notification.
-- Goal mode starts rounds one after another. A round that will be followed by another does not count as done, and the pet keeps working between rounds instead of flashing back to idle.
-- A working subagent, including one in the background, counts as work of the conversation that delegated it. A turn that ends while its subagents still work is not done; the conversation is woken when they settle and is done once it finishes. A single tool finishing does not change the pet.
+- When the next turn starts within 3 seconds of the previous one (for example, goal mode rounds), the pet keeps working instead of flashing back to idle. A single tool finishing does not change the pet.
 - Bubbles show generic text. Conversation titles appear only when "Show conversation and result titles" is on under General → Desktop notifications.
 
 ## Using it
@@ -62,7 +61,7 @@ The pet stores no account or model keys and does not access the network.
 | --- | --- | --- |
 | Pet window | `dsh-electron/src/desktop-pet.mjs` | Small transparent, always-on-top, non-focusable window; click-through, dragging, tucking, remembered positions, context menu, away detection |
 | Pet plugin | [`dsh-plugins/desktop-pet`](../dsh-plugins/desktop-pet/README_EN.md) | Settings, built-in characters and their validation, the pet page (state and animation), the settings page |
-| Conversation status | `dsh-plugins/desktop-services` | The existing notification sync, plus running conversations (including subagents) and goal-mode handling |
+| Conversation status | `dsh-plugins/desktop-services` | The existing notification sync, which also carries a read-only list of running conversations; the rules that create notification items are unchanged |
 
 - The plugin's Host part sends settings to the desktop shell over the authenticated local bridge of `desktop-services`; it never receives the bridge credential.
 - The pet page comes from the plugin directory shipped with the product and runs in its own sandboxed session, talking to the shell only through a fixed preload API. The shell serves it only the page files and the selected character; every other path is refused.

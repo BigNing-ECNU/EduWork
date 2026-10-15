@@ -23,9 +23,6 @@ export default class DesktopServices extends Service {
       if (!studio) return false
       const { artifact } = await studio.readArtifact(target.artifactId)
       return !artifact.deletedAt && artifact.sessionId === target.sessionId
-    }, goal: sessionId => {
-      const agent = ctx.get('agents')?.get(sessionId)
-      return agent && ctx.get('goals')?.get(agent)
     } })
     observeDesktopAttention(ctx, this.attention)
     if (scope) ctx.effect(() => scope.watch(() => this.attention.changed()))
