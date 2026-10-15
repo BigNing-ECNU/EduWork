@@ -12,6 +12,7 @@ export class DesktopAttention {
     this.titles = new Map()
     this.turns = new Map()
     this.studioSeen = new Map()
+    this.studioRunning = new Map()
     this.startedAt = now()
     this.instance = randomUUID()
     this.closed = false
@@ -37,6 +38,7 @@ export class DesktopAttention {
     if (event.type === 'turn/start') {
       this.turns.set(sessionId, data.turn)
       for (const row of this.items.values()) if (row.sessionId === sessionId && !row.artifactId) this.remove(row.key)
+      this.changed()
     }
     if (event.type === 'approval/asked') this.put({ key: `approval:${sessionId}:${data.id}`, kind: 'approval', sessionId, title: this.titles.get(sessionId) })
     if (event.type === 'approval/decided') this.remove(`approval:${sessionId}:${data.id}`)
@@ -45,6 +47,7 @@ export class DesktopAttention {
     // A restore's interrupted marker and seed history must not create toasts.
     if (this.turns.get(sessionId) !== data.turn) return
     this.turns.delete(sessionId)
+    this.changed()
     const kind = data.reason?.kind
     if (kind === 'completed' || ['error', 'blocked', 'max-tokens'].includes(kind))
       this.put({ key: `turn:${sessionId}:${data.turn}`, kind: kind === 'completed' ? 'completed' : 'failed', sessionId, title: this.titles.get(sessionId) })
@@ -59,9 +62,11 @@ export class DesktopAttention {
     finally { request.signal?.removeEventListener('abort', clear); clear() }
   }
   studio(workspaceId, rows) {
-    const current = new Set()
+    const current = new Set(), running = this.running().join()
     for (const row of rows) {
       current.add(row.id)
+      if (row.sessionId && !row.deletedAt && ['queued', 'running'].includes(row.status)) this.studioRunning.set(row.id, { sessionId: row.sessionId, workspaceId })
+      else this.studioRunning.delete(row.id)
       const signature = `${row.version}:${row.status}:${row.lifecycle?.state ?? ''}`
       const previous = this.studioSeen.get(row.id)
       this.studioSeen.set(row.id, { signature, workspaceId })
@@ -77,6 +82,12 @@ export class DesktopAttention {
       this.studioSeen.delete(id)
       for (const item of this.items.values()) if (item.artifactId === id) this.remove(item.key)
     }
+    for (const [id, row] of this.studioRunning) if (row.workspaceId === workspaceId && !current.has(id)) this.studioRunning.delete(id)
+    if (this.running().join() !== running) this.changed()
+  }
+  /** Root sessions with a live turn or a Studio result being generated. */
+  running() {
+    return [...new Set([...this.turns.keys(), ...[...this.studioRunning.values()].map(row => row.sessionId)])].slice(0, 200)
   }
   changed() {
     const wasDirty = this.dirty
@@ -90,7 +101,7 @@ export class DesktopAttention {
     if (this.closed || this.sending) return
     this.sending = true; this.dirty = false
     try {
-      const result = await this.bridge({ action: 'sync', instance: this.instance, items: [...this.items.values()], preferences: this.preferences() })
+      const result = await this.bridge({ action: 'sync', instance: this.instance, items: [...this.items.values()], running: this.running(), preferences: this.preferences() })
       for (const key of result.seen ?? []) this.items.delete(key)
     } catch { this.dirty = true }
     finally {
@@ -109,13 +120,16 @@ export class DesktopAttention {
     return { desktop: true, target: target ? { key: target.key, sessionId: target.sessionId, ...(target.artifactId ? { artifactId: target.artifactId } : {}) } : null,
       delivery: response.delivery }
   }
-  close() { this.closed = true; this.cancel(this.timer); this.items.clear(); this.titles.clear(); this.turns.clear(); this.studioSeen.clear() }
+  close() { this.closed = true; this.cancel(this.timer); this.items.clear(); this.titles.clear(); this.turns.clear(); this.studioSeen.clear(); this.studioRunning.clear() }
 }
 
 export function observeDesktopAttention(ctx, attention) {
   const root = session => ctx.get('agents')?.roots().some(agent => agent.id === session.id) === true
   ctx.on('session/event', (session, event) => attention.event(session, event, root(session)))
-  ctx.on('session/disposed', session => { attention.removeSession(String(session.id), true); attention.titles.delete(String(session.id)); attention.turns.delete(String(session.id)) })
+  ctx.on('session/disposed', session => {
+    attention.removeSession(String(session.id), true); attention.titles.delete(String(session.id))
+    if (attention.turns.delete(String(session.id))) attention.changed()
+  })
   ctx.on('user-questions/request', (request, next) => attention.question(request, next), { prepend: true })
   let disposed = false, timer
   const pollStudio = async () => {

@@ -51,7 +51,7 @@ export function externalBrowserURL(value) {
   return url.href
 }
 
-export async function startNativeBridge({ vault, openExternal, openConfiguration, workbench, attention, pickDirectory, workspaceAccess }) {
+export async function startNativeBridge({ vault, openExternal, openConfiguration, workbench, attention, pet, pickDirectory, workspaceAccess }) {
   const token = randomBytes(32).toString('base64url')
   const authorization = Buffer.from('Bearer ' + token)
   const sockets = new Set()
@@ -102,6 +102,11 @@ export async function startNativeBridge({ vault, openExternal, openConfiguration
       if (request.url === '/v1/extensions/attention') {
         if (!attention) { response.writeHead(501).end(); return }
         const result = JSON.stringify(await attention(body))
+        response.writeHead(200, { 'Content-Type': 'application/json' }).end(result); return
+      }
+      if (request.url === '/v1/extensions/pet') {
+        if (!pet) { response.writeHead(501).end(); return }
+        const result = JSON.stringify(await pet(body))
         response.writeHead(200, { 'Content-Type': 'application/json' }).end(result); return
       }
       if (request.url === '/v1/extensions/workbench') {
