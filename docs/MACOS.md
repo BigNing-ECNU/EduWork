@@ -20,7 +20,7 @@ macOS 使用 Electron，并复用同一套工作区、Studio、插件和配置�
 | 应用与数据目录 | 应用包保持只读；将配置、会话、日志、缓存和下载内容放在用户可写目录。 |
 | Native 模块 | 在目标架构安装并验证 PTY、文件锁、数据库等原生模块；区分 Node 与 Electron ABI。 |
 | Office | 提供可重定位 Python、所需 wheels 和字体，验证 DOCX/XLSX/PPTX 生成与预览。 |
-| 媒体 | 提供架构匹配的 Chromium、FFmpeg 和 Remotion 组件，复用公共媒体服务。 |
+| 媒体 | 以应用自身的 Chromium 渲染，提供架构匹配的 FFmpeg 和 Remotion 组件，复用公共媒体服务。 |
 | 系统 TTS | 共享服务的 `system` 提供方调用系统 `say`，枚举已安装音色并返回 WAV；中文配音需要中文音色。桌面构建需更新对应 npm 组件锁并验收。 |
 | 本地 ASR | 配置匹配架构的 whisper.cpp 和模型，验证参数、路径、取消及输出格式。 |
 | 桌面操作 | 验证托盘、窗口恢复、单实例唤起、外部链接、文件打开与 OIDC 回调。 |
@@ -58,9 +58,9 @@ GitHub macOS runner 可承担构建和自动检查。GUI、系统权限、音色
 
 开发包与双平台发布候选的构建入口、版本范围和命令见[构建指南](BUILD.md#选择入口)。开发包在 `macos-latest` arm64 runner 上构建、验收并上传 artifact；候选发布须由维护者单独授权。公版 Mac 使用 GitHub 仓库 `updates/macos/` 的签名 appcast，程序从 GitHub Release 下载；公开仓库和 CI 只保存验证公钥。
 
-构建从校验锁下载 Node、独立 Python 和 Office wheels、Chromium，并从固定源码构建 OpenSSL 与本地 Whisper CPU 引擎，携带离线语音模型。Python 与浏览器复用已有版本，Mac 专属输入记录在 `config/macos-native.lock.json`。Python 调用关闭字节码缓存，应用启动不修改签名包。
+构建从校验锁下载 Node、独立 Python 和 Office wheels，并从固定源码构建 OpenSSL 与本地 Whisper CPU 引擎，携带离线语音模型。Python 复用已有版本，Mac 专属输入记录在 `config/macos-native.lock.json`。Python 调用关闭字节码缓存，应用启动不修改签名包。
 
-CI 验证解压后的内置浏览器、Python、FFmpeg、转写引擎、LadybugDB、桌面启动与退出，以及启动前后的签名完整性。默认桌面冒烟使用合成账号配置，不访问学校服务。维护者可在签名内容源就绪后添加 `--verify-publisher-bootstrap`，用原包和全新用户目录检查实际配置下载与激活；不登录账号，下载的配置不进入公开产物。学校登录和系统权限仍须由有权限的测试者确认。产物保持 ad-hoc 签名，没有 Apple 公证，是否启用 Sparkle 由更新源配置和产物回执确认；原生安装验收由独立 Mac CI 执行。
+CI 验证解压后应用能作为浏览器启动，以及 Python、FFmpeg、转写引擎、LadybugDB、桌面启动与退出，以及启动前后的签名完整性。默认桌面冒烟使用合成账号配置，不访问学校服务。维护者可在签名内容源就绪后添加 `--verify-publisher-bootstrap`，用原包和全新用户目录检查实际配置下载与激活；不登录账号，下载的配置不进入公开产物。学校登录和系统权限仍须由有权限的测试者确认。产物保持 ad-hoc 签名，没有 Apple 公证，是否启用 Sparkle 由更新源配置和产物回执确认；原生安装验收由独立 Mac CI 执行。
 
 ## 发行要求
 

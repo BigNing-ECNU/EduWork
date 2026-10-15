@@ -100,7 +100,7 @@ if (native) {
   await copyFile(join(host, 'host-process.mjs'), join(output, 'src/eduwork-native-host-process.mjs'))
   for (const name of ['node-environment.mjs', 'web-document.mjs', 'redacted-log.mjs']) await copyFile(join(host, name), join(output, 'src', name))
   await copyFile(join(repository, 'dsh-electron/src/native-web-host.mjs'), join(output, 'src/eduwork-host-process.mjs'))
-  for (const name of ['native-desktop.mjs', 'native-desktop-bridge.mjs']) await copyFile(join(repository, 'dsh-electron/src', name), join(output, 'src', name))
+  for (const name of ['desktop-main.mjs', 'automation-browser.mjs', 'native-desktop.mjs', 'native-desktop-bridge.mjs']) await copyFile(join(repository, 'dsh-electron/src', name), join(output, 'src', name))
 } else {
   await copyFile(join(host, 'host-process.mjs'), join(output, 'src/eduwork-host-process.mjs'))
   await copyFile(join(host, 'host-protocol.mjs'), join(output, 'src/host-protocol.mjs'))
@@ -119,7 +119,7 @@ if (native) {
   const runtimeRequire = createRequire(join(runtime, 'package.json'))
   const { build } = runtimeRequire('esbuild')
   const common = { bundle: true, platform: 'node', target: 'es2024', nodePaths: [join(runtime, 'node_modules')], external: ['electron'], logLevel: 'warning' }
-  await build({ ...common, entryPoints: [join(output, 'src/native-desktop.mjs')], outfile: join(output, 'lib/main.js'), format: 'esm', banner: { js: "import { createRequire as __eduworkRequire } from 'node:module'; const require = __eduworkRequire(import.meta.url);" } })
+  await build({ ...common, entryPoints: [join(output, 'src/desktop-main.mjs')], outfile: join(output, 'lib/main.js'), format: 'esm', banner: { js: "import { createRequire as __eduworkRequire } from 'node:module'; const require = __eduworkRequire(import.meta.url);" } })
   await build({ ...common, entryPoints: [join(output, 'src/preload-app.ts')], outfile: join(output, 'lib/preload-app.cjs'), format: 'cjs' })
 } else {
 const { build } = await import(pathToFileURL(require.resolve('tsdown')).href)
@@ -130,7 +130,7 @@ const adapters = {}
 adapters['dsh-electron/src/dock-theme-preload.cjs'] = digest(await readFile(join(repository, 'dsh-electron/src/dock-theme-preload.cjs')))
 for (const name of ['native-profile.mjs', 'settings-migration.mjs']) adapters['dsh-host/' + name] = digest(await readFile(join(repository, 'dsh-host', name)))
 if (native) {
-  for (const name of ['native-web-host.mjs', 'native-desktop.mjs', 'native-desktop-bridge.mjs']) adapters['dsh-electron/src/' + name] = digest(await readFile(join(repository, 'dsh-electron/src', name)))
+  for (const name of ['native-web-host.mjs', 'desktop-main.mjs', 'automation-browser.mjs', 'native-desktop.mjs', 'native-desktop-bridge.mjs']) adapters['dsh-electron/src/' + name] = digest(await readFile(join(repository, 'dsh-electron/src', name)))
   adapters['dsh-electron/scripts/native-desktop-source.mjs'] = digest(await readFile(join(repository, 'dsh-electron/scripts/native-desktop-source.mjs')))
 }
 adapters['dsh-host/publisher-bootstrap.mjs'] = digest(await readFile(join(repository, 'dsh-host/publisher-bootstrap.mjs')))
@@ -171,7 +171,7 @@ async function collectNotice(name, from) {
   for (const dependency of Object.keys(manifest.dependencies ?? {})) await collectNotice(dependency, manifestPath)
 }
 for (const name of Object.keys(alias)) await collectNotice(name, join(upstream, 'apps/desktop/package.json'))
-if (native) for (const name of ['@deepseek-ai/dsh-client-shortcuts', '@deepseek-ai/dsh-atomic-write']) await collectNotice(name, join(resolve(values.runtime), 'package.json'))
+if (native) for (const name of ['@deepseek-ai/dsh-client-shortcuts', '@deepseek-ai/dsh-atomic-write', 'ws']) await collectNotice(name, join(resolve(values.runtime), 'package.json'))
 await mkdir(join(output, 'third-party/jsonc-parser@3.3.1'), { recursive: true })
 await copyFile(join(repository, 'dsh-host', vendor, 'LICENSE.md'), join(output, 'third-party/jsonc-parser@3.3.1/LICENSE.md'))
 notices.push({ name: 'jsonc-parser', version: '3.3.1', license: 'MIT', source: 'dsh-host/vendor/jsonc-parser' })

@@ -186,6 +186,10 @@ jobs:
           $electron = if ($IsWindows) { "$env:RUNNER_TEMP/electron/runtime/electron.exe" } else { "$env:RUNNER_TEMP/electron/runtime/Electron.app/Contents/MacOS/Electron" }
           node core/dsh-electron/scripts/probe-native-desktop.mjs --shell "$env:RUNNER_TEMP/native-shell" --runtime "$env:RUNNER_TEMP/native-runtime" --electron $electron --output "$env:RUNNER_TEMP/native-desktop-evidence"
           if ($LASTEXITCODE) { throw 'Native Electron acceptance failed' }
+          $env:EDUWORK_TEST_ELECTRON = $electron
+          $env:EDUWORK_TEST_RUNTIME = "$env:RUNNER_TEMP/native-runtime"
+          node --test core/dsh-electron/tests/automation-browser.test.mjs
+          if ($LASTEXITCODE) { throw 'Desktop executable as the automation browser failed' }
       - name: Qualify the assembled desktop product without source resolution hooks
         shell: pwsh
         run: |
