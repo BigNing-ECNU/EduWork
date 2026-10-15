@@ -261,14 +261,20 @@ export async function assembleMacos({
   // plist. Must run before the ad-hoc signature is created below.
   await run(node, [join(scriptRoot, 'build-dock-plugin.mjs'), app])
     .catch(() => { throw new Error('Dock tile plugin compilation failed') })
+  const headers = join(nodeRoot, 'include/node')
+  if (!await isFile(join(headers, 'node_api.h'))) throw new Error('Official Node distribution must include N-API headers')
+  const native = join(appPayload, 'native')
+  await mkdir(native)
+  // The desktop pet window needs this guard in every macOS build (electron#53889).
+  await run('clang++', [
+    '-std=c++17', '-fobjc-arc', '-dynamiclib', '-undefined', 'dynamic_lookup', '-mmacosx-version-min=15.0',
+    '-I', headers, '-framework', 'AppKit', join(scriptRoot, '../native/prevent-activation.mm'),
+    '-o', join(native, 'prevent-activation.node'),
+  ]).catch(() => { throw new Error('Desktop pet activation guard compilation failed') })
   if (sparkleEnabled) {
     await copyFileTo(join(scriptRoot, '../LICENSE-Sparkle'), join(resources, 'LICENSE-Sparkle'))
     const frameworkTarget = join(app, 'Contents/Frameworks/Sparkle.framework')
     await ditto(sparkleFramework, frameworkTarget).catch(() => { throw new Error('Sparkle framework copy failed') })
-    const headers = join(nodeRoot, 'include/node')
-    if (!await isFile(join(headers, 'node_api.h'))) throw new Error('Official Node distribution must include N-API headers')
-    const native = join(appPayload, 'native')
-    await mkdir(native)
     await run('clang++', [
       '-std=c++17', '-fobjc-arc', '-dynamiclib', '-undefined', 'dynamic_lookup',
       '-I', headers, '-F', join(app, 'Contents/Frameworks'),
