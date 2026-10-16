@@ -6,11 +6,13 @@ const safeTitle = value => typeof value === 'string' ? value.replace(/[\x00-\x1f
 
 /** Observe live work only. Never answer, cancel, or change an agent's policy. */
 export class DesktopAttention {
-  constructor({ bridge, preferences, validateTarget = async () => true, now = Date.now, schedule = setTimeout, cancel = clearTimeout }) {
-    Object.assign(this, { bridge, preferences, validateTarget, now, schedule, cancel })
+  constructor({ bridge, preferences, validateTarget = async () => true, goal = () => undefined, now = Date.now, schedule = setTimeout, cancel = clearTimeout }) {
+    Object.assign(this, { bridge, preferences, validateTarget, goal, now, schedule, cancel })
     this.items = new Map()
     this.titles = new Map()
     this.turns = new Map()
+    this.delegated = new Map()
+    this.goalRounds = new Map()
     this.studioSeen = new Map()
     this.studioRunning = new Map()
     this.startedAt = now()
@@ -37,6 +39,7 @@ export class DesktopAttention {
     if (!isRoot) return
     if (event.type === 'turn/start') {
       this.turns.set(sessionId, data.turn)
+      this.goalRounds.delete(sessionId)
       for (const row of this.items.values()) if (row.sessionId === sessionId && !row.artifactId) this.remove(row.key)
       this.changed()
     }
@@ -48,9 +51,28 @@ export class DesktopAttention {
     if (this.turns.get(sessionId) !== data.turn) return
     this.turns.delete(sessionId)
     this.changed()
-    const kind = data.reason?.kind
-    if (kind === 'completed' || ['error', 'blocked', 'max-tokens'].includes(kind))
-      this.put({ key: `turn:${sessionId}:${data.turn}`, kind: kind === 'completed' ? 'completed' : 'failed', sessionId, title: this.titles.get(sessionId) })
+    const kind = data.reason?.kind, goal = this.goal(sessionId)
+    // A background subagent wakes this conversation for another turn when it settles.
+    if (kind === 'completed' && [...this.delegated.values()].includes(sessionId)) return
+    // The goal driver either starts another round or ends the goal; goalChanged() settles this turn.
+    if (kind === 'completed' && goal?.phase === 'active' && goal.activation === 'armed') { this.goalRounds.set(sessionId, data.turn); return }
+    const failed = ['error', 'blocked', 'max-tokens'].includes(kind) || kind === 'completed' && goal?.phase === 'blocked'
+    if (kind === 'completed' || failed) this.finish(sessionId, data.turn, failed)
+  }
+  finish(sessionId, turn, failed) {
+    this.put({ key: `turn:${sessionId}:${turn}`, kind: failed ? 'failed' : 'completed', sessionId, title: this.titles.get(sessionId) })
+  }
+  /** A goal blocked or completed after the turn it held is reported once; a pause or clear is the user's own stop. */
+  goalChanged(sessionId, operation) {
+    const turn = this.goalRounds.get(sessionId)
+    if (turn === undefined || operation === 'edit') return
+    this.goalRounds.delete(sessionId)
+    if (operation === 'block' || operation === 'complete') this.finish(sessionId, turn, operation === 'block')
+  }
+  /** A working subagent belongs to the root conversation that delegated it. */
+  subagent(sessionId, type, root) {
+    if (type === 'turn/end') this.delegated.delete(sessionId)
+    else if (root !== undefined) this.delegated.set(sessionId, root)
   }
   async question(request, next) {
     if (!request.agent || request.signal?.aborted) return next()
@@ -120,16 +142,33 @@ export class DesktopAttention {
     return { desktop: true, target: target ? { key: target.key, sessionId: target.sessionId, ...(target.artifactId ? { artifactId: target.artifactId } : {}) } : null,
       delivery: response.delivery }
   }
-  close() { this.closed = true; this.cancel(this.timer); this.items.clear(); this.titles.clear(); this.turns.clear(); this.studioSeen.clear(); this.studioRunning.clear() }
+  close() { this.closed = true; this.cancel(this.timer); this.items.clear(); this.titles.clear(); this.turns.clear(); this.delegated.clear(); this.goalRounds.clear(); this.studioSeen.clear(); this.studioRunning.clear() }
 }
 
 export function observeDesktopAttention(ctx, attention) {
   const root = session => ctx.get('agents')?.roots().some(agent => agent.id === session.id) === true
-  ctx.on('session/event', (session, event) => attention.event(session, event, root(session)))
-  ctx.on('session/disposed', session => {
-    attention.removeSession(String(session.id), true); attention.titles.delete(String(session.id))
-    if (attention.turns.delete(String(session.id))) attention.changed()
+  // Follow subagent lineage, as DSH does; a fork shares the field without the origin.
+  const owner = session => {
+    const seen = new Set()
+    for (let header = session.header; header?.origin === 'subagent' && !seen.has(header.parentSession);) {
+      seen.add(header.parentSession)
+      const parent = ctx.get('agents')?.get(header.parentSession)
+      if (!parent) return
+      if (root(parent)) return String(parent.id)
+      header = parent.session.header
+    }
+  }
+  ctx.on('session/event', (session, event) => {
+    const isRoot = root(session)
+    attention.event(session, event, isRoot)
+    if (!isRoot && (event.type === 'turn/start' || event.type === 'turn/end')) attention.subagent(String(session.id), event.type, owner(session))
   })
+  ctx.on('session/disposed', session => {
+    const id = String(session.id)
+    attention.removeSession(id, true); attention.titles.delete(id); attention.delegated.delete(id); attention.goalRounds.delete(id)
+    if (attention.turns.delete(id)) attention.changed()
+  })
+  ctx.on('goal/changed', ({ agent, change }) => attention.goalChanged(String(agent.id), change.operation))
   ctx.on('user-questions/request', (request, next) => attention.question(request, next), { prepend: true })
   let disposed = false, timer
   const pollStudio = async () => {

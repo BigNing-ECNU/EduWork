@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.3",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-15T12:02:52.919Z",
-  "fileSetSHA256": "101a6c75fcc6c815cc25414ea4469bbb6b749df2c1e7bc67cd81410db1fa7d2c",
+  "createdAt": "2026-10-16T00:55:00.255Z",
+  "fileSetSHA256": "7c4e7f6515f3d1f4a2832842aee066996c7a6aa2bd69bda39bc98085e2239c02",
   "files": [
     {
       "path": ".gitattributes",
@@ -273,11 +273,11 @@
     },
     {
       "path": "docs/DESKTOP_NOTIFICATIONS_EN.md",
-      "sha256": "bb311dfe53b52cd626cf696c4082abec734c225ce9f247871c9ecd2c0efa2656"
+      "sha256": "5ce75f517706f23cbc06d40947d7aac3c76627cb2f37d303e2243a6c98362f74"
     },
     {
       "path": "docs/DESKTOP_NOTIFICATIONS.md",
-      "sha256": "c23ff797e0e92630417bbc2b7ce3f2af4039a01c6d3c658b07372d39686104ac"
+      "sha256": "1b0783948d8e284df16606bfc64ba6078af2029766222cc331d909b333f4688f"
     },
     {
       "path": "docs/DESKTOP_PET_EN.md",
@@ -1349,7 +1349,7 @@
     },
     {
       "path": "dsh-electron/tests/task-notifications.test.mjs",
-      "sha256": "8d63d970e80712effd00f816971757bbc4978bb3aa522552f02c0ff25a71b1d2"
+      "sha256": "ef4bf485e5463649b9014f725e44da2be7a32d6e5db990445fd85e0087fa7395"
     },
     {
       "path": "dsh-electron/tests/tray-icon.electron.mjs",
@@ -2761,7 +2761,7 @@
     },
     {
       "path": "dsh-plugins/desktop-services/lib/attention.js",
-      "sha256": "7a2b8597f6591ea16fe52f08f037de90a07dfd11230751113cde5567f6219c42"
+      "sha256": "4ffc113a039b4f76da3fba9eed67e31398bc1fd68ee27569710c96ccbc6a748c"
     },
     {
       "path": "dsh-plugins/desktop-services/lib/directory-picker.js",
@@ -2773,7 +2773,7 @@
     },
     {
       "path": "dsh-plugins/desktop-services/lib/index.js",
-      "sha256": "10fc3289f00a00a24153f25404ab4a45476a213486620022a4a20326f98fe215"
+      "sha256": "d90b29678337d2b6ff25f2b319581ee20db5953cb1d1e944b4e38256f444749f"
     },
     {
       "path": "dsh-plugins/desktop-services/lib/workspace-access.js",
@@ -2785,7 +2785,7 @@
     },
     {
       "path": "dsh-plugins/desktop-services/test/attention-host.test.mjs",
-      "sha256": "505cff8469dba832c3272f28c39653b48d91dc4c6be1a160af3a5568469e4baa"
+      "sha256": "6442cf1e58707d3c334658fc00cea69f7ad36563b6a7a9d352da736b9532c1fc"
     },
     {
       "path": "dsh-plugins/desktop-services/test/workspace-access.test.mjs",

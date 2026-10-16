@@ -11,8 +11,8 @@ function setup() {
   const sync = (items, preferences = {}, running = []) => shell.handle({ action: 'sync', instance: 'host-a', items, running, preferences: { ...notificationDefaults, ...preferences } })
   return { shell, sync, popups, shown, dismissed, focus: value => { focused = value }, advance: () => { time += 5000 } }
 }
-function host(bridge = async () => ({ seen: [] })) {
-  return new DesktopAttention({ bridge, preferences: () => notificationDefaults, now: () => 10000, schedule: () => 1, cancel() {} })
+function host(bridge = async () => ({ seen: [] }), goal) {
+  return new DesktopAttention({ bridge, preferences: () => notificationDefaults, goal, now: () => 10000, schedule: () => 1, cancel() {} })
 }
 
 test('foreground suppresses popups; only viewing the matching conversation consumes a completed notice', () => {
@@ -136,6 +136,36 @@ test('Windows uses tray quiet-time flags; macOS failure never bypasses native co
   assert.equal(notifications[0].value.silent, true)
   notifications[0].events.failed(); assert.equal(failed.length, 1)
   notifications[0].events.click(); assert.equal(clicked.at(-1), 'b')
+})
+
+test('an armed goal holds its turn until the driver continues, blocks or completes it', () => {
+  let view
+  const h = host(undefined, id => view?.[id]), round = (id, turn) => { h.event({ id }, { type: 'turn/start', data: { turn } }, true); h.event({ id }, { type: 'turn/end', data: { turn, reason: { kind: 'completed' } } }, true) }
+  const kinds = () => [...h.items.values()].map(item => item.kind), armed = { phase: 'active', activation: 'armed', roundsStarted: 3, maxGoalRounds: 3 }
+  view = { a: armed, b: armed, c: armed, d: armed }
+  // The next round starts: nothing to report yet. At the limit the driver blocks the goal after the turn.
+  round('a', 1); round('a', 2); assert.deepEqual(kinds(), [])
+  h.goalChanged('a', 'edit'); assert.deepEqual(kinds(), [])
+  h.goalChanged('a', 'block'); h.goalChanged('a', 'block'); assert.deepEqual(kinds(), ['failed'])
+  round('b', 1); h.goalChanged('b', 'complete'); assert.deepEqual(kinds(), ['failed', 'completed'])
+  // A pause or clear is the user's own stop; a goal never held here is not reported.
+  round('c', 1); h.goalChanged('c', 'pause'); h.goalChanged('d', 'block'); assert.deepEqual(kinds(), ['failed', 'completed'])
+  view = { e: { ...armed, activation: 'disarmed' }, f: { ...armed, phase: 'blocked', activation: 'disarmed' } }
+  round('e', 1); round('f', 1); assert.deepEqual(kinds(), ['failed', 'completed', 'completed', 'failed'])
+})
+
+test('a working background subagent holds completion for the turn it wakes', () => {
+  const h = host(), root = (type, data) => h.event({ id: 'a' }, { type, data }, true)
+  root('turn/start', { turn: 1 }); h.subagent('child', 'turn/start', 'a'); h.subagent('fork', 'turn/start', undefined)
+  root('turn/end', { turn: 1, reason: { kind: 'completed' } })
+  assert.equal(h.items.size, 0)
+  h.subagent('grandchild', 'turn/start', 'a'); h.subagent('child', 'turn/end'); h.subagent('grandchild', 'turn/end'); h.subagent('fork', 'turn/end')
+  assert.equal(h.delegated.size, 0)
+  // The settled subagent wakes the conversation, which then finishes for real.
+  root('turn/start', { turn: 2 }); root('turn/end', { turn: 2, reason: { kind: 'completed' } })
+  assert.equal([...h.items.values()][0].kind, 'completed')
+  root('turn/start', { turn: 3 }); h.subagent('child', 'turn/start', 'a'); root('turn/end', { turn: 3, reason: { kind: 'error' } })
+  assert.equal([...h.items.values()][0].kind, 'failed')
 })
 
 test('running lists root turns and generating Studio results once per session', async () => {
