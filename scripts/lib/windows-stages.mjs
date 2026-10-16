@@ -109,7 +109,7 @@ export function windowsStages({ coreRoot, receiptBase, recipe = 'npm' }) {
           version,
         })
         if (recipe === 'pinned-source') {
-          await buildTransitionLaunchers(candidate, coreRoot)
+          if (workspace.parameters.forUpdate) await buildTransitionLaunchers(candidate, coreRoot)
         } else {
           await annotateCandidate({ candidate, coreRoot, name: edition, version, development, developmentVersion })
         }
