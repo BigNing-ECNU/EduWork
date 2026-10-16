@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.4",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-16T08:37:57.965Z",
-  "fileSetSHA256": "2ef0216890adb1bd5f472089b7f87678d8818cf1ed3af99277a8438f0e7e8109",
+  "createdAt": "2026-10-16T08:45:02.946Z",
+  "fileSetSHA256": "e02fed0500d0e177114c3b9979696ab97e4bee7099299d115bcf993c43734810",
   "files": [
     {
       "path": ".gitattributes",
@@ -1153,7 +1153,7 @@
     },
     {
       "path": "dsh-electron/src/product.mjs",
-      "sha256": "d1e77e6c8310302412ff38116bc4bdc3ae369658ea57f49d2e8a21b7d5d49dcd"
+      "sha256": "0180194d843350e86b2e9101eba12feea104180b40403373365834bf4cd76661"
     },
     {
       "path": "dsh-electron/src/quit-confirmation.mjs",
@@ -1365,7 +1365,7 @@
     },
     {
       "path": "dsh-electron/tests/update-policy.test.mjs",
-      "sha256": "e0bb14efbcb08af12545b2c1ab0a112a82ad27b1c36218e94145c880e49c63c5"
+      "sha256": "2216fdd397ece65d2287e1f1eacb99f2c2ad2ce348f916624065a635f82afc0e"
     },
     {
       "path": "dsh-electron/tests/updater-manifest.test.mjs",
