@@ -2,10 +2,11 @@
 
 [简体中文](PACKAGES.md) | **English**
 
-EduWork maintains its public plugins in one source repository. Each npm package retains its identity, version and independent installation/publication. Issues, PRs, protocols and development documentation belong to `ecnu/EduWork`; institutional implementations remain in EduWork-ECNU. Other DSH applications can use individual plugins without the EduWork desktop client.
+EduWork maintains its public plugins in one source repository. Each npm package retains its identity, version and independent installation/publication. Issues, PRs, protocols and development documentation belong to `ecnu/EduWork`; institutional implementations remain in EduWork-ECNU. Each plugin documents its host requirements. The desktop pet requires the EduWork Electron desktop bridge; other DSH clients must integrate that interface first.
 
 | npm package | Source and documentation | Installation root |
 | --- | --- | --- |
+| `@eduwork/dsh-desktop-pet` | [Desktop pet and host requirements](../packages/dsh-desktop-pet/README_EN.md) | `packages/dsh-desktop-pet` |
 | `@eduwork/dsh-literature` | [Literature search, citations and full text](../packages/dsh-literature/README_EN.md) | `packages/dsh-literature` |
 | `@eduwork/dsh-oidc` | [Identity, credentials and models](../packages/dsh-oidc/README_EN.md) | `packages/dsh-oidc` |
 | `@eduwork/dsh-memory` | [Local memory and retrieval](../packages/dsh-memory/README_EN.md) | `packages/dsh-memory` |
@@ -13,7 +14,7 @@ EduWork maintains its public plugins in one source repository. Each npm package 
 | `@eduwork/dsh-knowledge-studio` | [Studio](../packages/dsh-knowledge-studio/README_EN.md) | `packages/dsh-knowledge-studio` |
 | `@eduwork/dsh-artifact-services` | [Office, speech, images and media](../packages/dsh-knowledge-studio/packages/artifact-services/README_EN.md) | Studio's existing workspace |
 
-Five development roots retain their own dependency locks without repository-wide hoisting. Studio keeps its existing `packages/artifact-services` workspace; each package still produces its own tarball. Other packages communicate through public npm exports, not relative imports into another package's implementation.
+Six development roots retain their own dependency locks without repository-wide hoisting. Studio keeps its existing `packages/artifact-services` workspace; each package still produces its own tarball. Other packages communicate through public npm exports, not relative imports into another package's implementation.
 
 ## Develop and check
 

@@ -52,7 +52,7 @@ for (const entry of await readdir(join(paths.dependencies, 'node_modules'), { wi
   else await copyDependency(entry.name)
 }
 // The desktop pet is inserted by the Electron profile, not the distribution.
-const sourceFolders = [...distribution.plugins.map(row => row.source), 'dsh-plugins/skill-control-native', 'dsh-plugins/desktop-pet',
+const sourceFolders = [...distribution.plugins.map(row => row.source), 'dsh-plugins/skill-control-native', 'packages/dsh-desktop-pet',
   ...['dsh-mail', 'dsh-memory', 'dsh-oidc', 'dsh-knowledge-studio'].map(name => 'packages/' + name),
   'packages/dsh-knowledge-studio/packages/artifact-services']
 const sourcePackages = []
