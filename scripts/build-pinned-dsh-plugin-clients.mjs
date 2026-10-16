@@ -26,7 +26,7 @@ const productRelease = releaseIdentity(values.version ?? '0.0.0-dev.pinned.dsh',
 await mkdir(repository)
 // Copy the maintained plugin source into a disposable qualification tree.
 // Candidate bundles never overwrite the default-version checked-in clients.
-for (const folder of ['dsh-plugins', 'config/distributions', 'packages/dsh-mail', 'packages/dsh-memory', 'packages/dsh-oidc', 'packages/dsh-knowledge-studio']) {
+for (const folder of ['dsh-plugins', 'config/distributions', 'packages/dsh-desktop-pet', 'packages/dsh-mail', 'packages/dsh-memory', 'packages/dsh-oidc', 'packages/dsh-knowledge-studio']) {
   await cp(join(sourceRepository, folder), join(repository, folder), { recursive: true,
     filter: path => !relative(sourceRepository, path).split(/[\\/]/).some(part => ['node_modules', '.git', 'test', 'tests', '.research'].includes(part)),
   })
@@ -89,7 +89,7 @@ const clients = Object.entries({ 'dsh-mail': 'index.tsx', 'dsh-memory': 'index.t
 for (const folder of ['client-ui-branding', 'client-ui-component-inventory', 'activity-insights-native', 'workbench-native', 'client-ui-media-artifacts']) {
   clients.push([`dsh-plugins/${folder}`, folder === 'workbench-native' ? 'src/client.ts' : folder === 'client-ui-media-artifacts' ? 'src/client/native.js' : 'src/client/index.ts'])
 }
-clients.push(['dsh-plugins/desktop-pet', 'src/client.js'])
+clients.push(['packages/dsh-desktop-pet', 'src/client.js'])
 const localAliases = { ...sharedAliases }
 for (const folder of ['skill-manager-native', 'skill-settings-native', 'component-inventory-native', 'plugin-manager-native', 'artifact-preview-native']) {
   const root = join(repository, 'dsh-plugins', folder)
