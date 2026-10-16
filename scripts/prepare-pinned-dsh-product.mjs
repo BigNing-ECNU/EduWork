@@ -16,7 +16,7 @@ import { loadDistributionBundleLayers, mergeDistributionConfigPatches } from './
 
 const { values } = parseArgs({ options: Object.fromEntries(['product','edition','version','publisher-descriptors','channel','runtime-lock'].map(key=>[key,{type:'string'}])) })
 for(const key of ['product','version']) if(!values[key]) throw Error('Missing --'+key)
-const release=desktopVersion(values.version), stable=release.automaticUpdates
+const release=desktopVersion(values.version), stable=!release.prerelease
 if(values.channel && values.channel!==release.channel) throw Error('Version does not match the explicit source build channel')
 const product=resolve(values.product)
 const read=async file=>JSON.parse(await readFile(file,'utf8'))
@@ -94,20 +94,17 @@ function noCredentials(value){if(!value||typeof value!=='object')return;for(cons
   noCredentials(item)
 }}
 noCredentials(configuration)
-// Pausing a prerelease's software updater is a shell policy, not a user setting.
-// Keep the source so a later stable installation can reuse the same config.
+// Release channels select versions; the user's desktop setting controls updates.
 configuration.updates={...configuration.updates,defaultPolicy:release.channel,...(policy.ownership==='user'?{provider:'github',repository:'ECNU/EduWork'}:{})}
 const body=documentConfiguration(JSON.stringify(configuration,null,2)+'\n')
 parseUserConfig(join(resources,'eduwork.jsonc'),body)
 await writeFile(join(resources,'eduwork.jsonc'),body)
 // Preserve trusted publisher sources for both software and signed configuration.
-// The shell pauses software updates in prereleases without persisting disabled.
 for(const platform of ['win32','darwin']) await readPublisherBootstrap({ownership:policy.ownership,product,platform})
-if(!stable) await rm(join(resources,'mac-updates.json'),{force:true})
 identity.localPlugins={};identity.managedPackages={}
 for(const name of pluginNames) identity.localPlugins[name]={version:(await read(join(product,'d/node_modules',name,'package.json'))).version,source:true}
 for(const name of generic.packages) identity.managedPackages[name]={version:(await read(join(product,'d/node_modules',name,'package.json'))).version,source:identity.sourcePackages.includes(name)}
-Object.assign(identity,{version:values.version,qualification:'Pinned DSH source build; package and component receipts retained',automaticUpdates:stable,
+Object.assign(identity,{version:values.version,qualification:'Pinned DSH source build; package and component receipts retained',automaticUpdates:release.automaticUpdates,
   sourceAlpha:!stable,sourceRelease:stable,releaseChannel:stable?'stable':'development',published:false})
 await save(join(product,'assembly.json'),identity)
-console.log(JSON.stringify({distribution:identity.distribution,version:identity.version,dshVersion:identity.dshVersion,sourceAlpha:!stable,automaticUpdates:stable}))
+console.log(JSON.stringify({distribution:identity.distribution,version:identity.version,dshVersion:identity.dshVersion,sourceAlpha:!stable,automaticUpdates:release.automaticUpdates}))
