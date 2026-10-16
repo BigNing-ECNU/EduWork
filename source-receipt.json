@@ -5,7 +5,7 @@
   "version": "0.4.4",
   "sourceState": "local-development-snapshot",
   "createdAt": "2026-10-16T08:45:02.946Z",
-  "fileSetSHA256": "e02fed0500d0e177114c3b9979696ab97e4bee7099299d115bcf993c43734810",
+  "fileSetSHA256": "7d46cfe2c0d2dfa3bbf0ff221896d8b1f7f4568c31527a8ca61bce575a3fe1f5",
   "files": [
     {
       "path": ".gitattributes",
@@ -969,7 +969,7 @@
     },
     {
       "path": "dsh-electron/scripts/assemble-macos.ps1",
-      "sha256": "7b66482bda0fdd040a5c2d18effd2ba4db212b8ce3a5fddda6bde4ccc8c0af1f"
+      "sha256": "dd8bf9e11f30bc8ffb3a9d01c093331dec5e9aa95a1aeb49df6766d1b6c94f14"
     },
     {
       "path": "dsh-electron/scripts/assemble-windows.mjs",
