@@ -63,7 +63,7 @@ $nodeLicense = Join-Path $nodeRoot 'LICENSE'
 if (-not (Test-Path -LiteralPath $nodeLicense -PathType Leaf)) { throw 'Use the extracted official Node distribution, including LICENSE' }
 
 $editionName = if ($identity.distribution -eq 'eduwork') { 'EduWork' } else { 'EduWork-ECNU' }
-$appName = if ($identity.sourceAlpha) { "$editionName Alpha.app" } else { "$editionName.app" }
+$appName = if ($identity.sourceAlpha -and -not $identity.automaticUpdates) { "$editionName Alpha.app" } else { "$editionName.app" }
 $app = Join-Path $Output $appName
 New-Item -ItemType Directory -Path $Output | Out-Null
 & ditto --noextattr --noqtn --noacl $electronApp $app
@@ -151,7 +151,7 @@ if ($sparkleEnabled) {
 }
 $bootstrap = (& $Node (Join-Path $PSScriptRoot '../../scripts/check-publisher-bootstrap.mjs') $Product $ownership) | ConvertFrom-Json
 if ($LASTEXITCODE -ne 0) { throw 'Publisher bootstrap validation failed' }
-if ($identity.sourceAlpha) {
+if ($identity.sourceAlpha -and -not $identity.automaticUpdates) {
     if ($sparkleEnabled) { throw 'Source Alpha does not enable software updates' }
     $desktop.updates=@{provider='disabled';defaultPolicy='development'}
     $desktop.sourceAlpha=$true;$desktop.appId+='.alpha'
