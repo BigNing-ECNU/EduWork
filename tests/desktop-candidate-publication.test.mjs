@@ -155,6 +155,10 @@ test('stable macOS publishes exactly the delta updates its receipt verifies', as
   await rm(join(data.directory, data.names[7]))
   await assert.rejects(validatedNodeNpmFiles(data.directory, data.context), /Unexpected macOS files/)
 })
+test('Windows candidates add each delta update with its SHA-256 sidecar', () => {
+  assert.deepEqual(nodeNpmAssetNames('EduWork', '0.4.4', 'windows', ['0.4.3']).slice(-2),
+    ['EduWork-0.4.4-windows-x64-electron-from-0.4.3.zip', 'EduWork-0.4.4-windows-x64-electron-from-0.4.3.zip.sha256'])
+})
 test('macOS without delta updates keeps the fixed release files', async t => {
   const data = await macosNodeFixture([])
   t.after(() => rm(data.directory, {recursive: true, force: true}))

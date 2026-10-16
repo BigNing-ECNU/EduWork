@@ -11,6 +11,7 @@ import {githubUpdateManifestBytes, updateManifestName} from './github-update-man
 import {validateExtractorReceipt, validatedReleaseFiles} from './publish-windows-release.mjs'
 import {bundleVersion} from './macos-update-feed.mjs'
 import {deltaName} from './macos-update-delta.mjs'
+import {windowsDeltaName} from './windows-update-delta.mjs'
 import {desktopVersion} from './desktop-build-plan.mjs'
 
 const sha = /^[a-f0-9]{40}$/
@@ -38,6 +39,7 @@ export function nodeNpmAssetNames(product, version, platform, deltaFrom = []) {
   if (platform === 'windows') {
     const setup = `${product}-${version}-windows-x64-setup.zip`
     names.push(...(!desktopVersion(version).prerelease ? [updateManifestName] : []), setup, `${setup}.sha256`, `${setup}.json`)
+    for (const delta of deltaFrom.map(from => windowsDeltaName(product, version, from))) names.push(delta, `${delta}.sha256`)
   } else {
     const dmg = `${product}-${version}-macos-arm64-electron.dmg`
     names.push(dmg, `${dmg}.sha256`, ...deltaFrom.map(from => deltaName(product, version, from)))
@@ -247,8 +249,8 @@ export async function publishCandidate(env = process.env) {
     assert.equal((await lstat(archive)).size, artifact.size_in_bytes)
     assert.equal('sha256:' + await hashFile(archive), artifact.digest, 'Actions artifact digest mismatch')
     const names = execFileSync('unzip', ['-Z1', archive], {encoding: 'utf8'}).trim().split(/\r?\n/)
-    // The macOS receipt lists the delta updates; every other file name is fixed.
-    const deltas = buildMode === 'node' && platform === 'macos'
+    // The receipt lists the delta updates; every other file name is fixed.
+    const deltas = buildMode === 'node'
       ? JSON.parse(execFileSync('unzip', ['-p', archive, 'release-receipt.json'], {encoding: 'utf8'})).deltas ?? [] : []
     const expected = buildMode === 'ps1' ? assetNames(product, version, platform)
       : nodeNpmAssetNames(product, version, platform, deltas.map(delta => delta.from))
@@ -278,7 +280,8 @@ export async function publishCandidate(env = process.env) {
   const notesAsset = join(root, 'RELEASE-NOTES.md')
   await writeFile(notesAsset, notes)
   files.push({name: 'RELEASE-NOTES.md', path: notesAsset, bytes: Buffer.byteLength(notes), sha256: await hashFile(notesAsset)})
-  assert.equal(files.length, (desktopVersion(version).prerelease ? 12 : 13) + (receipts[1].deltas?.length ?? 0))
+  // Windows delta updates carry a SHA-256 sidecar for the updater; macOS ones are signed in the appcast.
+  assert.equal(files.length, (desktopVersion(version).prerelease ? 12 : 13) + 2 * (receipts[0].deltas?.length ?? 0) + (receipts[1].deltas?.length ?? 0))
   const result = {verified: true, published: false, buildMode, repository, sourceRun: run.id, editionCommit: run.head_sha, coreCommit, tag: 'v' + version, files: files.map(({path, ...file}) => file)}
   if (env.PUBLISH_RELEASE === 'true') {
     const tag = result.tag

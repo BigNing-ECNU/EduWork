@@ -30,7 +30,7 @@ export function createUpdateController(service) {
  return {subscribe:fn=>{listeners.add(fn);return()=>listeners.delete(fn)},getSnapshot:()=>view,run,open,close:()=>publish({open:false}),dispose:()=>{stopped=true;clearTimeout(timer);window.removeEventListener('eduwork:open-updates',event)}}
 }
 function useUpdates(controller){return useSyncExternalStore(controller.subscribe,controller.getSnapshot,controller.getSnapshot)}
-const percent=s=>s?.totalBytes>0?Math.min(100,Math.floor(s.downloadedBytes/s.totalBytes*100)):0
+const percent=s=>s?.downloadStage==='verifying'?(s.totalFiles>0?Math.min(100,Math.floor(s.checkedFiles/s.totalFiles*100)):0):s?.totalBytes>0?Math.min(100,Math.floor(s.downloadedBytes/s.totalBytes*100)):0
 const size=n=>n<1048576?Math.ceil(Math.max(0,n||0)/1024)+' KB':(Math.max(0,n||0)/1048576).toFixed(1)+' MB'
 function ContentPanel({controller,content:c,working}) {
  if(!c?.enabled)return null
@@ -54,8 +54,10 @@ export function UpdatePanel({controller}) {
  const policy=s?.policy||c?.policy||'stable',locked=busy||state==='ready'||s?.busy||['checking','downloading','ready'].includes(c?.state)
  const channels=[['stable','仅公测版'],['development','开发版']].filter(([value])=>!s?.policies||s.policies.includes(value))
  const setPolicy=async value=>{if(locked||value===policy)return;await controller.run(value==='development'?'use-development-updates':'use-stable-updates');await controller.run('check-updates')}
- const progress=percent(s),determinate=state==='downloading'&&s?.downloadStage!=='extracting'&&s?.totalBytes>0
- const message=state==='available'?`发现新版本 ${s.latestVersion}`:state==='downloading'?`${s.downloadStage==='extracting'?'正在准备安装':'正在下载'} ${s.latestVersion}`:state==='checking'?'正在检查更新…':state==='switching'?'正在切换更新渠道…':state==='applying'?'正在退出并安装更新…':state==='installed'?'更新已完成':state==='up_to_date'?'当前已是最新版本':null
+ // A Windows delta checks the installed files it reuses before it is ready.
+ const verifying=state==='downloading'&&s?.downloadStage==='verifying'
+ const progress=percent(s),determinate=verifying?s.totalFiles>0:state==='downloading'&&s?.downloadStage!=='extracting'&&s?.totalBytes>0
+ const message=state==='available'?`发现新版本 ${s.latestVersion}`:verifying?'正在校验本机文件':state==='downloading'?`${s.downloadStage==='extracting'?'正在准备安装':'正在下载'} ${s.latestVersion}`:state==='checking'?'正在检查更新…':state==='switching'?'正在切换更新渠道…':state==='applying'?'正在退出并安装更新…':state==='installed'?'更新已完成':state==='up_to_date'?'当前已是最新版本':null
  // Restore the 0.2 settings layout while sharing native state across both shells.
  // Status-specific content expands below the channel buttons, never in a second UI.
  return h('div',{'data-eduwork-update-panel':true},
@@ -81,11 +83,11 @@ export function UpdatePanel({controller}) {
    state==='available'&&s&&h('button',{type:'button',style:primary,onClick:()=>controller.run('download-update')},'下载更新')),
   s?.enabled!==false&&['checking','downloading','applying'].includes(state)&&h('div',null,
    h('style',null,'@keyframes eduwork-update-progress{from{transform:translateX(-100%)}to{transform:translateX(334%)}}[data-eduwork-update-indeterminate]{animation:eduwork-update-progress 1.4s linear infinite}@media(prefers-reduced-motion:reduce){[data-eduwork-update-indeterminate]{animation:none}}'),
-   h('div',{role:'progressbar','aria-label':state==='downloading'?'更新下载进度':'更新处理进度','aria-valuemin':0,'aria-valuemax':100,...(determinate?{'aria-valuenow':progress}:{}),style:{height:6,marginTop:10,overflow:'hidden',borderRadius:999,background:border}},
+   h('div',{role:'progressbar','aria-label':verifying?'本机文件校验进度':state==='downloading'?'更新下载进度':'更新处理进度','aria-valuemin':0,'aria-valuemax':100,...(determinate?{'aria-valuenow':progress}:{}),style:{height:6,marginTop:10,overflow:'hidden',borderRadius:999,background:border}},
     h('div',{'data-eduwork-update-indeterminate':determinate?undefined:true,style:{width:determinate?`${progress}%`:'30%',height:'100%',borderRadius:999,background:accent,transition:determinate?'width .2s ease':undefined}})),
    state==='downloading'&&h('div',{style:{...row,marginTop:6,fontSize:11,color:secondary,fontVariantNumeric:'tabular-nums'}},
-    h('span',{style:{minWidth:0,overflowWrap:'anywhere'}},s?.downloadStage==='extracting'?'正在解包并校验':s?.fileName||'正在下载发行包'),
-    h('span',{style:{flexShrink:0}},determinate?`${size(s.downloadedBytes)} / ${size(s.totalBytes)} · ${progress}%`:s?.downloadStage==='extracting'?'请稍候…':'后台下载中…')),
+    h('span',{style:{minWidth:0,overflowWrap:'anywhere'}},verifying?'增量更新沿用的本机文件':s?.downloadStage==='extracting'?'正在解包并校验':s?.fileName||'正在下载发行包'),
+    h('span',{style:{flexShrink:0}},verifying?(determinate?`已检查 ${s.checkedFiles} / ${s.totalFiles} 个 · ${progress}%`:'正在准备…'):determinate?`${size(s.downloadedBytes)} / ${size(s.totalBytes)} · ${progress}%`:s?.downloadStage==='extracting'?'请稍候…':'后台下载中…')),
    state==='downloading'&&h('p',{style:note},'下载期间可以继续对话，关闭此面板不影响下载。')),
   state==='ready'&&h('div',{style:{marginTop:12,padding:11,border:`1px solid ${border}`,borderRadius:10}},
    h('p',{role:'status',style:{margin:0,fontSize:12}},s.installOnQuit?`版本 ${s.latestVersion} 已下载并校验，将在退出应用时安装。`:s.installOnNextStart?`版本 ${s.latestVersion} 已校验，将在下次启动时安装。`:`版本 ${s.latestVersion} 已下载并校验。`),
@@ -104,7 +106,7 @@ export function UpdateFooter({controller,wide=true}) {
  if(!status||status.shell==='web')return null
  // Keep one small blue entry; both download transactions remain in the panel.
  const softwareVisible=s?.enabled&&['available','downloading','ready','applying'].includes(state)
- const label=softwareVisible?(state==='available'?'更新':state==='downloading'?(s?.totalBytes>0?`下载 ${percent(s)}%`:'正在下载…'):state==='ready'?(s.installOnQuit?'退出时更新':'重启更新'):'正在更新…'):(c?.state==='downloading'?`内容 ${percent(c)}%`:c?.state==='ready'?'内容待生效':'更新')
+ const label=softwareVisible?(state==='available'?'更新':state==='downloading'?(s?.downloadStage==='verifying'?`校验 ${percent(s)}%`:s?.totalBytes>0?`下载 ${percent(s)}%`:'正在下载…'):state==='ready'?(s.installOnQuit?'退出时更新':'重启更新'):'正在更新…'):(c?.state==='downloading'?`内容 ${percent(c)}%`:c?.state==='ready'?'内容待生效':'更新')
  const visible=wide&&(softwareVisible||c?.enabled&&['available','downloading','ready','requires_software'].includes(c.state))
  return h(React.Fragment,null,
   visible&&h('button',{type:'button','aria-label':'查看更新',title:'查看软件及内容更新',onClick:controller.open,'data-eduwork-update-entry':true,'data-chatecnu-update-prompt':softwareVisible?state:c.state,style:{flex:'0 0 auto',alignSelf:'center',minWidth:42,height:28,margin:'4px 2px 4px 6px',border:0,borderRadius:999,padding:'0 11px',background:'var(--dsw-alias-state-info-primary, #4f78dd)',color:'white',cursor:'pointer',fontSize:11,fontWeight:700,whiteSpace:'nowrap',fontFamily:'system-ui, sans-serif'}},label),
