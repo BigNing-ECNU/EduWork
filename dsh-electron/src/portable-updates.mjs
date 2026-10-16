@@ -51,8 +51,10 @@ export function editablePortableUpdateConfiguration({defaults={},updates={},prio
  return result
 }
 
-export async function startPortableUpdates({root,updates={},defaults={},version,distribution,onQuit,platform=process.platform,spawnProcess=spawn}) {
- if(platform!=='win32')return null
+export async function startPortableUpdates({root,updates={},defaults={},version,distribution,onQuit,enabled=true,platform=process.platform,spawnProcess=spawn}) {
+ // A package-level pause must not consume a pending install or change the saved
+ // provider. Explicit user provider:disabled still follows normal helper startup.
+ if(platform!=='win32'||!enabled)return null
  const state=join(root,'data/state/updates')
  const prior=await readFile(join(root,'config/update.bridge.json'),'utf8').then(JSON.parse).catch(()=>null)
  const configuration=resolveUpdateConfiguration(defaults,updates,prior)

@@ -221,7 +221,7 @@ export async function assembleMacos({
     .catch(() => { throw new Error('Publisher bootstrap validation failed') }))
   if (identity.sourceAlpha) {
     if (sparkleEnabled) throw new Error('Source Alpha does not enable software updates')
-    desktop.updates = { provider: 'disabled', defaultPolicy: 'development' }
+    desktop.updates = { ...desktop.updates, defaultPolicy: 'development' }
     desktop.sourceAlpha = true
     desktop.appId += '.alpha'
   }

@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.4",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-16T01:49:16.965Z",
-  "fileSetSHA256": "52ba7404bc161d9247d6a6219c9a487a8096abd4fc9c581d1aadd5fb98a81ac2",
+  "createdAt": "2026-10-16T08:37:57.965Z",
+  "fileSetSHA256": "2ef0216890adb1bd5f472089b7f87678d8818cf1ed3af99277a8438f0e7e8109",
   "files": [
     {
       "path": ".gitattributes",
@@ -965,7 +965,7 @@
     },
     {
       "path": "dsh-electron/scripts/assemble-macos.mjs",
-      "sha256": "770a8b8438782396e78ca391336fa9c8b007f352bb2498f442991a5b6e68c071"
+      "sha256": "7010173919016461af5d85a544e87ae92bc5a909f480f9e1167a49d2dca8a638"
     },
     {
       "path": "dsh-electron/scripts/assemble-macos.ps1",
@@ -973,7 +973,7 @@
     },
     {
       "path": "dsh-electron/scripts/assemble-windows.mjs",
-      "sha256": "4982bb13192ceaf9ba5f510bda78ad9a491ccfdb9439b4ca35540915c24ebdcb"
+      "sha256": "57bc42b884b23573c81a587505dd5b52fbb5e9a741418097af672127e0fd766e"
     },
     {
       "path": "dsh-electron/scripts/assemble-windows.ps1",
@@ -1145,7 +1145,7 @@
     },
     {
       "path": "dsh-electron/src/portable-updates.mjs",
-      "sha256": "667902f98614f8f1304161c9b134c57a7e6a2378fcd71840e72bd7f8c6d746e3"
+      "sha256": "4882009eb450ffb817889ec6d06c574dcabcbdd1cc67368a203df0c76ae57540"
     },
     {
       "path": "dsh-electron/src/preload-pet.cjs",
@@ -1153,7 +1153,7 @@
     },
     {
       "path": "dsh-electron/src/product.mjs",
-      "sha256": "0724ec4fa1ef649e7c77e5714b8afccb4ee5f2b65d69d9fd636af645d9c798ba"
+      "sha256": "d1e77e6c8310302412ff38116bc4bdc3ae369658ea57f49d2e8a21b7d5d49dcd"
     },
     {
       "path": "dsh-electron/src/quit-confirmation.mjs",
@@ -1321,7 +1321,7 @@
     },
     {
       "path": "dsh-electron/tests/portable-updates-startup.test.mjs",
-      "sha256": "6856b1835a5f2be406c650dd4d4a3db84329bca7bdad5dab332399dfcc15fdcb"
+      "sha256": "126355484a257e91da8c698c067b308bb1cb4bf1e5d84cc5c5ffb55ab8d9a2ab"
     },
     {
       "path": "dsh-electron/tests/prepare-electron-macos.test.mjs",
@@ -6133,7 +6133,7 @@
     },
     {
       "path": "scripts/prepare-pinned-dsh-product.mjs",
-      "sha256": "185f2ed6ea677bd0459c109d5a0a0a73c5a24b8795dab52ddb103daaa17112a3"
+      "sha256": "35574bde43c58808960dec53f4d3ca0de9d44bb5a6f289855b78e5a6fc1dd69a"
     },
     {
       "path": "scripts/prepare-windows-portable-extractor.ps1",
@@ -6285,7 +6285,7 @@
     },
     {
       "path": "scripts/verify-generic-first-launch.mjs",
-      "sha256": "a297bde623ca7a135cc2d4db2c49306bdf324dcf60eb289d7f7f82af05c1368e"
+      "sha256": "4613eaa5231a397691f15442eeecda344a7447108e147da4c86f9f1b4d96c072"
     },
     {
       "path": "scripts/verify-media-template.mjs",
@@ -6421,7 +6421,7 @@
     },
     {
       "path": "tests/generic-first-launch.test.mjs",
-      "sha256": "95e30939ecede8b8c0702df3581c0305f834101d4971eba4d2d42eb16ff56401"
+      "sha256": "1e60b99c926d54866af449d307b3c8e7d8559fc743768af1834b7a4139b65b9e"
     },
     {
       "path": "tests/github-update-package.test.mjs",

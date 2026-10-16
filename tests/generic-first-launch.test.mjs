@@ -5,7 +5,7 @@ import { verifyGenericFirstLaunch } from '../scripts/verify-generic-first-launch
 function fixture(stable) {
   return {
     identity: { distribution: 'eduwork', version: stable ? '0.4.0' : '0.4.0-alpha.1', dshVersion: '0.2.0-rc.1', sourceRelease: stable, sourceAlpha: !stable, automaticUpdates: stable },
-    config: { product: { name: 'EduWork' }, organizations: [], updates: stable ? { provider: 'github', repository: 'ECNU/EduWork', defaultPolicy: 'stable' } : { provider: 'disabled', defaultPolicy: 'development' } },
+    config: { product: { name: 'EduWork' }, organizations: [], updates: { provider: 'github', repository: 'ECNU/EduWork', defaultPolicy: stable ? 'stable' : 'development' } },
   }
 }
 for (const stable of [false, true]) test(`${stable ? 'stable' : 'Alpha'} first launch keeps the intended update policy and public configuration`, () => {
@@ -24,9 +24,9 @@ test('stable first launch rejects a wrong repository or inherited development de
   }
 })
 
-test('Alpha first launch rejects enabled updates, stable policy and stray update sources', () => {
+test('Alpha first launch rejects persistent disabling, stable policy and foreign update sources', () => {
   const { identity, config } = fixture(false)
-  for (const changes of [{provider:'github'}, {defaultPolicy:'stable'}, {repository:'ECNU/EduWork'}, {manifestURL:'https://example.invalid/update.json'}]) {
+  for (const changes of [{provider:'disabled'}, {defaultPolicy:'stable'}, {repository:'example/other'}, {manifestURL:'https://example.invalid/update.json'}]) {
     assert.throws(() => verifyGenericFirstLaunch(identity, {...config, updates:{...config.updates, ...changes}}))
   }
 })

@@ -94,17 +94,14 @@ function noCredentials(value){if(!value||typeof value!=='object')return;for(cons
   noCredentials(item)
 }}
 noCredentials(configuration)
-configuration.updates=stable?{...configuration.updates,defaultPolicy:'stable',...(policy.ownership==='user'?{provider:'github',repository:'ECNU/EduWork'}:{})}:{provider:'disabled'}
+// Pausing a prerelease's software updater is a shell policy, not a user setting.
+// Keep the source so a later stable installation can reuse the same config.
+configuration.updates={...configuration.updates,defaultPolicy:release.channel,...(policy.ownership==='user'?{provider:'github',repository:'ECNU/EduWork'}:{})}
 const body=documentConfiguration(JSON.stringify(configuration,null,2)+'\n')
 parseUserConfig(join(resources,'eduwork.jsonc'),body)
 await writeFile(join(resources,'eduwork.jsonc'),body)
-// Preserve signed publisher configuration and its compatibility checks. Software
-// update channels stay disabled until this explicit Alpha has been accepted.
-for(const name of ['publisher-bootstrap.json','publisher-bootstrap.darwin.json']){
-  const path=join(resources,name)
-  const descriptor=await read(path).catch(error=>{if(error.code!=='ENOENT')throw error})
-  if(descriptor){descriptor.updates=stable?{...descriptor.updates}:{provider:'disabled'};await save(path,descriptor)}
-}
+// Preserve trusted publisher sources for both software and signed configuration.
+// The shell pauses software updates in prereleases without persisting disabled.
 for(const platform of ['win32','darwin']) await readPublisherBootstrap({ownership:policy.ownership,product,platform})
 if(!stable) await rm(join(resources,'mac-updates.json'),{force:true})
 identity.localPlugins={};identity.managedPackages={}
