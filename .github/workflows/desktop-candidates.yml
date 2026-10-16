@@ -119,12 +119,13 @@ jobs:
           PUBLISH_RELEASE: ${{ inputs.publish }}
           SELECTED_PLATFORMS: ${{ inputs.platform }}
         run: ./core/scripts/build-desktop-candidate.ps1 -CoreRoot ./core -EditionRoot ./core -Version $env:RELEASE_VERSION -Output "$env:RUNNER_TEMP/ew-candidate"
-      - name: Download earlier stable macOS archives for delta updates
-        if: matrix.platform == 'macos' && inputs.build_mode == 'node' && !inputs.development
+      - name: Download earlier stable releases for delta updates
+        if: inputs.build_mode == 'node' && !inputs.development
+        shell: bash
         env:
           GITHUB_TOKEN: ${{ github.token }}
           RELEASE_VERSION: ${{ needs.policy.outputs.version }}
-        run: node core/scripts/macos-update-delta.mjs "$GITHUB_REPOSITORY" EduWork "$RELEASE_VERSION" "$RUNNER_TEMP/delta-bases"
+        run: node core/scripts/update-delta-bases.mjs "$GITHUB_REPOSITORY" EduWork "$RELEASE_VERSION" ${{ matrix.platform }} "$RUNNER_TEMP/delta-bases"
       - name: Build and validate the Node stage desktop archive
         if: inputs.build_mode == 'node'
         shell: bash
@@ -146,7 +147,7 @@ jobs:
           else
             args+=(--release-notes-file "$RELEASE_NOTES")
             if [[ "$RELEASE_NOTES_APPROVED" == true ]]; then args+=(--release-notes-approved); fi
-            if [[ "${{ matrix.platform }}" == macos ]]; then args+=(--delta-bases "$RUNNER_TEMP/delta-bases"); fi
+            args+=(--delta-bases "$RUNNER_TEMP/delta-bases")
           fi
           node core/scripts/ci-eduwork-${{ matrix.platform }}-release.mjs "${args[@]}"
       - name: Retain validation reports

@@ -8,7 +8,7 @@
 // This file validates the arguments, enters the workspace and writes the
 // receipt; it contains no build steps and no platform branch.
 import { join } from 'node:path'
-import { readFile, readdir } from 'node:fs/promises'
+import { readFile } from 'node:fs/promises'
 import { parseArgs } from 'node:util'
 import {
   capture, ensureDir, fullPath, isMacOS, isMainModule, readJSON, setCacheRoot, sha256Text, writeJSON,
@@ -19,6 +19,7 @@ import { macosStages } from './lib/macos-stages.mjs'
 import { desktopBuildPlan, desktopVersion } from './desktop-build-plan.mjs'
 import { pinnedSourceStages } from './lib/pinned-source-stages.mjs'
 import { desktopSourceIdentity } from './lib/build-source.mjs'
+import { deltaBaseArchives } from './update-delta-bases.mjs'
 
 export async function ciEduworkMacosRelease({
   coreRoot,
@@ -82,12 +83,7 @@ export async function ciEduworkMacosRelease({
   }
 
   if (!development && !verifySnapshot) throw new Error('Release candidates require a verified source snapshot')
-  // Archives of earlier stable releases, downloaded by the release workflow.
-  const baseDirectory = deltaBases && fullPath(deltaBases)
-  const bases = baseDirectory
-    ? (await readdir(baseDirectory)).filter(file => file.endsWith('.zip')).sort().map(file => join(baseDirectory, file))
-    : []
-  if (bases.length && desktopVersion(version).prerelease) throw new Error('Delta updates are generated for stable releases only')
+  const bases = await deltaBaseArchives(deltaBases, version)
   const sourceIdentity = await desktopSourceIdentity({ coreRoot, editionRoot })
 
   const parameters = {
