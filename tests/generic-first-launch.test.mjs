@@ -4,7 +4,7 @@ import { verifyGenericFirstLaunch } from '../scripts/verify-generic-first-launch
 
 function fixture(stable) {
   return {
-    identity: { distribution: 'eduwork', version: stable ? '0.4.0' : '0.4.0-alpha.1', dshVersion: '0.2.0-rc.1', sourceRelease: stable, sourceAlpha: !stable, automaticUpdates: stable },
+    identity: { distribution: 'eduwork', version: stable ? '0.4.0' : '0.4.0-alpha.1', dshVersion: '0.2.0-rc.1', sourceRelease: stable, sourceAlpha: !stable, automaticUpdates: true },
     config: { product: { name: 'EduWork' }, organizations: [], updates: { provider: 'github', repository: 'ECNU/EduWork', defaultPolicy: stable ? 'stable' : 'development' } },
   }
 }
@@ -12,7 +12,7 @@ for (const stable of [false, true]) test(`${stable ? 'stable' : 'Alpha'} first l
   const { identity, config } = fixture(stable)
   assert.equal(verifyGenericFirstLaunch(identity, config).passed, true)
   assert.throws(() => verifyGenericFirstLaunch(identity, { ...config, updates: fixture(!stable).config.updates }))
-  assert.throws(() => verifyGenericFirstLaunch({ ...identity, automaticUpdates: !stable }, config))
+  assert.throws(() => verifyGenericFirstLaunch({ ...identity, automaticUpdates: false }, config))
   assert.throws(() => verifyGenericFirstLaunch({ ...identity, sourceRelease: !stable }, config))
   assert.throws(() => verifyGenericFirstLaunch(identity, { ...config, organizations: [{ id: 'synthetic-school' }] }))
   assert.throws(() => verifyGenericFirstLaunch(identity, { ...config, product: { name: 'Another edition' } }))
@@ -31,10 +31,11 @@ test('Alpha first launch rejects persistent disabling, stable policy and foreign
   }
 })
 
-test('Alpha accepts normalized empty Mac feeds but rejects any active or malformed feed map', () => {
+test('Alpha accepts HTTPS Mac feeds and rejects malformed or unsafe feed maps', () => {
   const { identity, config } = fixture(false)
   assert.equal(verifyGenericFirstLaunch(identity, {...config, updates:{...config.updates, macFeeds:{}}}).passed, true)
-  for (const macFeeds of [{stable:'https://example.invalid/appcast.xml'}, {development:'https://example.invalid/dev.xml'}, null, [], '']) {
+  assert.equal(verifyGenericFirstLaunch(identity, {...config, updates:{...config.updates, macFeeds:{stable:'https://example.invalid/appcast.xml',development:'https://example.invalid/dev.xml'}}}).passed, true)
+  for (const macFeeds of [{stable:'http://example.invalid/appcast.xml'}, {unknown:'https://example.invalid/dev.xml'}, null, [], '']) {
     assert.throws(() => verifyGenericFirstLaunch(identity, {...config, updates:{...config.updates, macFeeds}}))
   }
 })
