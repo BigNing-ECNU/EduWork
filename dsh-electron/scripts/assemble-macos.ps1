@@ -185,7 +185,7 @@ if (-not (Test-Path -LiteralPath (Join-Path $headers 'node_api.h') -PathType Lea
 $native = Join-Path $appPayload 'native'
 New-Item -ItemType Directory -Path $native | Out-Null
 # The desktop pet window needs this guard in every macOS build (electron#53889).
-& clang++ -std=c++17 -fobjc-arc -dynamiclib -undefined dynamic_lookup -mmacosx-version-min=15.0 -I $headers -framework AppKit (Join-Path $PSScriptRoot '../native/prevent-activation.mm') -o (Join-Path $native 'prevent-activation.node')
+& clang++ -std=c++17 -fobjc-arc -dynamiclib -undefined dynamic_lookup '-mmacosx-version-min=15.0' -I $headers -framework AppKit (Join-Path $PSScriptRoot '../native/prevent-activation.mm') -o (Join-Path $native 'prevent-activation.node')
 if ($LASTEXITCODE -ne 0) { throw 'Desktop pet activation guard compilation failed' }
 if ($sparkleEnabled) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot '../LICENSE-Sparkle') -Destination (Join-Path $resources 'LICENSE-Sparkle')
