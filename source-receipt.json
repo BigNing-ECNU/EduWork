@@ -5,7 +5,7 @@
   "version": "0.4.5",
   "sourceState": "local-development-snapshot",
   "createdAt": "2026-10-16T09:57:19.040Z",
-  "fileSetSHA256": "d25cd354b118abacf9a33f55d1a9cbd0981428486e72d1545c2c23e9a51b29dd",
+  "fileSetSHA256": "66b099c97f5931a098675f27dfc89b10e582ff0fac415d1f7897dec2c5253ce1",
   "files": [
     {
       "path": ".gitattributes",
@@ -6741,11 +6741,11 @@
     },
     {
       "path": "updates/macos/development.xml",
-      "sha256": "62b720e6737a627c9afeaeede5967ae20bac79830a68342a2e07a7b363d5fe34"
+      "sha256": "161284996d1716248174792e7c0340dbf621699526b9c54e03f0e3096116c344"
     },
     {
       "path": "updates/macos/stable.xml",
-      "sha256": "d23bffec730bbf2cc434330e654238c0b554075ac553a4202f2aabd40c46cb48"
+      "sha256": "e33ea5a63938cac137549619a90cde7a7fb207008a44508a280e288e95abaeab"
     }
   ],
   "artifacts": [
