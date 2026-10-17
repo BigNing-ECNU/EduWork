@@ -13,6 +13,7 @@ import { readPublisherBootstrap } from '../dsh-host/publisher-bootstrap.mjs'
 import { desktopVersion } from './desktop-build-plan.mjs'
 import { rebuiltDshPeers } from '../dsh-host/dsh-compatibility.mjs'
 import { loadDistributionBundleLayers, mergeDistributionConfigPatches } from './distribution-config-patches.mjs'
+import { usePinnedBrowser } from './pinned-browser.mjs'
 
 const { values } = parseArgs({ options: Object.fromEntries(['product','edition','version','publisher-descriptors','channel','runtime-lock'].map(key=>[key,{type:'string'}])) })
 for(const key of ['product','version']) if(!values[key]) throw Error('Missing --'+key)
@@ -29,9 +30,9 @@ assert.equal(identity.dshVersion,runtimeLock.packageVersion)
 assert.equal(identity.dshCommit,runtimeLock.commit)
 assert.notEqual(identity.sourceAlpha,true,'Prepare each source Alpha only once')
 const resources=join(product,'resources/desktop')
-const generic=await read(new URL('../config/distributions/generic.json',import.meta.url))
+const generic=usePinnedBrowser(await read(new URL('../config/distributions/generic.json',import.meta.url)))
 generic.packages=generic.packages.map(name=>name==='@shlv/dsh-literature'?'@eduwork/dsh-literature':name)
-const pluginNames=generic.plugins.map(plugin=>plugin.name)
+const pluginNames=[...new Set(generic.plugins.map(plugin=>plugin.name.replace(/\/search-auto$/, ''))) ]
 if(values.edition){
   const edition=resolve(values.edition), distribution=await read(join(edition,'edition/distribution.json'))
   const require=createRequire(join(product,'d/package.json')), {build}=require('esbuild')

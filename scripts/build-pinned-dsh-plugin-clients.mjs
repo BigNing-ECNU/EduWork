@@ -6,6 +6,7 @@ import { join, resolve, relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 import { adaptNativeWebSearchUI } from './native-web-search-ui.mjs'
+import { usePinnedBrowser } from './pinned-browser.mjs'
 import { adaptNativePresetUI } from './native-preset-ui.mjs'
 import { adaptNativeFileReferenceUI } from './native-file-reference-ui.mjs'
 import { releaseIdentity } from '../dsh-host/release-policy.mjs'
@@ -37,7 +38,7 @@ const { build, transform } = require('esbuild')
 // Literature and desktop pet are published npm inputs in the product dependency lock.
 // Package changes go through its own check/pack/publication workflow.
 const distributionPath = join(repository, 'config/distributions/generic.json')
-const distribution = JSON.parse(await readFile(distributionPath, 'utf8'))
+const distribution = usePinnedBrowser(JSON.parse(await readFile(distributionPath, 'utf8')))
 distribution.packages = distribution.packages.map(name => name === '@shlv/dsh-literature' ? '@eduwork/dsh-literature' : name)
 await writeFile(distributionPath, JSON.stringify(distribution, null, 2) + '\n')
 // The legacy npm 0.1.5 assembly retains its adapter; this pinned native Runtime
