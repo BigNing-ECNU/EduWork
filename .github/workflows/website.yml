@@ -34,6 +34,7 @@ jobs:
       - name: Check site code and stable download selection
         run: |
           node --check website/project.js
+          node --check website/language.js
           node --check website/theme-init.js
           node --test website/community-data.test.mjs
       - name: Build pull request preview from public snapshot

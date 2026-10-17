@@ -4,7 +4,13 @@
 
 [Visit the website](https://ecnu.github.io/EduWork/)
 
-The site introduces EduWork, its plugins, open integration and community to developers, educators and institutions. It includes red/blue themes, product screenshots, Star history and stable Windows setup / macOS DMG downloads.
+The site introduces EduWork, its plugins, open integration and community to developers, educators and institutions. It includes Chinese/English switching, red/blue themes, product screenshots, Star history and stable Windows setup / macOS DMG downloads.
+
+## Language selection
+
+Use EN / 中文 in the header to switch the whole page and remember the choice in your browser. Chinese is the default. Share `?lang=en` or `?lang=zh` to open a specific language; the URL takes precedence over saved preferences. Language and theme are independent, and switching still works when local storage is blocked.
+
+English copy lives in `language.js`; dynamic messages use the same dictionary. Keep English entries in sync when changing Chinese source copy. Documentation links follow the selected language where an English version exists. Other documents and real product screenshots remain in their original language.
 
 ## Editing and previewing
 

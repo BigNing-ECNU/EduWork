@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.5",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-17T03:06:07.663Z",
-  "fileSetSHA256": "09572db0d8013fcee1000d38db8541f51b88474aa3ae30cfbadbfa3fe2e187a7",
+  "createdAt": "2026-10-17T03:40:27.379Z",
+  "fileSetSHA256": "391320f9a77bc651b57f0700c0686dc831474a7e503479a84865658ff51de61e",
   "files": [
     {
       "path": ".gitattributes",
@@ -69,7 +69,7 @@
     },
     {
       "path": ".github/workflows/website.yml",
-      "sha256": "55ea5871dbba96d9c62415f64d9bb20240df0cc9cd3c2131bc9253df111e8707"
+      "sha256": "9e997076c5803c3cee1365d683cb783798c0c52bc353570699aa2e674b64460c"
     },
     {
       "path": ".gitignore",
@@ -6777,7 +6777,7 @@
     },
     {
       "path": "website/build.mjs",
-      "sha256": "3ef6ce34c7fd009c7c694539255b6c223de3ac257d77094ac904d890d1d0ddb3"
+      "sha256": "2e93b1bf07a7ac9fb88e8d53357bb63c159e3483c8e82ad76a29b4090c951cf3"
     },
     {
       "path": "website/community-data.mjs",
@@ -6789,23 +6789,27 @@
     },
     {
       "path": "website/index.html",
-      "sha256": "21f93f84e261be321d83b0dab56571fe47ab6d6b463e8a41469ed2017f1f3a9d"
+      "sha256": "579d61d4dafb61c35950357e0642842452898525707799fbbdfc463adedc7636"
+    },
+    {
+      "path": "website/language.js",
+      "sha256": "37a1040ad74cc97ebf9be3f6875ae5bd6954f4b5e916cde57451f22d683cfc9d"
     },
     {
       "path": "website/project.css",
-      "sha256": "2b51ead6b10803e9f018b526bb76a45bb2c94bab3554595b3b1e2f45d1b149a3"
+      "sha256": "74eb461d6dc1deba3c8f70762778e852489794194a103f2c9d1c359ebfa8acdf"
     },
     {
       "path": "website/project.js",
-      "sha256": "5ce9a1c3ca5447af46ac8c116436e7015767c97488e5e45ceba5c0e5fb389038"
+      "sha256": "f3c45bc91cc10c06b58f300eb667c2fb0d07cbb718a7d4b38d5b57cf21565ac7"
     },
     {
       "path": "website/README_EN.md",
-      "sha256": "c8f17786541c07a2fc15118df846e8b2cacf94a7f69dc37550c05713aafdc783"
+      "sha256": "d4ae81818121047af50c6c208b638b864178524043058594437422067ca4c33a"
     },
     {
       "path": "website/README.md",
-      "sha256": "c2f2677e6f571c9c3511b55cfac59d43cc802a5d60d60171944c2637ff533dfd"
+      "sha256": "22e590eda643a3fd93d0cde97324736c13c5a08fb475d7b599033aadec0679de"
     },
     {
       "path": "website/theme-init.js",
