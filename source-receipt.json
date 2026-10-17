@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "kind": "eduwork-public-source-snapshot",
   "edition": "generic",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-17T14:16:15.134Z",
-  "fileSetSHA256": "77ac7bc526fb2ecf05de971a4034435196415e84a83d69cb49ac2a85eb18d546",
+  "createdAt": "2026-10-17T14:37:12.322Z",
+  "fileSetSHA256": "c22f60d62b221cf42390b73f10198933b59d3b5a007674a2c66c87c0743baef9",
   "files": [
     {
       "path": ".gitattributes",
@@ -474,6 +474,10 @@
     {
       "path": "docs/releases/0.4.5.md",
       "sha256": "e08dea00a82f03192227b5405cb32f48d72df1e04888b7135a36eebbc4bb21e9"
+    },
+    {
+      "path": "docs/releases/0.4.6.md",
+      "sha256": "e428c2795bb3a14fbd390c38388f46ffd04cc50317fc187c780e5ba6b971fc0d"
     },
     {
       "path": "docs/SESSION-SEARCH-BACKPORT.md",
@@ -5797,11 +5801,11 @@
     },
     {
       "path": "RELEASE-CHECKLIST_EN.md",
-      "sha256": "38235a2f3e63541086b9cdf44e4f2bf5dd78e193a6be42f53cfaf56324fa2ef3"
+      "sha256": "92737acecd99b6f6b905d33b1be18149b1afa5c07086a4cfaaafe978cb943fc1"
     },
     {
       "path": "RELEASE-CHECKLIST.md",
-      "sha256": "3add99926401236f75f1d7ecb69c4b27baa378969dd364e153694d6d7bae99db"
+      "sha256": "2a451bc6da79c25d26db31bf0dd3e1011414d0586ff92eaa2b8f285c22736e0f"
     },
     {
       "path": "scripts/accept-pinned-dsh-desktop.ps1",
