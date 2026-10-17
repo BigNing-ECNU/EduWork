@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.5",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-16T09:57:19.040Z",
-  "fileSetSHA256": "66b099c97f5931a098675f27dfc89b10e582ff0fac415d1f7897dec2c5253ce1",
+  "createdAt": "2026-10-17T02:52:31.238Z",
+  "fileSetSHA256": "15b03114ecaddfec4b792789729fd3586c4c565ab431b05001c55e1edd1361fc",
   "files": [
     {
       "path": ".gitattributes",
@@ -66,6 +66,10 @@
     {
       "path": ".github/workflows/validate-portable-extractor.yml",
       "sha256": "cd8d4de71821d0a7404fc3ddbbbf260d3bb83127dd3bdfa96c27cb20bcfd17c3"
+    },
+    {
+      "path": ".github/workflows/website.yml",
+      "sha256": "55ea5871dbba96d9c62415f64d9bb20240df0cc9cd3c2131bc9253df111e8707"
     },
     {
       "path": ".gitignore",
@@ -5705,11 +5709,11 @@
     },
     {
       "path": "README_EN.md",
-      "sha256": "9e6d89b1f84b7bdf8bf79c0ff96182415a9c9c0db61a062c278aa6bf0016567a"
+      "sha256": "c358ab54d48bb6597fe97e69190c586e15b66fe1c5535997cefe540d46685421"
     },
     {
       "path": "README.md",
-      "sha256": "e9fc40351722cf177eadb5cb9e8fa6b9df6d84fc338d3bb650f6fcffcff06c04"
+      "sha256": "16c62ec7c9a146381a94d1edf4a2d0ecff3287e48c42c93b346446c0ea8606ca"
     },
     {
       "path": "RELEASE-CHECKLIST_EN.md",
@@ -6746,6 +6750,66 @@
     {
       "path": "updates/macos/stable.xml",
       "sha256": "e33ea5a63938cac137549619a90cde7a7fb207008a44508a280e288e95abaeab"
+    },
+    {
+      "path": "website/assets/data/community.json",
+      "sha256": "a52c97fd2f1e0625471599b163d433c3929fdbbf16161ff096843f102ef3dcae"
+    },
+    {
+      "path": "website/assets/eduwork-blue.svg",
+      "sha256": "73fb045f5cff0f5bac828f035a2b8fdb942ae5c159eab7db0115f0718b0fb06c"
+    },
+    {
+      "path": "website/assets/eduwork.svg",
+      "sha256": "dd1c390a494e0f448c73bc491b572b702e00dfe1767aa8043478baff723fe92f"
+    },
+    {
+      "path": "website/assets/screenshots/litellm-models.png",
+      "sha256": "9949f64b8d1ef6207433f59d81a78ae4e35cb5453f1b7d486b06816ee8f8f0bd"
+    },
+    {
+      "path": "website/assets/screenshots/studio.png",
+      "sha256": "f27dd924f909146ff66ac0bd1673e16402cc5b5c0ab671fa3345a8234b71d298"
+    },
+    {
+      "path": "website/assets/screenshots/workspace.png",
+      "sha256": "8e612007060072e318d2c3356f43ca26a412c95636a93f4f91b15532dbb018cb"
+    },
+    {
+      "path": "website/build.mjs",
+      "sha256": "3ef6ce34c7fd009c7c694539255b6c223de3ac257d77094ac904d890d1d0ddb3"
+    },
+    {
+      "path": "website/community-data.mjs",
+      "sha256": "17688822b18d3bd0a2c430ccc68f71930b7b6cc97f5bfb8cc64b37414692e797"
+    },
+    {
+      "path": "website/community-data.test.mjs",
+      "sha256": "02f6967a1193a022918bb5ff5f21289e155bc978714a67ce8638ce1f87f558ac"
+    },
+    {
+      "path": "website/index.html",
+      "sha256": "390ba65afbca0508b124466d586518b375d33239e7a07605062fc2cd3280c019"
+    },
+    {
+      "path": "website/project.css",
+      "sha256": "2b51ead6b10803e9f018b526bb76a45bb2c94bab3554595b3b1e2f45d1b149a3"
+    },
+    {
+      "path": "website/project.js",
+      "sha256": "5ce9a1c3ca5447af46ac8c116436e7015767c97488e5e45ceba5c0e5fb389038"
+    },
+    {
+      "path": "website/README_EN.md",
+      "sha256": "ae43cca962f615db6d6bb5ada6ea61784f2066f0d95f5ea6fa43df8c6e4aab87"
+    },
+    {
+      "path": "website/README.md",
+      "sha256": "338d9cc30d9f5ce75b9053dd027632186f40a0333904381646423013035954dd"
+    },
+    {
+      "path": "website/theme-init.js",
+      "sha256": "73176e8a1750d0a3b39362279884c9979ef30aed206331562c556ecb1b72d8ff"
     }
   ],
   "artifacts": [
