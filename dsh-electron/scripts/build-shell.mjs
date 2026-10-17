@@ -6,14 +6,15 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parseArgs } from 'node:util'
 import { adaptNativeDesktopSource } from './native-desktop-source.mjs'
 import { adaptHostQuit } from './host-quit-adaptation.mjs'
+import { pinnedDshContract } from '../../scripts/pinned-dsh-contract.mjs'
 
 const { values } = parseArgs({ options: { upstream: { type: 'string' }, host: { type: 'string' }, output: { type: 'string' }, runtime: { type: 'string' }, 'pinned-dsh-source': { type: 'boolean' } } })
 if (!values.upstream || !values.host || !values.output) throw new Error('Use --upstream <pinned source> --host <prepared host> --output <new directory>')
 const upstream = resolve(values.upstream), output = resolve(values.output), host = resolve(values.host)
 const repository = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const native = values['pinned-dsh-source'] === true
-if (native && !values.runtime) throw new Error('The native shell requires --runtime <pinned 0.2.0-rc.2 npm Runtime>')
-const lock = JSON.parse(await readFile(join(repository, native ? 'third_party/dsh/candidate-v0.2.0-rc.2/LOCK.json' : 'third_party/dsh/release-v0.1.5-rc.2/LOCK.json'), 'utf8'))
+if (native && !values.runtime) throw new Error('The native shell requires --runtime <pinned npm Runtime>')
+const lock = native ? pinnedDshContract : JSON.parse(await readFile(join(repository, 'third_party/dsh/release-v0.1.5-rc.2/LOCK.json'), 'utf8'))
 const coreLock = lock
 const digest = data => createHash('sha256').update(data).digest('hex')
 const inputs = JSON.parse(await readFile(join(repository, native ? 'dsh-electron/upstream-inputs-pinned-source.json' : 'dsh-electron/upstream-inputs.json'), 'utf8'))

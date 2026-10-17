@@ -9,6 +9,7 @@ import { parseArgs } from 'node:util'
 import { stageLegacySettings, importLegacySettings } from '../dsh-host/settings-migration.mjs'
 import { writeNativeProfile, nativePresetPatches } from '../dsh-host/native-profile.mjs'
 import { syncNativeOptionalPresets } from '../dsh-plugins/brand-settings-native/lib/preset-policy.js'
+import { verifyPinnedDshReceipt } from './pinned-dsh-contract.mjs'
 
 const { values } = parseArgs({ options: { runtime: { type: 'string' }, output: { type: 'string' }, source: { type: 'string' }, dependencies: { type: 'string' }, 'full-product': { type: 'boolean' }, serve: { type: 'boolean' } } })
 if (!values.runtime || !values.output) throw new Error('Use --runtime <candidate Runtime> --output <new synthetic directory>')
@@ -26,8 +27,7 @@ for (const row of [...distribution.plugins, { name: '@chatecnu-work/dsh-skill-co
   localPackages.set(row.name, { root, manifest: JSON.parse(await readFile(join(root, 'package.json'), 'utf8')) })
 }
 const receipt = JSON.parse(await readFile(join(runtime, '.chatecnu-dsh-runtime.json'), 'utf8'))
-assert.equal(receipt.dshVersion, '0.2.0-rc.2')
-assert.equal(receipt.dshCommit, '639ed015397290b3745d163aafe02ffee4aa3f84')
+verifyPinnedDshReceipt(receipt)
 await mkdir(output)
 const home = join(output, 'home'), profileDir = join(home, 'profiles', 'settings-probe')
 await mkdir(profileDir, { recursive: true })

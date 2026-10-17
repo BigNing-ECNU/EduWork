@@ -11,6 +11,7 @@ import { releaseIdentity } from '../dsh-host/release-policy.mjs'
 import { rebuiltDshPeers } from '../dsh-host/dsh-compatibility.mjs'
 import { buildVideoTemplate } from '../packages/dsh-knowledge-studio/scripts/build-video-template.mjs'
 import { verifyMediaTemplate } from './verify-media-template.mjs'
+import { verifyPinnedDshReceipt } from './pinned-dsh-contract.mjs'
 
 const { values } = parseArgs({ options: { runtime: { type: 'string' }, dependencies: { type: 'string' }, report: { type: 'string' }, output: { type: 'string' }, version: { type: 'string' } } })
 if (!values.runtime || !values.dependencies || !values.report || !values.output) throw new Error('Use --runtime <candidate> --dependencies <isolated dependencies> --output <new directory> --report <path>')
@@ -21,7 +22,7 @@ if (!pathFromSource.startsWith('..' + sep) && !/^[A-Za-z]:/.test(pathFromSource)
 const runtime = resolve(values.runtime), dependencies = resolve(values.dependencies)
 const require = createRequire(join(runtime, 'package.json'))
 const runtimeReceipt = JSON.parse(await readFile(join(runtime, '.chatecnu-dsh-runtime.json'), 'utf8'))
-if (runtimeReceipt.dshVersion !== '0.2.0-rc.2' || runtimeReceipt.dshCommit !== '639ed015397290b3745d163aafe02ffee4aa3f84') throw new Error('This build requires the pinned candidate Runtime')
+verifyPinnedDshReceipt(runtimeReceipt)
 const productRelease = releaseIdentity(values.version ?? '0.0.0-dev.pinned.dsh', runtimeReceipt.dshVersion)
 await mkdir(repository)
 // Copy the maintained plugin source into a disposable qualification tree.
