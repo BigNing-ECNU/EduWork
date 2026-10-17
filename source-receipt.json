@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.5",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-17T13:15:07.859Z",
-  "fileSetSHA256": "6dd08a2c4c1ee3a8abeaaa770662d4e1770b14897082ee9c245e813daf400a3a",
+  "createdAt": "2026-10-17T13:24:18.748Z",
+  "fileSetSHA256": "4b98b719db3a7f833a5711ccf87b1fb7e76d0a34b8a08243f54832b8640d94c2",
   "files": [
     {
       "path": ".gitattributes",
@@ -217,7 +217,7 @@
     },
     {
       "path": "config/distributions/generic.json",
-      "sha256": "3fad3580db9288ac642ce60feb8c5bd54998b9ba1d061bbed8e19c342ce987f6"
+      "sha256": "41f421ec0af2e47a5b9e078040f9f4c2917b7a76f075bbfacce90e2c5f4b71ed"
     },
     {
       "path": "config/macos-native.lock.json",
@@ -6181,7 +6181,7 @@
     },
     {
       "path": "scripts/pinned-browser.mjs",
-      "sha256": "47ebe741cc7b7d38d1f6f8eca6c1113b2a40c9c4a8e88f20b54c97d426813038"
+      "sha256": "f15685e4b34cf055b5a4b4025921daabbc8990368e0316f68a9892180972dc30"
     },
     {
       "path": "scripts/pinned-dsh-contract.mjs",
@@ -6289,7 +6289,7 @@
     },
     {
       "path": "scripts/probe-pinned-dsh-settings.mjs",
-      "sha256": "2da7bc011bc0c212215a8f65849c7a17e8b58bfa9aaa40fd736235a9276b0344"
+      "sha256": "0f4b5d2d7d935a79dc2f78c9d0629a49b1992315855df785c5ec0232a031cba1"
     },
     {
       "path": "scripts/probe-pinned-dsh-source-product.mjs",
@@ -6361,7 +6361,7 @@
     },
     {
       "path": "scripts/test/pinned-browser.test.mjs",
-      "sha256": "2dfe564dade9e12792d714e2835c7f5eae16680ab82a30f10b99821b983a5e11"
+      "sha256": "53ccd24d8aaf69a7650a267c459cfbafcb3b8bc7a2d89d2266bb027f5f962677"
     },
     {
       "path": "scripts/test/plugin-locale.test.mjs",
