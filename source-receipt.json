@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.5",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-17T12:39:24.884Z",
-  "fileSetSHA256": "79d0381fde59617acd4b2932d58178d7258e9716cfd042e17be9e80bd8ecfba0",
+  "createdAt": "2026-10-17T12:42:06.005Z",
+  "fileSetSHA256": "d1d971047d94276cf88d2dd73842f707500e767c24603fb5cc483f26dc370199",
   "files": [
     {
       "path": ".gitattributes",
@@ -4509,7 +4509,7 @@
     },
     {
       "path": "packages/dsh-literature/scripts/probe-runtime.mjs",
-      "sha256": "24f38b8cac69c7dccef959200b78caa4f95764deec38b9d18f54daff0525f0b9"
+      "sha256": "bbba7af3a495fa901074e20e25401b4bcf46bd913e1fb4e96604c29333607013"
     },
     {
       "path": "packages/dsh-literature/src/arxiv/index.ts",
