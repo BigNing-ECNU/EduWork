@@ -81,7 +81,9 @@ try {
     ctx.provide('subagents')
     ctx.set('subagents', { getProvider: () => ({}), start: async (_provider, options) => {
       started = options
-      assert.equal(options.toolFilter('shell'), false)
+      assert.equal(options.parent, parent)
+      assert.deepEqual(options.toolFilter, { allow: [] })
+      assert.equal(options.outputSchema.required[0], 'pdfUrl')
       return { result: currentMode === 'aborted'
         ? new Promise((_, reject) => options.signal.addEventListener('abort', () => reject(options.signal.reason), { once: true }))
         : Promise.resolve({ stopReason: currentMode, structured: { pdfUrl: 'https://example.test/paper.pdf' } }), dispose: async () => { disposed++ } }
