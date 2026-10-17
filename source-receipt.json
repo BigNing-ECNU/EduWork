@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "kind": "eduwork-public-source-snapshot",
   "edition": "generic",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-17T14:16:15.134Z",
-  "fileSetSHA256": "77ac7bc526fb2ecf05de971a4034435196415e84a83d69cb49ac2a85eb18d546",
+  "createdAt": "2026-10-17T14:33:24.676Z",
+  "fileSetSHA256": "18da100b02f23466efb73ca5de098bdb13d03640436c0c1290f7333319eb99e0",
   "files": [
     {
       "path": ".gitattributes",
@@ -474,6 +474,10 @@
     {
       "path": "docs/releases/0.4.5.md",
       "sha256": "e08dea00a82f03192227b5405cb32f48d72df1e04888b7135a36eebbc4bb21e9"
+    },
+    {
+      "path": "docs/releases/0.4.6.md",
+      "sha256": "e428c2795bb3a14fbd390c38388f46ffd04cc50317fc187c780e5ba6b971fc0d"
     },
     {
       "path": "docs/SESSION-SEARCH-BACKPORT.md",
