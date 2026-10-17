@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.5",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-17T14:10:07.066Z",
-  "fileSetSHA256": "d4f9e736db21787eac24e58f34a3981b35c648846d59097690077f9e1f6ed073",
+  "createdAt": "2026-10-17T14:16:15.134Z",
+  "fileSetSHA256": "77ac7bc526fb2ecf05de971a4034435196415e84a83d69cb49ac2a85eb18d546",
   "files": [
     {
       "path": ".gitattributes",
@@ -1949,11 +1949,11 @@
     },
     {
       "path": "dsh-plugins/browser-upstream/README_EN.md",
-      "sha256": "61bf4c48dd6d8cbd50b453a08bff4c3cc746deb3182e59708022d9da04fba959"
+      "sha256": "3003995b38dff3238f8d767b86873b9de7bb3877b9ebbe8c6b3763de2bd209b8"
     },
     {
       "path": "dsh-plugins/browser-upstream/README.md",
-      "sha256": "3b5819bcd59fe1d748e5b28f2b160fd8b92f86bafcda496f9b159a0892524fcc"
+      "sha256": "26f1db09adefd5b22dc9ff01f46ad76c28b4ade3029ecb5bbb872d1a1f0344c2"
     },
     {
       "path": "dsh-plugins/browser-upstream/test/permission.test.mjs",

@@ -8,6 +8,8 @@ Public `eduwork-search` remains independent: DeepSeek search when its key is con
 
 The browser keeps the `eduwork-browser` entry ID and saved activation choice. The old interactive provider is no longer mounted. The `browser` skill switch controls guidance visibility; the plugin switch controls browser tools. Disabling the skill does not revoke tool permissions.
 
+Disabling the plugin removes existing browser tools. After enabling it again, restart the app before continuing an existing conversation; there is no need to delete its history. Upstream mounts tools when a session's Agent is created and does not attach them to Agents that are already running.
+
 ## Configuration
 
 - `executablePath`: optional. Desktop builds use bundled Electron Chromium through `DSH_MEDIA_BROWSER`; standalone Hosts without that binding use upstream browser discovery. Missing explicit executables fail.
