@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.5",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-17T02:52:31.238Z",
-  "fileSetSHA256": "15b03114ecaddfec4b792789729fd3586c4c565ab431b05001c55e1edd1361fc",
+  "createdAt": "2026-10-17T03:06:07.663Z",
+  "fileSetSHA256": "09572db0d8013fcee1000d38db8541f51b88474aa3ae30cfbadbfa3fe2e187a7",
   "files": [
     {
       "path": ".gitattributes",
@@ -6753,7 +6753,7 @@
     },
     {
       "path": "website/assets/data/community.json",
-      "sha256": "a52c97fd2f1e0625471599b163d433c3929fdbbf16161ff096843f102ef3dcae"
+      "sha256": "e0f74f29a56e81c361991ba5b1b6f90216c4ef51f809b7f523d8fce4df50b819"
     },
     {
       "path": "website/assets/eduwork-blue.svg",
@@ -6781,15 +6781,15 @@
     },
     {
       "path": "website/community-data.mjs",
-      "sha256": "17688822b18d3bd0a2c430ccc68f71930b7b6cc97f5bfb8cc64b37414692e797"
+      "sha256": "39ee0aa24fdc3f912761958ff89c953b0b0fd4980183ea451d93a3afd1f2058e"
     },
     {
       "path": "website/community-data.test.mjs",
-      "sha256": "02f6967a1193a022918bb5ff5f21289e155bc978714a67ce8638ce1f87f558ac"
+      "sha256": "4fcd7e5812196749914eb4dba327aca60f27b3b6ee92b3472b02ef9bd53f3fbb"
     },
     {
       "path": "website/index.html",
-      "sha256": "390ba65afbca0508b124466d586518b375d33239e7a07605062fc2cd3280c019"
+      "sha256": "21f93f84e261be321d83b0dab56571fe47ab6d6b463e8a41469ed2017f1f3a9d"
     },
     {
       "path": "website/project.css",
@@ -6801,11 +6801,11 @@
     },
     {
       "path": "website/README_EN.md",
-      "sha256": "ae43cca962f615db6d6bb5ada6ea61784f2066f0d95f5ea6fa43df8c6e4aab87"
+      "sha256": "c8f17786541c07a2fc15118df846e8b2cacf94a7f69dc37550c05713aafdc783"
     },
     {
       "path": "website/README.md",
-      "sha256": "338d9cc30d9f5ce75b9053dd027632186f40a0333904381646423013035954dd"
+      "sha256": "c2f2677e6f571c9c3511b55cfac59d43cc802a5d60d60171944c2637ff533dfd"
     },
     {
       "path": "website/theme-init.js",

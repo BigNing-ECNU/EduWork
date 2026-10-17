@@ -24,9 +24,12 @@ test('incomplete, draft, prerelease and mismatched downloads stop publication', 
     assert.throws(() => selectDownloads(input));
   }
 });
-test('Star history sorts dates and aggregates same-day events without retaining identities', () => {
+test('public Star history sorts reverse-ordered weeks, keeps empty days and omits future days', () => {
   assert.deepEqual(starHistory([
-    { starred_at: '2026-10-17T10:00:00Z', user: { login: 'synthetic-one' } },
-    { starred_at: '2026-10-16T10:00:00Z' }, { starred_at: '2026-10-17T12:00:00Z' },
-  ]), [{ date: '2026-10-16', stars: 1 }, { date: '2026-10-17', stars: 3 }]);
+    { week: Date.parse('2026-10-18T00:00:00Z') / 1000, days: [2, 1, 0, 0, 0, 0, 0] },
+    { week: Date.parse('2026-10-11T00:00:00Z') / 1000, days: [0, 0, 0, 0, 0, 1, 0] },
+  ], new Date('2026-10-18T12:00:00Z')), [
+    { date: '2026-10-16', stars: 1 }, { date: '2026-10-17', stars: 1 }, { date: '2026-10-18', stars: 3 },
+  ]);
+  assert.throws(() => starHistory([{ week: 0, days: [-1, 0, 0, 0, 0, 0, 0] }]), /Invalid/);
 });

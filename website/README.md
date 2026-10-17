@@ -22,6 +22,6 @@ python -m http.server 4176 --directory dist/website --bind 127.0.0.1
 
 GitHub Pages 使用 Actions 发布。主分支的官网变更、桌面发布完成、每六小时的定时任务或手动运行会重新构建；PR 只校验，不部署。部署目录只包含页面必需文件，不包含源码工具、草稿或工作记录。
 
-下载仅选择最新稳定版中已经上传完成的 Windows `setup.zip` 和 macOS `electron.dmg`。缺少其中任一附件或数据读取失败时，本次部署失败，线上保留此前版本。Star 曲线根据当前仍保留 Star 的关注时间累计，不包含已经取消的 Star；页面展示数据日期。
+下载仅选择最新稳定版中已经上传完成的 Windows `setup.zip` 和 macOS `electron.dmg`。缺少其中任一附件或数据读取失败时，本次部署失败，线上保留此前版本。Star 曲线使用 GitHub 的公开每日历史汇总，不读取用户名单；历史累计可能与当前 Star 总数存在差异，页面展示数据日期。
 
 官网不展示使用机构名单或标识。机构接入部分介绍能力和配置方式。品牌图标来自仓库 `assets/eduwork/`，产品截图来自 `docs/images/`；全部图片随页面本地发布。
