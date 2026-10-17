@@ -7,7 +7,7 @@ const source = dirname(fileURLToPath(import.meta.url));
 const output = resolve(source, '../dist/website');
 // Only these public assets enter Pages; source, drafts and working files stay out.
 const files = [
-  'index.html', 'project.css', 'project.js', 'theme-init.js',
+  'index.html', 'project.css', 'project.js', 'language.js', 'theme-init.js',
   'assets/eduwork.svg', 'assets/eduwork-blue.svg',
   'assets/screenshots/workspace.png', 'assets/screenshots/studio.png', 'assets/screenshots/litellm-models.png',
 ];
