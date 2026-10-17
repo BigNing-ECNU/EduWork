@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.5",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-17T11:13:17.720Z",
-  "fileSetSHA256": "d962a735f8aba6a820a4e348e9391166ae6108b15f9092c0956ce97015bb08f7",
+  "createdAt": "2026-10-17T11:17:50.683Z",
+  "fileSetSHA256": "84235923f74629300367d2b5c25275d216cb92adf09c4172a65b6decad455daf",
   "files": [
     {
       "path": ".gitattributes",
@@ -2685,7 +2685,7 @@
     },
     {
       "path": "dsh-plugins/workbench-native/lib/data-import.js",
-      "sha256": "47cf1d16b43133cfa9a7c2787850b70db0778e5be9cbe60fdde1a3ccb00d3960"
+      "sha256": "564e97836ddceb7843bae45ac78fb935ff7c1fe77f9ca380d4fa7b25656d32db"
     },
     {
       "path": "dsh-plugins/workbench-native/lib/diagnostic-download.js",
@@ -2777,7 +2777,7 @@
     },
     {
       "path": "dsh-plugins/workbench-native/test/data-import.test.mjs",
-      "sha256": "3f04b33a8bbb90315a2899f5c9ceeb47823cfd7cd4519b45e880db6d266777b6"
+      "sha256": "34b036558311be9d5850fdc23a5ee05186c329a37e415834161fda1c6ebb11e1"
     },
     {
       "path": "dsh-plugins/workbench-native/test/directory-picker.test.mjs",
@@ -2785,11 +2785,11 @@
     },
     {
       "path": "dsh-plugins/workbench-native/test/import-browser.mjs",
-      "sha256": "206079cbaf499fd36b4fe1bb05ddb7a3b6254eedcfb06f4a259b698e0cc8af0a"
+      "sha256": "230a28eeafa6820b74e498b2d6f41898277ea9ffce50bff53e8b5a32c7c3b56f"
     },
     {
       "path": "dsh-plugins/workbench-native/test/import-catalog.test.mjs",
-      "sha256": "dfbc1cfbee9ee9c71de9444a18b3c3b3a2c9c07cd5a0298a106470f4e33407f9"
+      "sha256": "a9f987c9f53b897dbdcd45d1fcef59b75d4a38f4f83e68d58230344c2441b9f0"
     },
     {
       "path": "dsh-plugins/workbench-native/test/notifications-browser.mjs",
@@ -6209,7 +6209,7 @@
     },
     {
       "path": "scripts/probe-pinned-dsh-source-product.mjs",
-      "sha256": "7ca1e6033f9e21b0cc47ed66a63179908ec730596769499d7c785f7cc0fb2c58"
+      "sha256": "22e93a660bf0f2e073f1352dfb36f914060489789d36493a094eb7988e4b5589"
     },
     {
       "path": "scripts/project-eduwork-runtime.mjs",
