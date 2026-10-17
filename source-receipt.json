@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.5",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-17T03:40:27.379Z",
-  "fileSetSHA256": "391320f9a77bc651b57f0700c0686dc831474a7e503479a84865658ff51de61e",
+  "createdAt": "2026-10-17T12:39:24.884Z",
+  "fileSetSHA256": "79d0381fde59617acd4b2932d58178d7258e9716cfd042e17be9e80bd8ecfba0",
   "files": [
     {
       "path": ".gitattributes",
@@ -4477,7 +4477,7 @@
     },
     {
       "path": "packages/dsh-literature/CHANGELOG.md",
-      "sha256": "24ea1b491921c5d965aea77d2b12d737967344cf5bc2328a27626b8483390216"
+      "sha256": "2ccc8081739abe456ab7a407a0750dac85172cca20427094d35a0307cf46f9c2"
     },
     {
       "path": "packages/dsh-literature/cordis.patch.yml",
@@ -4493,23 +4493,23 @@
     },
     {
       "path": "packages/dsh-literature/package-lock.json",
-      "sha256": "64d12664a928d11670d31823e1d53d614f030b91019f10137ece4cdb4e7aa5ca"
+      "sha256": "16be3fb772dd9ffca190166e09eacddc73f74b2f39821d826e75f5b0050fe5ad"
     },
     {
       "path": "packages/dsh-literature/package.json",
-      "sha256": "a36d2003253622b868fdb420b9607bbc141cc45bf9d435457655e9c7e3a4d539"
+      "sha256": "d1326a1030de43f6822cdfa67d69d77e7d504650497b020050f388b4619fbd8d"
     },
     {
       "path": "packages/dsh-literature/README_EN.md",
-      "sha256": "2c41d570686bcdb2f83dbe40927cfcbfd07f4e75411fba43ac82d8e5c4cc6d5f"
+      "sha256": "520bac08784b3e2a922bf21350d5969b66cfce112692d55de8b96d707cd8462f"
     },
     {
       "path": "packages/dsh-literature/README.md",
-      "sha256": "b136b48bc167ecc0f6c106231eec05142ac6d36a6040c780615e405a99372096"
+      "sha256": "6f64c0e8b757e6a6ed89d4d9bd1a73adddca8556d05d6ce9d5d6c4b965b3841d"
     },
     {
       "path": "packages/dsh-literature/scripts/probe-runtime.mjs",
-      "sha256": "9dfa24704632a86f2bfd94ada0e45f2ddd5e7a336d0d27d758e8cba6ff950cbd"
+      "sha256": "24f38b8cac69c7dccef959200b78caa4f95764deec38b9d18f54daff0525f0b9"
     },
     {
       "path": "packages/dsh-literature/src/arxiv/index.ts",
@@ -4585,11 +4585,15 @@
     },
     {
       "path": "packages/dsh-literature/src/tool/index.ts",
-      "sha256": "d3ecc5e3050ac501fbfe16a7e7a3f99cd906de53c57d12a2b54a7910432f3c8b"
+      "sha256": "02d4cb00831b1a175de818d303d61b7f3610e9f0e742864f901cbbb86a8e0c90"
     },
     {
       "path": "packages/dsh-literature/src/tool/invariant.ts",
       "sha256": "af43d7e0e2b29d1b036d1defea750f032ce996054b2fb3bb0538c5233a100800"
+    },
+    {
+      "path": "packages/dsh-literature/src/tool/pdf-link.ts",
+      "sha256": "63867c41733f2d94d83596d7686d0406b462255173637af52c3d575faf1b5496"
     },
     {
       "path": "packages/dsh-literature/tests/arxiv/index.spec.ts",
@@ -4605,7 +4609,7 @@
     },
     {
       "path": "packages/dsh-literature/tests/compatibility.spec.ts",
-      "sha256": "4edf22ee2a0e8d9131358ea0804cb5289bbddd9475b772181a8bf19ee9161485"
+      "sha256": "4d75b6c0735f931c2c4edb69edeaed2ce0c9b2d4a7d054a9ffbc13ce619aa95d"
     },
     {
       "path": "packages/dsh-literature/tests/core/bm25.spec.ts",
@@ -4662,6 +4666,10 @@
     {
       "path": "packages/dsh-literature/tests/tool/loader-composition.spec.ts",
       "sha256": "0a13c54de172cdd9d2ab6ec6cfae0752ccf6649361189947bf95858e95b7ebee"
+    },
+    {
+      "path": "packages/dsh-literature/tests/tool/pdf-link.spec.ts",
+      "sha256": "3a76e2554b20779b20bcdfd70589cf0bf2bdb9b27694c4769509208c764309cf"
     },
     {
       "path": "packages/dsh-literature/tests/tool/sandbox-write.spec.ts",
