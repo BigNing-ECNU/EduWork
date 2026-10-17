@@ -133,11 +133,6 @@
   ],
   "skills": [
     {
-      "name": "ssh",
-      "source": "dsh-skills/ssh",
-      "defaultEnabled": true
-    },
-    {
       "name": "browser",
       "source": "dsh-skills/browser",
       "defaultEnabled": true

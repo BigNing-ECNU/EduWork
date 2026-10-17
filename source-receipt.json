@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.5",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-17T13:24:18.748Z",
-  "fileSetSHA256": "4b98b719db3a7f833a5711ccf87b1fb7e76d0a34b8a08243f54832b8640d94c2",
+  "createdAt": "2026-10-17T14:10:07.066Z",
+  "fileSetSHA256": "d4f9e736db21787eac24e58f34a3981b35c648846d59097690077f9e1f6ed073",
   "files": [
     {
       "path": ".gitattributes",
@@ -217,7 +217,7 @@
     },
     {
       "path": "config/distributions/generic.json",
-      "sha256": "41f421ec0af2e47a5b9e078040f9f4c2917b7a76f075bbfacce90e2c5f4b71ed"
+      "sha256": "d9b0e435dabe7908f0c9a45b7bd12a8ddbd9d1dd52dec40bb2f12704a773846b"
     },
     {
       "path": "config/macos-native.lock.json",
@@ -2898,14 +2898,6 @@
     {
       "path": "dsh-skills/skill-creator/SKILL.md",
       "sha256": "8ccd6ac034b99ec0bb8327a38c9891340adc60d0a57bad515a9b25c79d21023b"
-    },
-    {
-      "path": "dsh-skills/ssh/references/upstream.md",
-      "sha256": "3298a5b4681230ae53c0f800751c789c8c2109b3b173ed9d4d0dd3446baf0a56"
-    },
-    {
-      "path": "dsh-skills/ssh/SKILL.md",
-      "sha256": "dbe5063ba020ac059417eaf9ad831ed9f1b0d6dbcf466832029899326ec2efda"
     },
     {
       "path": "LICENSE",
