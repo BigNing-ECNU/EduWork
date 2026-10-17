@@ -5,6 +5,7 @@ import { readFile, mkdir, writeFile, cp, copyFile, readdir } from 'node:fs/promi
 import { join, resolve, relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
+import { adaptNativeWebSearchUI } from './native-web-search-ui.mjs'
 import { adaptNativePresetUI } from './native-preset-ui.mjs'
 import { adaptNativeFileReferenceUI } from './native-file-reference-ui.mjs'
 import { releaseIdentity } from '../dsh-host/release-policy.mjs'
@@ -133,6 +134,7 @@ for (const [folder, upstream] of [
   ['client-ui-conversation-brand', 'ui-conversation'],
   ['client-ui-agent-preset-product', 'ui-agent-preset'],
   ['client-ui-skill-live', 'ui-skill'],
+  ['client-ui-web-search-product', 'ui-settings-web-search'],
 ]) {
   const root = join(repository, 'dsh-plugins', folder)
   const manifest = JSON.parse(await readFile(join(root, 'package.json'), 'utf8'))
@@ -158,6 +160,7 @@ for (const [folder, upstream] of [
   if (upstream === 'ui-skill') {
     replaceOnce('ctx.on("connection/reset", clearAll);', 'ctx.on("connection/reset", clearAll);\nctx.remote.$on("settings/document-updated", clearAll);')
   }
+  if (upstream === 'ui-settings-web-search') client = adaptNativeWebSearchUI(client)
   if (upstream === 'ui-agent-preset') client = adaptNativePresetUI(client)
   await mkdir(join(root, 'lib'), { recursive: true })
   await writeFile(join(root, 'lib/client.js'), client)

@@ -31,6 +31,8 @@ on:
       - 'scripts/build-pinned-dsh-plugin-clients.mjs'
       - 'scripts/native-preset-ui.mjs'
       - 'scripts/native-file-reference-ui.mjs'
+      - 'scripts/native-web-search-ui.mjs'
+      - 'scripts/test/native-web-search-ui.test.mjs'
       - 'scripts/assemble-pinned-dsh-source-product.mjs'
       - 'scripts/published-package-inputs.mjs'
       - 'scripts/test/published-package-inputs.test.mjs'
@@ -174,6 +176,8 @@ jobs:
           $env:EDUWORK_TEST_DEPENDENCIES = $deps
           node --test core/scripts/test/plugin-locale.test.mjs
           if ($LASTEXITCODE) { throw 'Plugin locale regression checks failed' }
+          node --test core/scripts/test/native-web-search-ui.test.mjs
+          if ($LASTEXITCODE) { throw 'Search provider restoration checks failed' }
           node core/scripts/build-pinned-dsh-plugin-clients.mjs --runtime "$env:RUNNER_TEMP/native-runtime" --dependencies $deps --output "$env:RUNNER_TEMP/source-stage" --report "$env:RUNNER_TEMP/client-build.json"
           if ($LASTEXITCODE) { throw 'Candidate client build failed' }
           node "$env:RUNNER_TEMP/source-stage/packages/dsh-memory/scripts/check-session-contract.mjs" "$env:RUNNER_TEMP/native-runtime"
