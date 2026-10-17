@@ -72,6 +72,21 @@ try {
   const { LlmRuntime, LlmAdapter } = await load('@deepseek-ai/dsh-llm')
   await ctx.plugin(LlmRuntime)
   let currentMode, disposed = 0, started
+  // The old published package remains a valid input to older desktop builds.
+  // Use its legacy fixture only when that API actually exists in the Runtime;
+  // a 0.2.1 product still has to exercise the new LLM path.
+  const { SubagentRuntime } = await load('@deepseek-ai/dsh-subagent')
+  const legacy = typeof SubagentRuntime.prototype.start === 'function'
+  if (legacy) {
+    ctx.provide('subagents')
+    ctx.set('subagents', { getProvider: () => ({}), start: async (_provider, options) => {
+      started = options
+      assert.equal(options.toolFilter('shell'), false)
+      return { result: currentMode === 'aborted'
+        ? new Promise((_, reject) => options.signal.addEventListener('abort', () => reject(options.signal.reason), { once: true }))
+        : Promise.resolve({ stopReason: currentMode, structured: { pdfUrl: 'https://example.test/paper.pdf' } }), dispose: async () => { disposed++ } }
+    } })
+  }
   ctx.llm.registerAdapter(['probe'], new class extends LlmAdapter {
     async resolveModel(provider,model){ return {provider,id:model,name:model,defaultMaxTokens:128} }
     async *stream(options){
@@ -106,7 +121,7 @@ try {
     await ctx.jobs.wait(job.value.jobId, 1000, parent.id)
     assert.equal(disposed, 1)
     assert.equal(ctx.jobs.get(job.value.jobId, parent.id).status, mode === 'completed' ? 'completed' : mode === 'aborted' ? 'killed' : 'failed')
-    report.checks.push(`publisher PDF extraction ${mode}: output/terminal state and disposal verified`)
+    report.checks.push(`publisher PDF ${legacy ? 'legacy subagent fixture' : 'LLM extraction'} ${mode}: output/terminal state and disposal verified`)
   }
   abortSeen = false
   ctx.literature.fulltext = (_input, signal) => new Promise((_, reject) => signal.addEventListener('abort', () => { abortSeen = true; reject(signal.reason) }, { once: true }))
