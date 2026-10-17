@@ -14,6 +14,8 @@
 
 [Editions](#from-dsh-to-institution-editions) · [Plugins](#bundled-plugins) · [Skills](#bundled-skills) · [SSO](#sso-and-open-model-access) · [Studio](#knowledge-studio) · [Get started](#installation-and-use)
 
+[Project website](https://ecnu.github.io/EduWork/)
+
 </div>
 
 EduWork is an education-focused distribution built on [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/deepseek-harness). It brings together plugins, skills, and a desktop environment for teaching, research, and administrative work. Work with local materials, then connect your institution's model service to use authorized models with your organization account.
