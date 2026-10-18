@@ -58,13 +58,21 @@ Do not store long-lived npm tokens. If publication is explicitly authorized befo
 
 Reuse an existing npm archive when its declared range covers a kernel upgrade and compatibility checks pass. Correcting an overly narrow published declaration still requires a new npm version because published versions are immutable, but this should not become a routine step for every rc update. Literature `0.1.2` declares `>=0.2.0-rc.1 <0.3.0-0` without changing retrieval behavior.
 
-Bundled source extensions are currently rebuilt for the candidate runtime, with DSH peers describing the adapted API range (currently `>=0.2.1-rc.2 <0.3.0-0`). This qualifies that assembled artifact, not the original npm package on a new host. Maintain truthful source manifests for standalone publication; do not rewrite third-party packages or add compatibility exemptions.
+Desktop-specific extensions are still built during assembly; their adaptation only qualifies that product build. Independently published plugins use npm artifacts without rebuilding their clients, rewriting peers or modifying bundles. Each package maintains its compatibility range through its own release workflow.
 
 ## Product assembly
 
 `@eduwork/dsh-desktop-pet` is installed from its published npm version. `third_party/dsh/candidate-v0.2.1-rc.2/desktop-pet.json` records its version, source commit, integrity and tarball SHA-256; the adjacent `source-probe/package-lock.json` pins installation. The product keeps the shell's floating-window support but never overwrites this package from workspace source or rebuilds its settings client. Publish and verify the plugin before updating the product lock.
 
 
-`config/assembly.eduwork.json` still consumes published registry archives through exact version/SRI/SHA-256 locks in `third_party/npm-015-rc1/`. Editing package source cannot silently change a desktop build. Follow [the build guide](BUILD.md): publish, verify the registry, update locks, then build the product. A development workspace link is not release evidence.
+The current DSH 0.2.1 recipe installs all seven independent packages from npm: desktop pet, literature, mail, memory, OIDC, Studio and shared services. Per-package JSON locks under `third_party/dsh/candidate-v0.2.1-rc.2/` record versions, source commits, tarball SHA-256 and npm integrity; `source-probe/package.json` and `package-lock.json` pin installation. The retained `source-probe` directory name does not imply installing plugin source.
+
+Assembly validates the npm inputs before building product-owned extensions. Media templates, the PDF runtime, plugin clients and bundled skills come from published packages. Nothing under `packages/` overwrites them. `assembly.json` distinguishes `externalPackages` from `sourcePackages` and records package file hashes, checked after assembly and edition preparation. Missing packages, inconsistent locks or workspace links fail without a source fallback.
+
+Top-level dependencies shared with the DSH Runtime must have identical versions and integrity. npm nests incompatible transitive versions beneath their consumers. Assembly checks this constraint so merging directories cannot silently change a plugin dependency. The complete plugin install lock is retained as `d/.eduwork-plugin-install-lock.json`, with its hash in the assembly receipt.
+
+The sequence is: test source → publish npm → verify registry bytes → update component and npm locks → qualify the assembled product. Compatibility ranges remain separate from exact product locks; production assembly never selects `latest`. Local development still uses each package's development root. Editions reuse the public npm dependencies and may add extensions, configuration and skills, but cannot overwrite locked public packages.
+
+The historical DSH 0.1.5 recipe keeps `config/assembly.eduwork.json` and its exact version/SRI/SHA-256 locks under `third_party/npm-015-rc1/`; it is not the current default desktop recipe. Editing package source cannot silently change a desktop build. Follow [the build guide](BUILD.md): publish, verify the registry, update locks, then build the product. A development workspace link is not release evidence.
 
 Component locks record each npm version, source commit and content hashes. Verify the actual registry archive before updating a lock. Development workspace links are not distribution inputs.
