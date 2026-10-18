@@ -70,12 +70,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ecnu/EduWork.git",
+    "url": "git+https://github.com/ECNU/EduWork.git",
     "directory": "packages/dsh-memory"
   },
-  "homepage": "https://github.com/ecnu/EduWork/tree/main/packages/dsh-memory#readme",
+  "homepage": "https://github.com/ECNU/EduWork/tree/main/packages/dsh-memory#readme",
   "bugs": {
-    "url": "https://github.com/ecnu/EduWork/issues"
+    "url": "https://github.com/ECNU/EduWork/issues"
   },
   "engines": {
     "node": ">=24.18.0"

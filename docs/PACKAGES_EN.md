@@ -2,7 +2,7 @@
 
 [简体中文](PACKAGES.md) | **English**
 
-EduWork maintains its public plugins in one source repository. Each npm package retains its identity, version and independent installation/publication. Issues, PRs, protocols and development documentation belong to `ecnu/EduWork`; institutional implementations remain in EduWork-ECNU. Each plugin documents its host requirements. The desktop pet requires the EduWork Electron desktop bridge; other DSH clients must integrate that interface first.
+EduWork maintains its public plugins in one source repository. Each npm package retains its identity, version and independent installation/publication. Issues, PRs, protocols and development documentation belong to `ECNU/EduWork`; institutional implementations remain in EduWork-ECNU. Each plugin documents its host requirements. The desktop pet requires the EduWork Electron desktop bridge; other DSH clients must integrate that interface first.
 
 | npm package | Source and documentation | Installation root |
 | --- | --- | --- |
@@ -46,7 +46,7 @@ Use **Package npm module**, `.github/workflows/packages-release.yml`. Select one
 3. Select `main` as the **Run workflow** source, enter that SHA in `source_commit`, select the package and set `publish=true`. The workflow pins the triggering commit; a mismatch with the supplied SHA stops publication so the source can be reviewed again. Use `latest` for stable versions and `dev` for prereleases. Product versions do not control package versions.
 4. CI publishes the checked archive from the same run, verifying its source, identity and hashes without rebuilding or lifecycle scripts. Verify the resulting npm version, integrity and provenance before updating product locks.
 
-Configure Trusted publishing on **each npm package**: GitHub Actions, organization `ecnu`, repository `EduWork`, workflow `packages-release.yml`, environment `npm`. The GitHub environment has the same name. The provenance-based publication path requires a public repository and a valid binding. Use `publish=false` to check and package without publishing. See [npm's requirements](https://docs.npmjs.com/trusted-publishers/).
+Configure Trusted publishing on **each npm package**: GitHub Actions, organization `ECNU`, repository `EduWork`, workflow `packages-release.yml`, environment `npm`. The binding and package repository URL must match GitHub's canonical `ECNU/EduWork` casing; npm provenance verification is case-sensitive. The GitHub environment has the same name. The provenance-based publication path requires a public repository and a valid binding. Use `publish=false` to check and package without publishing. See [npm's requirements](https://docs.npmjs.com/trusted-publishers/).
 
 Maintainers can inspect a binding with `npm trust list @eduwork/dsh-oidc --json`, substituting the other package names as needed. To change the repository, workflow or environment, inspect existing bindings first, create the replacement and remove only the matching obsolete binding. Preserve other valid publishers. npm may require account verification in the system browser.
 

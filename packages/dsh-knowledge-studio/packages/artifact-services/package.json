@@ -81,12 +81,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ecnu/EduWork.git",
+    "url": "git+https://github.com/ECNU/EduWork.git",
     "directory": "packages/dsh-knowledge-studio/packages/artifact-services"
   },
-  "homepage": "https://github.com/ecnu/EduWork/tree/main/packages/dsh-knowledge-studio/packages/artifact-services#readme",
+  "homepage": "https://github.com/ECNU/EduWork/tree/main/packages/dsh-knowledge-studio/packages/artifact-services#readme",
   "bugs": {
-    "url": "https://github.com/ecnu/EduWork/issues"
+    "url": "https://github.com/ECNU/EduWork/issues"
   },
   "engines": {
     "node": ">=24.18.0"

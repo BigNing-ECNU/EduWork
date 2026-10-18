@@ -98,13 +98,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ecnu/EduWork.git",
+    "url": "git+https://github.com/ECNU/EduWork.git",
     "directory": "packages/dsh-oidc"
   },
   "bugs": {
-    "url": "https://github.com/ecnu/EduWork/issues"
+    "url": "https://github.com/ECNU/EduWork/issues"
   },
-  "homepage": "https://github.com/ecnu/EduWork/tree/main/packages/dsh-oidc#readme",
+  "homepage": "https://github.com/ECNU/EduWork/tree/main/packages/dsh-oidc#readme",
   "license": "MIT",
   "dependencies": {
     "zod": "4.4.3"

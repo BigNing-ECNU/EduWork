@@ -20,7 +20,7 @@ assert.equal(pkg.dependencies[shared.name],shared.version)
 for(const manifest of [pkg,shared]) {
   assert.match(manifest.version,/^\d+\.\d+\.\d+(?:-dev\.\d{8}\.\d+)?$/)
   assert.equal(manifest.publishConfig.access,'public')
-  assert.equal(manifest.repository.url,'git+https://github.com/ecnu/EduWork.git')
+  assert.equal(manifest.repository.url,'git+https://github.com/ECNU/EduWork.git')
   for(const [name,version] of Object.entries(manifest.peerDependencies))if(name.startsWith('@deepseek-ai/dsh-'))assert.equal(version,'>=0.2.1-rc.2 <0.3.0-0')
 }
 assert.ok((await readFile('THIRD_PARTY_LICENSES.txt','utf8')).includes('Apache License'))

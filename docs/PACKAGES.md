@@ -2,7 +2,7 @@
 
 **简体中文** | [English](PACKAGES_EN.md)
 
-EduWork 在一个仓库维护公共插件，npm 包仍分别安装、版本管理和发布。Issue、PR、协议和开发文档统一在 `ecnu/EduWork`；机构专属实现留在 EduWork-ECNU。插件按各自的宿主要求复用；其中桌宠依赖 EduWork Electron 桌面桥接，其他 DSH 客户端需先集成同样的接口。
+EduWork 在一个仓库维护公共插件，npm 包仍分别安装、版本管理和发布。Issue、PR、协议和开发文档统一在 `ECNU/EduWork`；机构专属实现留在 EduWork-ECNU。插件按各自的宿主要求复用；其中桌宠依赖 EduWork Electron 桌面桥接，其他 DSH 客户端需先集成同样的接口。
 
 ## 源码布局
 
@@ -56,7 +56,7 @@ Studio/共享服务的 Node 测试也会生成真实 Office 文件。先准备 P
 3. 在 **Run workflow** 的来源选择 `main`，将该 SHA 填入 `source_commit`，再选择包和 `publish=true`。工作流锁定触发时的提交；如果它与填写的 SHA 不一致，发布会停止，需要重新核对源码。稳定版本使用 `latest`，预发布版本使用 `dev`；产品版本号不参与 npm 版本判断。
 4. 工作流构建并检查选定包，只发布同一工作流生成、校验通过的 tarball；发布 job 不重建、不执行包生命周期脚本。核验 npm 中的包版本、integrity 和 provenance 后，再更新客户端的精确依赖锁。
 
-发布需要在 **每个 npm 包** 的 Trusted publishing 中设置 GitHub Actions：组织 `ecnu`、仓库 `EduWork`、workflow `packages-release.yml`、environment `npm`。GitHub 对应 environment 也叫 `npm`。此处带 provenance 的发布路径要求公开仓库和有效的绑定；仅检查打包时使用 `publish=false`。详见 [npm 官方 Trusted publishing 说明](https://docs.npmjs.com/trusted-publishers/)。
+发布需要在 **每个 npm 包** 的 Trusted publishing 中设置 GitHub Actions：组织 `ECNU`、仓库 `EduWork`、workflow `packages-release.yml`、environment `npm`。绑定和包内仓库地址必须与 GitHub 返回的 `ECNU/EduWork` 大小写一致，npm 来源证明校验区分大小写。GitHub 对应 environment 也叫 `npm`。此处带 provenance 的发布路径要求公开仓库和有效的绑定；仅检查打包时使用 `publish=false`。详见 [npm 官方 Trusted publishing 说明](https://docs.npmjs.com/trusted-publishers/)。
 
 维护者可用 `npm trust list @eduwork/dsh-oidc --json` 检查绑定，其他包替换包名即可。调整仓库、工作流或 environment 时，先核对现有绑定，再创建新绑定并删除对应的旧绑定，不删除其他有效发布入口。npm 可能要求在系统浏览器完成账户验证。
 

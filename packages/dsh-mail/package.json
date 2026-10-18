@@ -87,13 +87,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ecnu/EduWork.git",
+    "url": "git+https://github.com/ECNU/EduWork.git",
     "directory": "packages/dsh-mail"
   },
   "bugs": {
-    "url": "https://github.com/ecnu/EduWork/issues"
+    "url": "https://github.com/ECNU/EduWork/issues"
   },
-  "homepage": "https://github.com/ecnu/EduWork/tree/main/packages/dsh-mail#readme",
+  "homepage": "https://github.com/ECNU/EduWork/tree/main/packages/dsh-mail#readme",
   "peerDependencies": {
     "@deepseek-ai/cordis": ">=4.0.5 <4.1.0",
     "@deepseek-ai/dsh-api-remotes": ">=0.2.1-rc.2 <0.3.0-0",
