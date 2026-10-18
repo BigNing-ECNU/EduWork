@@ -58,7 +58,7 @@ Do not store long-lived npm tokens. If publication is explicitly authorized befo
 
 Reuse an existing npm archive when its declared range covers a kernel upgrade and compatibility checks pass. Correcting an overly narrow published declaration still requires a new npm version because published versions are immutable, but this should not become a routine step for every rc update. Literature `0.1.2` declares `>=0.2.0-rc.1 <0.3.0-0` without changing retrieval behavior.
 
-Bundled source extensions are currently rebuilt for the candidate runtime, with DSH peers describing the adapted API range (currently `>=0.2.0-rc.2 <0.3.0-0`). This qualifies that assembled artifact, not the original npm package on a new host. Maintain truthful source manifests for standalone publication; do not rewrite third-party packages or add compatibility exemptions.
+Bundled source extensions are currently rebuilt for the candidate runtime, with DSH peers describing the adapted API range (currently `>=0.2.1-rc.2 <0.3.0-0`). This qualifies that assembled artifact, not the original npm package on a new host. Maintain truthful source manifests for standalone publication; do not rewrite third-party packages or add compatibility exemptions.
 
 ## Product assembly
 
