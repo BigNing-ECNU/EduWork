@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.6",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-18T18:17:08.519Z",
-  "fileSetSHA256": "b2a28555c81449fa77c9a32369f4c2c35a37568aa3e2716d770de394734f6bdc",
+  "createdAt": "2026-10-18T18:21:21.708Z",
+  "fileSetSHA256": "3741adcde247fe479ef8629590869403d241a7b8503140bfadcef67570cfd9f7",
   "files": [
     {
       "path": ".gitattributes",
@@ -61,7 +61,7 @@
     },
     {
       "path": ".github/workflows/validate-pinned-dsh-source.yml",
-      "sha256": "417ce92414b5a25250fed981110fef956bc63707b6670232d75f714177a90670"
+      "sha256": "d66d7d862ceb17b5010cfb852761e3073a4cf4fe6b06ff5c8cb73af3be7f1926"
     },
     {
       "path": ".github/workflows/validate-portable-extractor.yml",
@@ -5113,11 +5113,11 @@
     },
     {
       "path": "packages/dsh-memory/scripts/check-query-contract.mjs",
-      "sha256": "f60cd5d14b9dcfd4d43017068b20cd49a958d16195bd4c0e4d644551c8da3d9a"
+      "sha256": "6b87a597d715c9c996c99c679720c576adb526717b29b4989631a4ffa2dfb57d"
     },
     {
       "path": "packages/dsh-memory/scripts/check-session-contract.mjs",
-      "sha256": "d0ca8b01bca7fa132c54e7eb2816c09dfb1dda873dbea9ae725d254c74e304f7"
+      "sha256": "67bd32894b55c4fce9b3f639190febe7f2b7150e81fa1fec7518d04db5bbf4d0"
     },
     {
       "path": "packages/dsh-memory/scripts/harness.mjs",
