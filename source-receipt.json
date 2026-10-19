@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.6",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-18T18:21:21.708Z",
-  "fileSetSHA256": "3741adcde247fe479ef8629590869403d241a7b8503140bfadcef67570cfd9f7",
+  "createdAt": "2026-10-19T06:56:02.884Z",
+  "fileSetSHA256": "134eff17a8b39ae490b95c3135d6321573ab5f0b5fb7f89cc86d39541cf976d7",
   "files": [
     {
       "path": ".gitattributes",
@@ -61,7 +61,7 @@
     },
     {
       "path": ".github/workflows/validate-pinned-dsh-source.yml",
-      "sha256": "d66d7d862ceb17b5010cfb852761e3073a4cf4fe6b06ff5c8cb73af3be7f1926"
+      "sha256": "1857412b90e4cd6cb9ae2d47608b84e24696c2669b80efe5f363baccdfeedcca"
     },
     {
       "path": ".github/workflows/validate-portable-extractor.yml",
@@ -5829,7 +5829,7 @@
     },
     {
       "path": "scripts/assemble-pinned-dsh-source-product.mjs",
-      "sha256": "d50ea8f685196cd372816e784cf2b6d88f81b82af8dac688b5804ad9e0e0fae9"
+      "sha256": "215c1fd62f8e889d28d7f4a63a902e2897ebe4aed5cbf3641fc4c2ab0608c834"
     },
     {
       "path": "scripts/audit-eduwork-distribution.mjs",
@@ -6168,6 +6168,10 @@
       "sha256": "ee8026adce8fe7e2836407ae14aed5da28e5896f06e95b7a3d539f15bf0d4466"
     },
     {
+      "path": "scripts/patch-settings-navigation-runtime.mjs",
+      "sha256": "2e9243f6cb30b258124b1422f8a4e8a1372600e59772bfce95dcbb05ced65a2b"
+    },
+    {
       "path": "scripts/pe-resources/package-lock.json",
       "sha256": "fc4870a8334a199227066192f759f996d26b9d6ab70348eb4b131315726a904d"
     },
@@ -6324,6 +6328,10 @@
       "sha256": "720e007ae5a5213df6fe0d3800f846df40f4876dc7dd2bd7c215faee64c40291"
     },
     {
+      "path": "scripts/settings-navigation-icons.mjs",
+      "sha256": "27f9269a88cdf07e8b6ed4f2f7fb2d7a2bb816f4e2bcf5d089ffe0fe9f3b19ed"
+    },
+    {
       "path": "scripts/test-eduwork-search.mjs",
       "sha256": "aa6ca69e4f21d7ec90c4622a88f95d62a846ddaa16214c3e6cfde4ae1202516b"
     },
@@ -6382,6 +6390,10 @@
     {
       "path": "scripts/test/session-search-runtime.test.mjs",
       "sha256": "40c2bc83676a06e4614f254704d260debd9ea34c60c029ce936dfc6a0038c8da"
+    },
+    {
+      "path": "scripts/test/settings-navigation-runtime.test.mjs",
+      "sha256": "d76a2505241946d4b0c8ce5fdbf9c7a6aa387c52b227fd34e1182fb5edaedd49"
     },
     {
       "path": "scripts/test/source-skills.test.mjs",
