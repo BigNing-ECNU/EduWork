@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.6",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-19T13:26:01.425Z",
-  "fileSetSHA256": "a891fe926260a78aa52720391aef20b1d26a6d8df7362afa77cfa8df470322ec",
+  "createdAt": "2026-10-19T16:05:40.436Z",
+  "fileSetSHA256": "8e6f5eb1ffbcff4e2dcd0eb07b4e8ab034863248b36b813eddf92a1167ca1836",
   "files": [
     {
       "path": ".gitattributes",
@@ -61,7 +61,7 @@
     },
     {
       "path": ".github/workflows/validate-pinned-dsh-source.yml",
-      "sha256": "1857412b90e4cd6cb9ae2d47608b84e24696c2669b80efe5f363baccdfeedcca"
+      "sha256": "aa1a382bfbce04e8f018349ee222ddb8b37801350d7c8c07d21b9a22ce7e550f"
     },
     {
       "path": ".github/workflows/validate-portable-extractor.yml",
@@ -73,7 +73,7 @@
     },
     {
       "path": ".gitignore",
-      "sha256": "8e99d330fb72fb18fdb3c16b66c53c306b722d26fc08d2a62bb32df3a3851688"
+      "sha256": "879c00e9d81bfe549df4d97f9f774e6b685bf4cd4cf256cd71bfec6ce3c96be2"
     },
     {
       "path": "AGENTS.md",
@@ -177,7 +177,7 @@
     },
     {
       "path": "config/assembly.eduwork.json",
-      "sha256": "b38f00e94f4fb40cb9fe5363476de8881b5dc6bff48175483475e67bb014b7b2"
+      "sha256": "af8b389bd75e784cae22f54916da304553a475597d2d50b6a8331e2eb8d35a3d"
     },
     {
       "path": "config/desktop-build.json",
@@ -217,7 +217,7 @@
     },
     {
       "path": "config/distributions/generic.json",
-      "sha256": "d9b0e435dabe7908f0c9a45b7bd12a8ddbd9d1dd52dec40bb2f12704a773846b"
+      "sha256": "bbc4aefe184cc8da0de4a9e00c58b09f9260f246b94ef48c0a06a17e173c4edb"
     },
     {
       "path": "config/macos-native.lock.json",
@@ -285,11 +285,11 @@
     },
     {
       "path": "docs/DESKTOP_NOTIFICATIONS_EN.md",
-      "sha256": "5ce75f517706f23cbc06d40947d7aac3c76627cb2f37d303e2243a6c98362f74"
+      "sha256": "e50ccec60277787fcf0571f42d1b6bf2dd3ed2143e2f6298a50637ce5a5daa8b"
     },
     {
       "path": "docs/DESKTOP_NOTIFICATIONS.md",
-      "sha256": "1b0783948d8e284df16606bfc64ba6078af2029766222cc331d909b333f4688f"
+      "sha256": "78af067b2f8e0c77f46e71de6ae39063cd28c71326e0ae702ccdb866ffb5e9a6"
     },
     {
       "path": "docs/DESKTOP_PET_EN.md",
@@ -308,6 +308,14 @@
       "sha256": "e552cf012bc5df2f3723561b73c9394b23910d41743519d286a6fbea53c65575"
     },
     {
+      "path": "docs/images/calendar-agent.png",
+      "sha256": "bad6a9fab4448c483e98e0869d6cf13b5e1ea987cd91ae0d45911a53979a2f47"
+    },
+    {
+      "path": "docs/images/calendar-week.png",
+      "sha256": "3d5825069adb95bfec9eb8d89f387bd069703ff3bfecc5bb76aa12b02f79294b"
+    },
+    {
       "path": "docs/images/litellm-models.png",
       "sha256": "9949f64b8d1ef6207433f59d81a78ae4e35cb5453f1b7d486b06816ee8f8f0bd"
     },
@@ -317,7 +325,7 @@
     },
     {
       "path": "docs/images/README_EN.md",
-      "sha256": "d23a0e097586104dd7bcff6e3141390acb317829a02a1ea381dd7a1af99e65fa"
+      "sha256": "ac99f436e846cbaa815fdd6743e5c2dfa0661fceca9c23017a081901386b59d2"
     },
     {
       "path": "docs/images/readme-hero-en.svg",
@@ -329,7 +337,7 @@
     },
     {
       "path": "docs/images/README.md",
-      "sha256": "b1dc2f70b93a73d60c9aa58b2c7dd74be2eb3b6f2fe1c0d5bd842f92c10aad97"
+      "sha256": "a8b624bcb29617da992b890dcf8fea18517abd078f6027f4d83ed29b20d5a5f0"
     },
     {
       "path": "docs/images/skills.png",
@@ -382,6 +390,22 @@
     {
       "path": "docs/proposals/build-pipeline-stages/README.md",
       "sha256": "179cfef14e96cd2c7d499211908ce44eca8286704ffd536e4e514eb99795ffdb"
+    },
+    {
+      "path": "docs/proposals/calendar/INTEGRATION_EN.md",
+      "sha256": "ba9d5110d6a1245d91f52942f96e915f9b96ff7d872b2764073bf46e2700a01b"
+    },
+    {
+      "path": "docs/proposals/calendar/INTEGRATION.md",
+      "sha256": "cd7b0c61cb159d7837e1f8fd7a151986d723bbf296788be200ad39c34bee0fd4"
+    },
+    {
+      "path": "docs/proposals/calendar/README_EN.md",
+      "sha256": "42392f124d2b8c6bc09b9b0d56bb7312834087778276b451cf5644b2ed8a2b12"
+    },
+    {
+      "path": "docs/proposals/calendar/README.md",
+      "sha256": "bc73c8d896daac8c8fcdd7e56c78c57052b98adb36fe1795e1fa12489064ceed"
     },
     {
       "path": "docs/proposals/desktop-profile-location/README_EN.md",
@@ -1201,7 +1225,7 @@
     },
     {
       "path": "dsh-electron/src/task-notifications.mjs",
-      "sha256": "af4a5f3ca1aec1c87dcbb874b80a771bdb458a2d7939647b6a05b53274859dbb"
+      "sha256": "7a1d40b33930a047aeb62529fb3425a9e27a95a3fcc49ce9e6af4e2009c51e68"
     },
     {
       "path": "dsh-electron/src/update-channel-migration.mjs",
@@ -1385,7 +1409,7 @@
     },
     {
       "path": "dsh-electron/tests/task-notifications.test.mjs",
-      "sha256": "ef4bf485e5463649b9014f725e44da2be7a32d6e5db990445fd85e0087fa7395"
+      "sha256": "cef80dc551c811c8f43a51cdcba096b0645844301dbc95ac630f2b792cd01473"
     },
     {
       "path": "dsh-electron/tests/tray-icon.electron.mjs",
@@ -1968,6 +1992,194 @@
       "sha256": "152b4e58d79545020cb924560d3a9a711d640762f6d9b7c089536eb08750d7d7"
     },
     {
+      "path": "dsh-plugins/calendar/build-client.mjs",
+      "sha256": "f2360d51dc691d57e0d5019b9497fb9371a9e5f21cb719d676573f189a5975dd"
+    },
+    {
+      "path": "dsh-plugins/calendar/build-client.ps1",
+      "sha256": "3e3835093828515391e249de2cc47862f832158c3fdcc399f51c463e87e18dcc"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/client.js",
+      "sha256": "44dba355f5ef361ec99c796f610b5a2597bfc8fe5d216dd76561e15465692b9b"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/ics.js",
+      "sha256": "a06d8c5bbf6efd5e217641e696935d255b5256c10e0184e854bfea6464755355"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/index.js",
+      "sha256": "40dd0bbd3507082296faff44fb190433f50e75e6e120c10b1bfd87abda777ba8"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/keys.js",
+      "sha256": "74466697bb3254fc275f29e8202bd45984c29e9f9ee6da36429a50c56fa6b0dd"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/model.js",
+      "sha256": "ade9f821aa334d2a153e50941fb391bb6c7cd8be9c3cafdef38050a7913a2336"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/personal.js",
+      "sha256": "c0b9b55f4f3121c4a2e15f7a3395f2ed637b69312b51a89b29f6d8788c64f733"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/reminder-delivery.js",
+      "sha256": "22433932fa2b7f3df61b0fe84eda4bc46cb161b5d872aced9cfc9b367c77e639"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/reminders.js",
+      "sha256": "9c6005ee09dd8acf19ca748a68aab1e4d4ff1e7700238d03fc0f5fe4dd4170ca"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/sources.js",
+      "sha256": "159bb6c9edb9fcd3a9cf915daa7f820ebbcb082e2d926ad4d64dbecab579f36e"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/store.js",
+      "sha256": "c412fc1426173864fa25655e9d9b20072cddd64faf5730da14c3d9b03cea381d"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/tool-permission.js",
+      "sha256": "61a919e25da417b0ab7ef0f429e1fc1afb6f23450b88f71dee145169759259ba"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/tools.js",
+      "sha256": "4af0e2cbe36c990331b0772c947abf603b995fc43c9fd2e183d765a58fc643ee"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/typert-descriptors.js",
+      "sha256": "61f0319355d3220ada68f00d18403c47640fbee4d22a3997fb503ec7bf09576c"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/typert-schemas.js",
+      "sha256": "edb09ab98a3751739cec5481afbf9dbb6f1a6874d446c0c239ee65e642c4599d"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/typert.host.js",
+      "sha256": "bd69f2769bc62a951cf2c39d1dcebf5bf279169ddb9d6a9c4bb496fa212b06b4"
+    },
+    {
+      "path": "dsh-plugins/calendar/lib/typert.remote-client.js",
+      "sha256": "fae92dabc53c89f6201872d4e72d2a9279a2fd851581739df4fdb241113fb158"
+    },
+    {
+      "path": "dsh-plugins/calendar/package.json",
+      "sha256": "daaefe4fe377c5b33a8eeac945a92b9f8f48efabd38d41fa99651db1c211969c"
+    },
+    {
+      "path": "dsh-plugins/calendar/README_EN.md",
+      "sha256": "c1c4889342443dbf28a6685efe30142bbd39f65ae7c47a4ac3addd755b044dba"
+    },
+    {
+      "path": "dsh-plugins/calendar/README.md",
+      "sha256": "f6e3efc78efdc2e60711d309081975cdefc26151ee0e99e79dfb84bb310f92ab"
+    },
+    {
+      "path": "dsh-plugins/calendar/skills/calendar-management/SKILL.md",
+      "sha256": "caa164422312f644ef8355338ebf2587541647e3f86724301d853b15eef3b116"
+    },
+    {
+      "path": "dsh-plugins/calendar/src/client.ts",
+      "sha256": "18bbcfed3799fe64257659bbcccbe5ad1708e743cd87858c4554848567078911"
+    },
+    {
+      "path": "dsh-plugins/calendar/src/layout.js",
+      "sha256": "e35e90555d42ce9b75cbb7f1992d6e945d49185b334f57492d32624db1ca6895"
+    },
+    {
+      "path": "dsh-plugins/calendar/src/month-view.ts",
+      "sha256": "b6989214686839ddee119296c6b04e097e58fa6d2bd4459034c0c349fe1e730b"
+    },
+    {
+      "path": "dsh-plugins/calendar/src/personal-settings.ts",
+      "sha256": "92777a196d127f81d1de440e971bfa50bbca0b6c5589fccbee5b07b098f020d6"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/browser-acceptance.mjs",
+      "sha256": "c26d9842f077d2a6c854618c693cc08e9d324c5178a44c5685fbb843072391c2"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/desktop-acceptance.mjs",
+      "sha256": "a8e113e99e7e9d2ea69649cca8897697c3974f0a06e4b7cc8ce73ab08b74ff5e"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/ics.test.mjs",
+      "sha256": "cd0c982c6c5f15a3f55cdf9ca302a595e06770b1209b78502016a5adc29ff495"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/import.test.mjs",
+      "sha256": "1f274f52c7102441d62444ddc486320f0fcea0daec80afbe369c20de1e4e3a6c"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/layout.test.mjs",
+      "sha256": "b153c678f58d1d189303a8e00af98823863608cddd0fc148c4f8811d6a4670db"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/model.test.mjs",
+      "sha256": "484cf4e65de7409cedb24962171b407f18a593f187daff9d9e37cba00f73287f"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/occurrence.test.mjs",
+      "sha256": "5caf1d8bd379cf97fc99cee972ee014bb098cc595024b2da29cfe243d729f465"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/panel.test.mjs",
+      "sha256": "2f51a42f52f8e8b90ebbd87bf7c05802300a2711e0384d1c0213add366e0b6cd"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/remote.test.mjs",
+      "sha256": "3f7a01b4ca87f557569cad658918ff30c5016f131717b41abad0f7420f7d660d"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/rendered-keys.test.mjs",
+      "sha256": "b8997e891818fd224fc92f917def41396e14ef42324eb0611e7fcc2b555a3033"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/store.test.mjs",
+      "sha256": "44bcb7c87ea1d91d4bbe1f404e2ffed54fc6cb8705328c1069cae0b835b9d0ec"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/support/browser-primitives.js",
+      "sha256": "affb76ec4f2097d27cef508b2464ffd94e836a07688839c32538f5b64834675c"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/support/bundle-panel.mjs",
+      "sha256": "55a516b54a9a0a32f948110c6320032cd6492b970148eff3d6b451d4b96f5515"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/support/client-artifact.mjs",
+      "sha256": "42f60def668bd99ce6031747cd51f28dda931d8caa769a3d500446dc390c914a"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/support/load-bundle.mjs",
+      "sha256": "bbebe6349cb6a25d3cac9fdefc4e0b576dc9d51bedf6a6da9cfaa3b12afbf0c1"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/support/mini-dom.js",
+      "sha256": "a594130f46798be40f28e100b95d2089d880090f8d537ba68340daed2f3a6d31"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/support/ui-primitives-stub.js",
+      "sha256": "d629aceb578bfcf20407051f4b2675cec8f9531c5ad7203ccad870080026bf28"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/sync.test.mjs",
+      "sha256": "24b980c55bd2ae17f403dadbdfe4aef0cfe38f15d5af326ba3eed0b733066eb2"
+    },
+    {
+      "path": "dsh-plugins/calendar/test/tools.test.mjs",
+      "sha256": "c4d904f9554756e1b84092c6cd2c92708dda58890e99acf492438d312b8a0c20"
+    },
+    {
+      "path": "dsh-plugins/calendar/tsconfig.json",
+      "sha256": "9bc4b5f5ca7e314af3775b317cab2ce1f5b63726e559446e9fc9949925f4661e"
+    },
+    {
+      "path": "dsh-plugins/calendar/tsdown.config.ts",
+      "sha256": "0533e9fa355eb5b34e1751eace5ac6f2c60efa70dbd1becf4af284e95c8bd5bb"
+    },
+    {
       "path": "dsh-plugins/client-ui-agent-preset-product/build-client.mjs",
       "sha256": "1d5db4b5d8e40388cb37b8f78a2388630ce3e29b60ddc2f6ea2e6bc68a216dde"
     },
@@ -2433,7 +2645,7 @@
     },
     {
       "path": "dsh-plugins/desktop-services/lib/attention.js",
-      "sha256": "4ffc113a039b4f76da3fba9eed67e31398bc1fd68ee27569710c96ccbc6a748c"
+      "sha256": "e99690bc5b02ea9e7f30ef4e591b40fd1fa2bddb84b61e736ef93365e73b5a54"
     },
     {
       "path": "dsh-plugins/desktop-services/lib/directory-picker.js",
@@ -2445,7 +2657,7 @@
     },
     {
       "path": "dsh-plugins/desktop-services/lib/index.js",
-      "sha256": "d1c78103a0bb9c7f49af8e4b8f6371dfc58bbd7f0419845d95f6f526534aa35e"
+      "sha256": "33252eacb26e2f6a87ad6625ee3990d448e57591e6deee64a5a79dc9a920023a"
     },
     {
       "path": "dsh-plugins/desktop-services/lib/workspace-access.js",
@@ -2457,7 +2669,7 @@
     },
     {
       "path": "dsh-plugins/desktop-services/test/attention-host.test.mjs",
-      "sha256": "6442cf1e58707d3c334658fc00cea69f7ad36563b6a7a9d352da736b9532c1fc"
+      "sha256": "d6fa65b800feef0e3cdd20253174688f8c9c5753cc82b4a7b3b9aaabbf89cda8"
     },
     {
       "path": "dsh-plugins/desktop-services/test/workspace-access.test.mjs",
@@ -2737,7 +2949,7 @@
     },
     {
       "path": "dsh-plugins/workbench-native/build-client.mjs",
-      "sha256": "aa05f656140da20559c4da16e8d2b3eeb6bb801cf414f1f9d3d3fc82d1ee3454"
+      "sha256": "53acbf8f6419b21b3de1c3639da54c4b35df8c05e402b5d22034755e6c50fb2c"
     },
     {
       "path": "dsh-plugins/workbench-native/build-client.ps1",
@@ -2745,7 +2957,7 @@
     },
     {
       "path": "dsh-plugins/workbench-native/lib/client.js",
-      "sha256": "6dee751cf297da79771bd1fabc47012cb5d512c52efaebb17161deb86aef540c"
+      "sha256": "cd8433dac64352dbff29bf3f5a1ddfc5510958613674653ed84a576beb7b205d"
     },
     {
       "path": "dsh-plugins/workbench-native/lib/data-import.js",
@@ -2785,7 +2997,7 @@
     },
     {
       "path": "dsh-plugins/workbench-native/lib/typert-schemas.js",
-      "sha256": "a9dad57caecd80416e960c50a25c20cb39f4f93df14516733aa8cb26003d4164"
+      "sha256": "84740741876abf3ec15394b47670e805faf9f8cd10fea816d141f6878d11d0a2"
     },
     {
       "path": "dsh-plugins/workbench-native/lib/typert.host.js",
@@ -2817,7 +3029,7 @@
     },
     {
       "path": "dsh-plugins/workbench-native/src/client.ts",
-      "sha256": "dff18f2a701b01454cffd2f3ef717fe5398688c2d1e65cd86b6fd5dba34b6dc1"
+      "sha256": "f4d923caa1eeaf4c107b106aa70bcab2369d7c8517037c63cc8821c2f62c4167"
     },
     {
       "path": "dsh-plugins/workbench-native/src/concurrency.ts",
@@ -2829,11 +3041,15 @@
     },
     {
       "path": "dsh-plugins/workbench-native/src/notifications.ts",
-      "sha256": "536b87820fd508184cd07b04ef77cc461c5a207e4a249e9764fda1fae1d336a5"
+      "sha256": "56351f42ad9b0f69c825edfc9a4a2a158e43ede77421ebc602524c9da3dc9312"
     },
     {
       "path": "dsh-plugins/workbench-native/src/updates.ts",
       "sha256": "73e17b90559422abbc6076c78e9d9087c27fbba7a734cdaeed3965e834898efd"
+    },
+    {
+      "path": "dsh-plugins/workbench-native/test/build-client.test.mjs",
+      "sha256": "fee0dac7cecc55b503a888df51d96417f636578f419a1ce37d867605bcd7f907"
     },
     {
       "path": "dsh-plugins/workbench-native/test/concurrency-browser.mjs",
@@ -2856,12 +3072,16 @@
       "sha256": "a9f987c9f53b897dbdcd45d1fcef59b75d4a38f4f83e68d58230344c2441b9f0"
     },
     {
+      "path": "dsh-plugins/workbench-native/test/import-store.test.mjs",
+      "sha256": "a7cfbd7715201fac039b28ddd6ff8f8d14fbffb121409209a305959b29f59346"
+    },
+    {
       "path": "dsh-plugins/workbench-native/test/notifications-browser.mjs",
       "sha256": "a76bd8730ea81e690c30a0efadd6909923c87e82bcc04e6780452769b7119df3"
     },
     {
       "path": "dsh-plugins/workbench-native/test/notifications-navigation.test.mjs",
-      "sha256": "f13736506dc597c72eaf6eec9176044369d6413372c8bd53ca52b179c030aaa9"
+      "sha256": "d0c8ad3087721babc5755b01ac37b8d46a8e30cf1f5ddbf1ad065d65335614f5"
     },
     {
       "path": "dsh-plugins/workbench-native/test/skill-display.test.mjs",
@@ -5837,7 +6057,7 @@
     },
     {
       "path": "scripts/audit-eduwork-distribution.mjs",
-      "sha256": "2fd8c431688ac2bf02ae49a823c06b8cc90a80615c6e3d7451d975bb3487faf0"
+      "sha256": "d68fc385d16104e92d6ea64de025d93daa6a23f6b80ea12103817d4acea233ff"
     },
     {
       "path": "scripts/build-desktop-candidate.ps1",
@@ -5849,7 +6069,7 @@
     },
     {
       "path": "scripts/build-pinned-dsh-plugin-clients.mjs",
-      "sha256": "0f6b0b8c001193aa1156a0347fa0185c5b3865d7e1c3a14d0fec65e0b369f8c8"
+      "sha256": "53caaef5f018150de374e6438e22bf75e88bc6826f1c36a29a2ec56427a69302"
     },
     {
       "path": "scripts/build-pipeline-diagram.mjs",
@@ -5989,7 +6209,7 @@
     },
     {
       "path": "scripts/lib/dsh-skills.mjs",
-      "sha256": "3a48a2ffe4fe37bd59b47cae11b2b06927fb7ecfc731caf6c01facefb9831ec1"
+      "sha256": "50ab1ff293126b8c143a1dd40871baaeed784879b01e691912ebd45a9142c6d5"
     },
     {
       "path": "scripts/lib/local-install.mjs",
@@ -6101,11 +6321,11 @@
     },
     {
       "path": "scripts/normalize-generated-client.mjs",
-      "sha256": "1faaa954f0b978f67800a8fc5bccf1946d263f5dc976b257ba7fb305890911dd"
+      "sha256": "6bd49da4227501a84dfcc30639729495f082bf4471c9af64003768e74939b9bd"
     },
     {
       "path": "scripts/normalize-generated-client.ps1",
-      "sha256": "59aa83e446d06a357990a89baa6a54118171c71c43a5ad886e72e207e4c5cb0a"
+      "sha256": "a084e3279eaa35c29a03cfb71408fa4d8e2b959dbe44a4396872a3eaf4c4e62a"
     },
     {
       "path": "scripts/omit-runtime-packages.mjs",
@@ -6253,7 +6473,7 @@
     },
     {
       "path": "scripts/prepare-pinned-dsh-product.mjs",
-      "sha256": "065a5703ec0be39252ba1ea31b63bf2c33b96362c52bdd7ab6f70577cec4f089"
+      "sha256": "bce563dda08544b606aac7395f2e73ea92093eefc3e12f60dec0360ac0f65032"
     },
     {
       "path": "scripts/prepare-windows-portable-extractor.ps1",
@@ -6345,7 +6565,11 @@
     },
     {
       "path": "scripts/test/distribution-config-patches.test.mjs",
-      "sha256": "8611c1f730cf05b69fd894a64a12d921437e67b2db8d4a84e750435ee6439f1e"
+      "sha256": "bc9539a679b477157129e4ff54a6e87609d1de80205dab167a52e9214f7b54ec"
+    },
+    {
+      "path": "scripts/test/generated-client-normalization.test.mjs",
+      "sha256": "4e93ff3561362abbdd40f8d86dfeaac660d3280f26499892f45f2ad73fcfc9e1"
     },
     {
       "path": "scripts/test/macos-update-delta.test.mjs",
@@ -6401,7 +6625,7 @@
     },
     {
       "path": "scripts/test/source-skills.test.mjs",
-      "sha256": "f83bd7407a90e915cfc96071de5d84448ddff460ba0d4d0dd95df6eb5575bd9d"
+      "sha256": "e0077bf09a6f372c6e85f588b9930c8a2bce317d5165a2a7ed8459363bfecd76"
     },
     {
       "path": "scripts/test/update-delta-bases.test.mjs",
@@ -6493,7 +6717,7 @@
     },
     {
       "path": "tests/eduwork-assembly-policy.test.mjs",
-      "sha256": "35f8999a964debe3f4b8a1ea86ab4b4400e49a1c0577e0a365f335127808ad17"
+      "sha256": "c58dc20f33f196b96a0ab80e9a0980ce70ba5b3dde51842f7fb83c1c01475e1c"
     },
     {
       "path": "tests/eduwork-configure-archive.test.mjs",
@@ -6517,7 +6741,7 @@
     },
     {
       "path": "tests/eduwork-source-audit.test.mjs",
-      "sha256": "6298f878f96618628030b9c9fe3fcda73e754146429d8d6b1cdefddfe39acc15"
+      "sha256": "767cf5365c6e46578fe73ad9bc3e52119eb94a547c28788b823c8272ba2f8cd1"
     },
     {
       "path": "tests/eduwork-source-reproducibility.test.mjs",
@@ -7076,9 +7300,9 @@
     },
     {
       "path": "scripts/lib/dsh-skills.mjs",
-      "sha256": "3a48a2ffe4fe37bd59b47cae11b2b06927fb7ecfc731caf6c01facefb9831ec1",
+      "sha256": "50ab1ff293126b8c143a1dd40871baaeed784879b01e691912ebd45a9142c6d5",
       "kind": "inactive-legacy-institution-references",
-      "reason": "Node.js port of the reviewed bundled-skill compatibility helper. Generic product selections do not register the legacy institution plugin; this preserves older explicitly selected distribution bindings only. No institution endpoint or credential exemption."
+      "reason": "Preserves the inactive legacy institution binding; generic calendar references are optional, confined to the assembled product and appended to the shared Skill body. No institution endpoint, credential or activation exemption."
     }
   ]
 }
