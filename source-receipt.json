@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.7",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-21T16:54:36.975Z",
-  "fileSetSHA256": "7ee8ca2ca47fe55f3113505ea85a0952dbab734d82b17d86bb8fb5216d8056ad",
+  "createdAt": "2026-10-21T17:35:21.350Z",
+  "fileSetSHA256": "c901cbc09b39c56daf2e9a1f589ef3e54be7e931b80031741181273d1be32d25",
   "files": [
     {
       "path": ".gitattributes",
@@ -1313,7 +1313,7 @@
     },
     {
       "path": "dsh-electron/tests/desktop-smoke.mjs",
-      "sha256": "b2e8070e61cd20b8bd044424f02de2ae25b2af1800086b125dfdbc1e92aed66e"
+      "sha256": "fee7784facc1cc78d08dac20c6f3455298d968d1937c2a1f228108a05894a2bf"
     },
     {
       "path": "dsh-electron/tests/desktop-web-paths.test.mjs",
