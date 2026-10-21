@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "kind": "eduwork-public-source-snapshot",
   "edition": "generic",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-21T16:41:02.927Z",
-  "fileSetSHA256": "4ad414c7375e326b3b77904a23c2167e3cd1b5ee0522c84df0c278bde5854d6c",
+  "createdAt": "2026-10-21T16:54:36.975Z",
+  "fileSetSHA256": "7ee8ca2ca47fe55f3113505ea85a0952dbab734d82b17d86bb8fb5216d8056ad",
   "files": [
     {
       "path": ".gitattributes",
@@ -177,7 +177,7 @@
     },
     {
       "path": "config/assembly.eduwork.json",
-      "sha256": "0fcb31265cb54a82500febb41ff4ec6850dbaf3bbbdbfe102e5d35c315d7e563"
+      "sha256": "bc3d38d5c8f3300eb35acd58c8e18f39c3bdb3c7d55fc58f40088a70b50e73e0"
     },
     {
       "path": "config/desktop-build.json",
@@ -217,7 +217,7 @@
     },
     {
       "path": "config/distributions/generic.json",
-      "sha256": "bbc4aefe184cc8da0de4a9e00c58b09f9260f246b94ef48c0a06a17e173c4edb"
+      "sha256": "d9b0e435dabe7908f0c9a45b7bd12a8ddbd9d1dd52dec40bb2f12704a773846b"
     },
     {
       "path": "config/macos-native.lock.json",
@@ -506,6 +506,10 @@
     {
       "path": "docs/releases/0.4.6.md",
       "sha256": "e428c2795bb3a14fbd390c38388f46ffd04cc50317fc187c780e5ba6b971fc0d"
+    },
+    {
+      "path": "docs/releases/0.4.7.md",
+      "sha256": "84aa5884bf573e1ed8a43ad1afc74f9961f6c91eed0782b61729ef5dae48301e"
     },
     {
       "path": "docs/SESSION-SEARCH-BACKPORT.md",
