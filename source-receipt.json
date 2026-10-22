@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.7",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-22T06:04:21.840Z",
-  "fileSetSHA256": "f4985a0e23cd5dbb88a6848c1441c9e3e45dd61ea431688e6c7f635e10263ab7",
+  "createdAt": "2026-10-22T08:31:30.000Z",
+  "fileSetSHA256": "dd8ed87399ffa002b89b8ce71f141feb05060779291d143decb8ca139c00a332",
   "files": [
     {
       "path": ".gitattributes",
@@ -369,11 +369,11 @@
     },
     {
       "path": "docs/PACKAGES_EN.md",
-      "sha256": "794369e57cc750e668824075832e200de3c92d1b58e58fb879f060ecaf2351e1"
+      "sha256": "8c467cf9ca0ac9c73e31a4f86a2efcec11d79180cd071e9f899b346583050752"
     },
     {
       "path": "docs/PACKAGES.md",
-      "sha256": "d9a97419c3f05432aeba3e1a702d6012dc3a028fecc52f3140f0e1948916c38f"
+      "sha256": "63c80cba3c02d3455f9c846b735f95ff4f50b59fa150829cd8ae2a03b7783f91"
     },
     {
       "path": "docs/PLUGIN_NOTIFICATIONS.md",
@@ -2005,7 +2005,7 @@
     },
     {
       "path": "dsh-plugins/browser-upstream/lib/permission.js",
-      "sha256": "f9cb98793536834efc37f186d1b6fb7abfdf392d64e70a3c6013c8cf1d98a76c"
+      "sha256": "b374f7ded9cd8f488f3341b26653fa991a3e64dea50c5a3f6b9490dc717d254e"
     },
     {
       "path": "dsh-plugins/browser-upstream/package.json",
@@ -2021,7 +2021,7 @@
     },
     {
       "path": "dsh-plugins/browser-upstream/test/permission.test.mjs",
-      "sha256": "152b4e58d79545020cb924560d3a9a711d640762f6d9b7c089536eb08750d7d7"
+      "sha256": "ba3c16646d4899f22b1404dafba5290f4c80b1073d8ccaf61957081e75cd6bf9"
     },
     {
       "path": "dsh-plugins/calendar/build-client.mjs",
@@ -2073,7 +2073,7 @@
     },
     {
       "path": "dsh-plugins/calendar/lib/tool-permission.js",
-      "sha256": "61a919e25da417b0ab7ef0f429e1fc1afb6f23450b88f71dee145169759259ba"
+      "sha256": "dadd54e84db4e74b8cee71588cd3e7a5d0f4760febf149fe3b20efbaf21fc34f"
     },
     {
       "path": "dsh-plugins/calendar/lib/tools.js",
@@ -2201,7 +2201,7 @@
     },
     {
       "path": "dsh-plugins/calendar/test/tools.test.mjs",
-      "sha256": "c4d904f9554756e1b84092c6cd2c92708dda58890e99acf492438d312b8a0c20"
+      "sha256": "f49f7aba593526575c38cce06079cfe973b65a9abc3fe06fda409e3d2c878309"
     },
     {
       "path": "dsh-plugins/calendar/tsconfig.json",
@@ -2973,7 +2973,7 @@
     },
     {
       "path": "dsh-plugins/tool-browser/lib/permission.js",
-      "sha256": "471dc70d9fba0b3e08c758f58074a2d7eb1663f154254329a61c83e1e1b0d035"
+      "sha256": "9ff1f1b4feed98ecd32d98f78512306692e639fd3d129e37ef34025616ee26c8"
     },
     {
       "path": "dsh-plugins/tool-browser/lib/search-auto.js",
@@ -3009,7 +3009,7 @@
     },
     {
       "path": "dsh-plugins/tool-browser/test/permission.test.mjs",
-      "sha256": "f9bf556d3e6ebf66ff799bbd36222d11d17bc0bdcd179992fc51c848f8327ef3"
+      "sha256": "b2be517b2979f5a155f0f14f1c3e78a5bc4f146da77828c28c44051a98847929"
     },
     {
       "path": "dsh-plugins/tool-browser/test/search-policy.test.mjs",
@@ -3749,7 +3749,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/CHANGELOG.md",
-      "sha256": "e10f40a9e4e0fe9bc10c139767e79f8134f58044f1d91cefee09ac851ebe024d"
+      "sha256": "661e1c099b16a180ee15134958e0654af6ca68c186cde72e8333c74a2f019239"
     },
     {
       "path": "packages/dsh-knowledge-studio/cordis.patch.yml",
@@ -3965,11 +3965,11 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/package-lock.json",
-      "sha256": "b470116021eef050315efd7dc7e0b52db0e5e978dc15557c1d56c64e5228a6dc"
+      "sha256": "23a4c0f43eb00e468b1df4241ebf8aacfbe609f7c06be8dc812ebc734f23f5a6"
     },
     {
       "path": "packages/dsh-knowledge-studio/package.json",
-      "sha256": "887938ef61ac38da99c18c0453df05de90c2d424b3f0ba15253a6ba91ebcc257"
+      "sha256": "18cae9df60a8464cf014ca83118915c0b031aeb48064b509149d334d2eed3489"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/contracts/presentation-metrics.json",
@@ -4005,7 +4005,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/image-tools.js",
-      "sha256": "cd03282d4b7efa0cc81b4d14827c702debfaaee19c58475cd20f16d125ac014e"
+      "sha256": "11b7e29488bc174b3700d3046a69f1b23d7585d8e91daef00dd96939002f5060"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/images.js",
@@ -4021,7 +4021,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/media-tools.js",
-      "sha256": "b257452e376bd8c8148e09f29cb409c16fa9072f644e3e55ed13fe42190227d0"
+      "sha256": "d354e99b1c7a83e27d348e696c51a1b422cee95fe882a1617f302b40d48a36f6"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/media.js",
@@ -4049,7 +4049,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/office-tools.js",
-      "sha256": "726aa37dfd8e69c8878d9ce12de49fb712d822ee66f83f160fafcece3516246b"
+      "sha256": "d49bc0e9071ccde9cdc16b1be614ee2995003a2b35521c0b5c6fd7daf68529d5"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/office.js",
@@ -4109,7 +4109,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/tool-permissions.js",
-      "sha256": "d1c2367c90b1179f9cd6b794dc452649b89f5a5bad82326fa56b684a4cb22777"
+      "sha256": "23520fa530d92fa4755a83d0de2fc730bbfd25d4f0e79ada4628a0b9ab8bf0d4"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/transcription-components.js",
@@ -4129,7 +4129,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/transcription-tools.js",
-      "sha256": "302afc168adfa3ce01ac11bd01bc799c11bb190760d3ac7e781384255ed0132f"
+      "sha256": "98082346b92983015fdc6a3e4bdac058df235373cb96eab2517188d2ea3b512d"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/lib/transcription-whisper.js",
@@ -4213,7 +4213,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/package.json",
-      "sha256": "0ab7faad98aff14162333cb9f9ac5c64f19b6b92d4d4b6be457ffbe3bef89e80"
+      "sha256": "f04c6c42bad9d28c96cc59cec59565a3c6e27135fc4cb07f7efa6b1621f350e5"
     },
     {
       "path": "packages/dsh-knowledge-studio/packages/artifact-services/python/dsh_office/__init__.py",
@@ -4913,7 +4913,7 @@
     },
     {
       "path": "packages/dsh-knowledge-studio/test/workspace-permissions.test.mjs",
-      "sha256": "18a41f5b58c834e82fedc15835f8b067ab559e1dab3eb7242e0cf33a99df36b3"
+      "sha256": "5c8b63a82562da5db303685f384b6c179daa73001670277c624228142c86ec89"
     },
     {
       "path": "packages/dsh-knowledge-studio/THIRD_PARTY_LICENSES.txt",
@@ -5177,11 +5177,11 @@
     },
     {
       "path": "packages/dsh-mail/CHANGELOG.en.md",
-      "sha256": "18038da433de3d923ffd0ad0e16a61b69faf37dd5d0fde1f0391780ac5802de9"
+      "sha256": "c3216a8c11a03e2d1a387d6e2581ec47abd94d0c7d33917000a151a9df060766"
     },
     {
       "path": "packages/dsh-mail/CHANGELOG.md",
-      "sha256": "d35cc2c72c1a69b1100d1aafb74053aecf36f9ea8fc00d4efc37f432961bf553"
+      "sha256": "03675c9e02d5efc3c40a8585139d9cf74aa61670a40fdaeaa7d67a3ba3cd739e"
     },
     {
       "path": "packages/dsh-mail/CODE_OF_CONDUCT.en.md",
@@ -5289,11 +5289,11 @@
     },
     {
       "path": "packages/dsh-mail/package-lock.json",
-      "sha256": "4c0471855975339d1a22b5f125ba73e3579c84c0eb4c6e26f3a7cdb3ec7a2598"
+      "sha256": "a5b554cf0a2900ee52a0156daec8c5b76ba456a8908377d0eacb95812ffd31f7"
     },
     {
       "path": "packages/dsh-mail/package.json",
-      "sha256": "a6d3e5547aa4e049d88eeadd033f59e3006a27b73159007c1a04d6dc761eb821"
+      "sha256": "c8f946230b2022fb22cbcbbe2dbb457adb1fa9a55ecdf6ec40c37cc5fd980802"
     },
     {
       "path": "packages/dsh-mail/README_EN.md",
@@ -5377,7 +5377,7 @@
     },
     {
       "path": "packages/dsh-mail/src/host/permission.js",
-      "sha256": "4d4a71b8393e74f5a657fd0f273427295eb35fa20dea420ff3380a360cd6314e"
+      "sha256": "5d50ae2456c78ca020ae0ca880cf417cbb4c13e1e4f08adf1b01aefc712603c2"
     },
     {
       "path": "packages/dsh-mail/src/host/sanitize.js",
@@ -5401,7 +5401,7 @@
     },
     {
       "path": "packages/dsh-mail/test/attachment-permission.test.js",
-      "sha256": "0241c7f180923b3f7200c54f2d1577c038a3a49af6f7459a8ceef69d6bd85329"
+      "sha256": "dcf5bd4ef9c5baf410d9545f874e08060e436866ff54afe1b806e250d8959b15"
     },
     {
       "path": "packages/dsh-mail/test/client-settings.test.js",
@@ -5421,7 +5421,7 @@
     },
     {
       "path": "packages/dsh-mail/test/security.test.js",
-      "sha256": "e162f72bb75463270531330ad0aa62a2b819c85b440ae76722dcb433ecbffb86"
+      "sha256": "60ad3f9e383aba52d22ee04ba5d0545eaf5d464f22ac5ef0b8baacdd93e97176"
     },
     {
       "path": "packages/dsh-mail/THIRD_PARTY_NOTICES.en.md",
@@ -6777,7 +6777,7 @@
     },
     {
       "path": "scripts/test/plugin-locale.test.mjs",
-      "sha256": "0453481925dd56a24ecd5d4c712846fd1a294baa6ab3574566964e711d8a1dd2"
+      "sha256": "c07e92454fd1eae39cd85931afaa7ea20bb2db660d9fe38c6cffd68d4b991474"
     },
     {
       "path": "scripts/test/plugin-notification-contract.test.mjs",
