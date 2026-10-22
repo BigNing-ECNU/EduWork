@@ -4,8 +4,8 @@
   "edition": "generic",
   "version": "0.4.7",
   "sourceState": "local-development-snapshot",
-  "createdAt": "2026-10-22T16:00:43.738Z",
-  "fileSetSHA256": "7d94e4e767eee8f3b67b34330c5b4ca4478f2d608b3486beddf69af1eb6a71e9",
+  "createdAt": "2026-10-22T16:36:38.795Z",
+  "fileSetSHA256": "7a9466bde85c4caa6bbc4684352b8b57096a203f2b5cd98def900c22524e0595",
   "files": [
     {
       "path": ".gitattributes",
@@ -6269,11 +6269,11 @@
     },
     {
       "path": "packages/dsh-remote-access/README_EN.md",
-      "sha256": "132e0bf23f28ce43ff888b5c02e03785acadb1723384221429c73bb3db04863f"
+      "sha256": "a5901f8b5d1d8e52eea6027709a2d9ab34b1f410b54eeae78c505bcafcda1d95"
     },
     {
       "path": "packages/dsh-remote-access/README.md",
-      "sha256": "0e8808b06e63dd58a36a585eb9c5ada9697bf466c90cc8e50722d611662c4421"
+      "sha256": "4837a2d4b3839c7a3cf8d6000fe2c6fd7b64bab2a7764425ccf242f3f8ec1b25"
     },
     {
       "path": "packages/dsh-remote-access/scripts/build.ts",
@@ -6281,7 +6281,7 @@
     },
     {
       "path": "packages/dsh-remote-access/scripts/check-web.ts",
-      "sha256": "ca0c133da7df8aa10d41d64556ac0b9be1f7606a82c3d439ea62c098bb923e64"
+      "sha256": "204986ac51e0b65f7b1bfb899ecc5d43d04669aab4d060a80bf7b3898610a61a"
     },
     {
       "path": "packages/dsh-remote-access/src/client/index.tsx",
@@ -6385,7 +6385,7 @@
     },
     {
       "path": "packages/dsh-remote-access/src/relay/main.ts",
-      "sha256": "d205211bfdcc670ffcb3d28a76af0398ac6dfc654a552119f57d7d44dcf2a0d8"
+      "sha256": "fa16f9a7adf9c8594f456e45375a4a07bc0fac50d1a752280d0193d2ee368a63"
     },
     {
       "path": "packages/dsh-remote-access/src/relay/relay.ts",
@@ -6393,7 +6393,7 @@
     },
     {
       "path": "packages/dsh-remote-access/src/relay/web.ts",
-      "sha256": "48f0af2c0b75273682eb22cc5937fbbfa2741c3a358e52eb87572ba64ed7ee3b"
+      "sha256": "b71139343b71eac222470f7a6d9e86ef2f572924df8afb4396188db3b2df3b51"
     },
     {
       "path": "packages/dsh-remote-access/src/remote-access.ts",
@@ -6513,7 +6513,7 @@
     },
     {
       "path": "packages/dsh-remote-access/test/relay/web.test.ts",
-      "sha256": "325354d59f3f4e11a4c19f2d8e1250213ea808fa61e59a84334efaceb4a14f16"
+      "sha256": "abb5507e09dfb15fa9dc008e0ce908f97f5fc14e8a25b4f036f852479c2777b4"
     },
     {
       "path": "packages/dsh-remote-access/test/remote-access.test.ts",
